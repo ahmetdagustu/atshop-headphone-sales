@@ -1,0 +1,349 @@
+import { products } from './products.js';
+
+// Selecting the rows where products will be displayed
+const productRow = document.getElementById('productRow');
+const bestSellingProductRow = document.getElementById('bestSellingProductRow');
+
+const btnCard = document.querySelector(".btn-card");
+const cardList = document.querySelector(".shopping-cart-list");
+
+const btnLike = document.querySelector(".btn-card2");
+const likeList = document.querySelector(".shopping-like-list");
+
+// Shopping and Like Functionality
+class Shopping {
+  constructor(title, price, image) {
+    this.image = image;
+    this.title = title;
+    this.price = price;
+  }
+}
+
+class Like {
+  constructor(title, image) {
+    this.image = image;
+    this.title = title;
+  }
+}
+
+class UI {
+  cardToggle() {
+    btnCard.addEventListener("click", function () {
+      cardList.classList.toggle("d-none");
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!btnCard.contains(event.target) && !cardList.contains(event.target)) {
+        cardList.classList.add("d-none");
+      }
+    });
+  }
+
+  likeToggle() {
+    btnLike.addEventListener("click", function () {
+      likeList.classList.toggle("d-none");
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!btnLike.contains(event.target) && !likeList.contains(event.target)) {
+        likeList.classList.add("d-none");
+      }
+    });
+  }
+
+  cardCount() {
+    let cardListItem = cardList.getElementsByClassName("list-item");
+    let itemCount = document.getElementById("item-count");
+    itemCount.innerHTML = cardListItem.length;
+  }
+
+  likeCount() {
+    let likeListItem = likeList.getElementsByClassName("list-item");
+    let itemCountLike = document.getElementById("item-count-like");
+    itemCountLike.innerHTML = likeListItem.length;
+  }
+
+  removeCard() {
+    let btnRemove = document.getElementsByClassName("fa-trash");
+    let self = this;
+    for (let i = 0; i < btnRemove.length; i++) {
+      btnRemove[i].addEventListener("click", function () {
+        this.parentElement.parentElement.parentElement.remove();
+        self.cardCount();
+      });
+    }
+  }
+
+  removeLike() {
+    let btnRemove = document.getElementsByClassName("fa-broken-heart");
+    let self = this;
+    for (let i = 0; i < btnRemove.length; i++) {
+      btnRemove[i].addEventListener("click", function () {
+        this.parentElement.parentElement.parentElement.remove();
+        self.likeCount();
+      });
+    }
+  }
+
+  addToCard(shopping) {
+    const listItem = document.createElement("div");
+    listItem.classList = "list-item";
+
+    listItem.innerHTML = `
+    <div class="row align-items-center text-white-50">
+      <div class="col-md-3">
+        <img class="img-fluid" src="${shopping.image}" alt="">
+      </div>
+      <div class="col-md-5">
+        <div class="title">${shopping.title}</div>
+      </div>
+      <div class="col-md-2">
+        <div class="price">${shopping.price}</div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+    `;
+    cardList.appendChild(listItem);
+    this.removeCard();
+    this.cardCount();
+  }
+
+  addToLike(like, btnLike) {
+    const listItem = document.createElement("div");
+    listItem.classList = "list-item";
+
+    listItem.innerHTML = `
+    <div class="row align-items-center text-white-50">
+      <div class="col-md-3">
+        <img class="img-fluid" src="${like.image}" alt="">
+      </div>
+      <div class="col-md-7">
+        <div class="title">${like.title}</div>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-delete text-danger"><i class="fa-solid fa-broken-heart"></i></button>
+      </div>
+    </div>
+    `;
+    
+    likeList.appendChild(listItem);
+    this.removeLike();
+    this.likeCount();
+    
+    btnLike.classList.add("disabled");
+    btnLike.textContent = "Added";
+  }
+}
+
+// Function to render products into a given row
+function renderProducts(products, targetRow) {
+  products.slice(0, 8).forEach((product) => {
+    const productDiv = document.createElement("div");
+    productDiv.classList.add("col-3", "models", "models-img", "shop");
+
+    productDiv.innerHTML = `
+      <img
+        class="img-fluid show-image"
+        src="${product.image}"
+        alt="${product.name}"
+      />
+      <div class="detaly d-inline">
+        <span class="head z-3">
+          <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
+          <button class="btn btn-dark btn-dark-1 cart-btn-1">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </button>
+          <button class="btn btn-dark like-btn-1">
+            <i class="fa-solid fa-heart"></i>
+          </button>
+        </span>
+      </div>
+      <div class="text-center">
+        <p class="card-title-1">${product.name}</p>
+        <p>
+          <del class="">$${product.originalPrice}</del>
+          <span class="px-2 fw-bold price" style="color: red">$${product.price}</span>
+        </p>
+      </div>
+    `;
+
+    targetRow.appendChild(productDiv);
+
+    // Adding event listener to the SHOP NOW button
+    const btnShopNow = productDiv.querySelector(".shop-now");
+    btnShopNow.addEventListener("click", function () {
+      const productId = this.getAttribute("data-product-id");
+      goToProduct(productId);
+    });
+
+    // Adding event listener to the cart button for this product
+    const btnAdd = productDiv.querySelector(".cart-btn-1");
+    btnAdd.addEventListener("click", function (e) {
+      let title = product.name;
+      let price = `$${product.price}`;
+      let image = product.image;
+
+      btnAdd.classList.add("disabled");
+      btnAdd.textContent = "In Cart";
+
+      let shopping = new Shopping(title, price, image);
+      let ui = new UI();
+      ui.addToCard(shopping);
+
+      e.preventDefault();
+    });
+
+    // Adding event listener to the like button for this product
+    const btnLike = productDiv.querySelector(".like-btn-1");
+    btnLike.addEventListener("click", function (e) {
+      let title = product.name;
+      let image = product.image;
+
+      let like = new Like(title, image);
+      let ui = new UI();
+      ui.addToLike(like, btnLike);
+
+      e.preventDefault();
+    });
+  });
+}
+
+// Initialize the UI and load the products on page load
+document.addEventListener("DOMContentLoaded", () => {
+  let ui = new UI();
+  ui.cardToggle();
+  ui.likeToggle();
+
+  renderProducts(products, productRow); // Render products in the Latest Products section
+  renderProducts(products, bestSellingProductRow); // Render products in the Best Selling section
+});
+
+window.goToProduct = function(productId) {
+  window.location.href = `shop-page.html?id=${productId}`;
+};
+
+// Adding event listener for the View All button under the Best Selling section
+document.getElementById('viewAllBestSellingButton').addEventListener('click', function() {
+  window.location.href = 'filter.html';
+});
+
+// Adding event listener for the all view button
+document.getElementById('viewAllButton').addEventListener('click', function() {
+  window.location.href = 'filter.html';
+});
+
+// Adding event listeners for shop collection sport
+document.addEventListener('DOMContentLoaded', () => {
+  const shopCollectionBtn = document.querySelector('.shop-clcsport');
+
+  if (shopCollectionBtn) {
+    shopCollectionBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'filter.html?category=sport';
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const shopCollectionBtn = document.querySelector('.shop-clcoverear');
+
+  if (shopCollectionBtn) {
+    shopCollectionBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'filter.html?category=over-ear';
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const shopCollectionBtn = document.querySelector('.shop-clcinear');
+
+  if (shopCollectionBtn) {
+    shopCollectionBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = 'filter.html?category=in-ear';
+    });
+  }
+});
+
+
+// Carousel ve shop collection bölümlerini oluşturacak konteyner elementleri
+const carouselContainer = document.querySelector('.carousel-inner');
+const shopCollectionContainer = document.querySelector('.shop-collection .row');
+
+// Rastgele benzersiz indeksler seçmek için bir yardımcı fonksiyon
+function getRandomIndexes(arrayLength, numberOfItems) {
+  const indexes = new Set();
+  while (indexes.size < numberOfItems) {
+    const randomIndex = Math.floor(Math.random() * arrayLength);
+    indexes.add(randomIndex);
+  }
+  return Array.from(indexes);
+}
+
+// Fonksiyon: Carousel (Slider) bölümünü oluşturma
+function createCarouselItems(products) {
+  const randomIndexes = getRandomIndexes(products.length, 3); // 40 üründen rastgele 3 ürün seçiyoruz
+
+  randomIndexes.forEach((index, i) => {
+    const product = products[index];
+    const carouselItem = document.createElement('div');
+    carouselItem.className = `carousel-item d-flex ${i === 0 ? 'active' : ''}`;
+
+    // carouselItem elementine içeriği tanımlıyoruz
+    carouselItem.innerHTML = `
+      <div class="col-6 align-content-center fw-bold">
+        <h5 class="f-name">${product.name}</h5>
+        <h2 class="s-name">${product.brand}</h2>
+        <p class="description">${product.description}</p>
+        <button class="btn btn-dark">SHOP NOW</button>
+      </div>
+      <img class="col-6 img-1" src="${product.image}" class="d-block w-100" alt="${product.name}"/>
+    `;
+
+    carouselContainer.appendChild(carouselItem);
+  });
+}
+
+// Fonksiyon: Shop collection bölümlerini oluşturma (Önceki haliyle aynıdır)
+function createShopCollections(products) {
+  const categories = [
+    { name: 'Sport Headphones', className: 'shop-clcsport' },
+    { name: 'Over-ear Headphone', className: 'shop-clcoverear' },
+    { name: 'In-ear Headphone', className: 'shop-clcinear' },
+  ];
+
+  categories.forEach((category, index) => {
+    const product = products[index]; // Örnek olarak ilk üç ürünü kullanıyoruz
+
+    const collectionItem = document.createElement('div');
+    collectionItem.className = 'col-sm-4 mb-3 mb-sm-0';
+
+    // collectionItem elementine içeriği tanımlıyoruz
+    collectionItem.innerHTML = `
+      <div class="card" style="border: none; background-color: #f1f1f1">
+        <div class="row shop-clc-card">
+          <div class="col-8">
+            <div class="card-body d">
+              <h5 class="card-title">${category.name}</h5>
+              <a href="#" class="btn btn-dark ${category.className}">SHOP COLLECTION</a>
+            </div>
+          </div>
+          <div class="col-4">
+            <img src="${product.image}" class="img-fluid" alt="${product.name}"/>
+          </div>
+        </div>
+      </div>
+    `;
+
+    shopCollectionContainer.appendChild(collectionItem);
+  });
+}
+
+// Sayfa yüklendiğinde çalışacak ana fonksiyon
+document.addEventListener('DOMContentLoaded', () => {
+  createCarouselItems(products); // Rastgele ürünleri slider için oluşturuyoruz
+  createShopCollections(products); // Shop collection için içerik oluşturuyoruz
+});

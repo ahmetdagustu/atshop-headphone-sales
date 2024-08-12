@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>AT Shop</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+<body>
+  <header class>
+    <div class="container mt-1">
+      <div class="hstack gap-3 fs-7 align-items-center">
+        <div>0 555 555 55 55</div>
+        <div class="vr"></div>
+        <div>atshop@gmail.com</div>
+        <div class="ms-auto">
+          <select id="flag" class="form-select" aria-label="Default select example">
+            <option value="1">USD</option>
+            <option value="2">TRY</option>
+            <option value="3">Euro</option>
+          </select>
+        </div>
+        <div class="vr"></div>
+        <div>
+          <select class="form-select" aria-label="Default select example">
+            <option value="1">ENGLISH</option>
+            <option value="2">TURKISH</option>
+            <option value="3">GERMAN</option>
+          </select>
+        </div>
+        <div class="vr"></div>
+        <div>ORDER TRACKİNG</div>
+      </div>
+      <div>
+        <div class="row d-flex mt-3 align-items-center atshop-1">
+          <div class="col-lg-4">
+            <a class="atshop-250" href="#">ATShop</a>
+          </div>
+          <div class="col-lg-4 d-grid search-btn">
+            <form class="example" action="/action_page.php" style="max-width: 100%">
+              <input type="text" placeholder="Search.." name="search2" />
+              <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+          <div class="col-lg-4 text-end btn-i">
+            <div class="shopping-cart position-relative">
+              <button class="btn btn-dark btn-card2"><i class="fa-solid fa-heart position-relative"></i><span id="item-count-like" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span></button>
+              <div class="shopping-like-list d-none"><b class="fs-5 my-3">Like Cart</b><!-- Like cart items will be inserted here --></div>
+              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="fa-solid fa-user"></i></button>
+              <button type="button" class="btn btn-dark position-relative btn-card"><i class="fa-solid fa-cart-shopping"></i><span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span></button>
+              <div class="shopping-cart-list d-none"><b class="fs-5 my-3">Shopping Cart</b><!-- Shopping cart items will be inserted here --></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center grid gap-5 dr-menu">
+      <a href="#">HOME</a>
+      <div class="dropdown-2">
+        <a href="#" class="dropdown-link">SHOP</a>
+        <div class="dropdown-content-2 z-3">
+          <div class="category-group align-items-center">
+            <div class="category">
+              <a href="#"><h1 class="mb-3">Categories</h1>
+                <ul role="button">
+                  <li><a role="button" href="">Wireless</a></li>
+                  <li><a href="">Inear Headphone</a></li>
+                  <li><a href="">Overear</a></li>
+                  <li><a href="">Sport Headphone</a></li>
+                </ul>
+              </a>
+              <img class="img-fluid" src="/images/image2.webp" alt="Product"/>
+            </div>
+            <div class="category">
+              <a href="#"><h1 class="mb-3">Categories</h1>
+                <ul>
+                  <li><a href="">Wireless</a></li>
+                  <li><a href="">Inear Headphone</a></li>
+                  <li><a href="">Overear</a></li>
+                  <li><a href="">Sport Headphone</a></li>
+                </ul>
+              </a>
+              <img class="img-fluid" src="/images/image1.webp" alt="Product"/>
+            </div>
+            <div class="category">
+              <a href="#"><h1 class="mb-3">Categories</h1>
+                <ul>
+                  <li><a href="">Wireless</a></li>
+                  <li><a href="">Inear Headphone</a></li>
+                  <li><a href="">Overear</a></li>
+                  <li><a href="">Sport Headphone</a></li>
+                </ul>
+              </a>
+              <img class="img-fluid" src="/images/image4_2.webp" alt="Product"/>
+            </div>
+            <div class="category">
+              <a href="#"><h1 class="mb-3">Categories</h1>
+                <ul>
+                  <li><a href="">Wireless</a></li>
+                  <li><a href="">Inear Headphone</a></li>
+                  <li><a href="">Overear</a></li>
+                  <li><a href="">Sport Headphone</a></li>
+                </ul>
+              </a>
+              <img class="img-fluid" src="/images/image3_4.webp" alt="Product"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="">BLOG</a>
+      <a href="">CONTACT</a>
+    </div>
+  </header>
+  <!-- Latest Products Section -->
+  <section class="py-4 d-block">
+    <div class="container">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-interval="5000">
+            <div class="carousel-inner slider">
+                <!-- JavaScript ile içerik buraya eklenecek -->
+            </div>
+            <button class="carousel-control-prev justify-content-start" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" style="background-color: black" aria-hidden="true"></span>
+                <span class="visually-hidden prev">Previous</span>
+            </button>
+            <button class="carousel-control-next justify-content-end" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" style="background-color: black" aria-hidden="true"></span>
+                <span class="visually-hidden next">Next</span>
+            </button>
+        </div>
+    </div>
+      <div class="latest mt-5">
+        <div class="row">
+          <div class="col">
+            <h3 class="text-center fw-bold mt-5">LATEST PRODUCT</h3>
+            <div class="row" id="productRow"><!-- Ürünler burada gösterilecek --></div>
+            <div class="text-center mt-5 mb-5">
+              <button class="btn btn-dark" id="viewAllButton">VIEW ALL</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Highlight Section -->
+  <aside class="py-4">
+    <div class="container">
+      <div class="jbl-tune my-5">
+        <div class="row align-content-center">
+          <div class="col-4"><img class="img-fluid" src="/images/image3_3.webp" alt="Product"/></div>
+          <div class="col-8">
+            <h2>JBL TUNE 750TNC</h2>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto omnis exercitationem distinctio! Velit voluptate fugit quibusdam cumque assumenda laudantium alias odio tempore ratione corrupti itaque rerum praesentium minus deserunt eos cum rem, magnam, vero placeat voluptatibus soluta ut minima. Commodi?</p>
+            <button class="btn btn-dark">SHOP NOW</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <!-- Best Selling Section -->
+  <article class="my-5">
+    <div class="container">
+      <div class="latest mt-5">
+        <div class="row">
+          <div class="col">
+            <h3 class="text-center fw-bold mt-5">BEST SELLING</h3>
+            <div class="row" id="bestSellingProductRow"><!-- Ürünler burada gösterilecek --></div>
+            <div class="text-center mt-5 mb-5">
+              <button class="btn btn-dark" id="viewAllBestSellingButton">VIEW ALL</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="my-5 text-center">
+        <h2>LATEST BLOG</h2>
+        <div class="row text-start align-items-center my-5">
+          <div class="col-6"><img class="img-fluid" src="/images/lifestyle1.webp" alt="Product"/></div>
+          <div class="col-6">
+            <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, quisquam.</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, in animi, sapiente nam illum porro dicta eveniet quo consequatur commodi, quisquam pariatur voluptatem facere quae aut ad vitae nisi aliquam ducimus delectus eos tempore at dignissimos rem! Ducimus, sapiente! Voluptas?</p>
+            <button class="btn btn-dark">READ MORE</button>
+          </div>
+          <div class="col-6">
+            <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, quisquam.</h5>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, in animi, sapiente nam illum porro dicta eveniet quo consequatur commodi, quisquam pariatur voluptatem facere quae aut ad vitae nisi aliquam ducimus delectus eos tempore at dignissimos rem! Ducimus, sapiente! Voluptas?</p>
+            <button class="btn btn-dark">READ MORE</button>
+          </div>
+          <div class="col-6 my-5"><img class="img-fluid" src="/images/lifestyle3.webp" alt="Product"/></div>
+        </div>
+      </div>
+      <div class="text-center"><button class="btn btn-dark">VIEW ALL</button></div>
+    </div>
+  </article>
+  <!-- Footer -->
+  <footer class="py-4">
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-3">
+          <h6>PRODUCT</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="footer-link">Help Center</a></li>
+            <li><a href="#" class="footer-link">Contact Us</a></li>
+            <li><a href="#" class="footer-link">Product Help</a></li>
+            <li><a href="#" class="footer-link">Warranty</a></li>
+            <li><a href="#" class="footer-link">Order Status</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2">
+          <h6>SERVICES</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="footer-link">Help Center</a></li>
+            <li><a href="#" class="footer-link">Contact Us</a></li>
+            <li><a href="#" class="footer-link">Product Help</a></li>
+            <li><a href="#" class="footer-link">Warranty</a></li>
+            <li><a href="#" class="footer-link">Order Status</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h6>SUPPORT</h6>
+          <ul class="list-unstyled">
+            <li><a href="#" class="footer-link">Help Center</a></li>
+            <li><a href="#" class="footer-link">Contact Us</a></li>
+            <li><a href="#" class="footer-link">Product Help</a></li>
+            <li><a href="#" class="footer-link">Warranty</a></li>
+            <li><a href="#" class="footer-link">Order Status</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <a href="#"><h3>ATShop</h3></a>
+          <div class="d-flex justify-content-center mb-3">
+            <a href="http://www.facebook.com" class="social-media me-2"><i class="fab fa-facebook"></i></a>
+            <a href="http://www.instagram.com" class="social-media me-2"><i class="fab fa-instagram"></i></a>
+            <a href="http://www.twitter.com" class="social-media me-2"><i class="fab fa-twitter"></i></a>
+            <a href="http://www.youtube.com" class="social-media me-2"><i class="fab fa-youtube"></i></a>
+          </div>
+          <div class="input-group">
+            <input type="email" id="emailInput" class="form-control custom-width" placeholder="ENTER YOUR EMAIL" aria-label="ENTER YOUR EMAIL"/>
+            <button class="btn btn-primary custom-btn" id="subscribeButton" type="button">Subscribe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">User Login</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
