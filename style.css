@@ -3,54 +3,121 @@
   margin: 0;
   padding: 0;
 }
-.atshop-250{
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Yatay kaydırmayı önlemek için */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+section.py-4.d-block {
+  padding: 0 !important;
+}
+
+
+.atshop-250 {
   cursor: pointer !important;
 }
+
+
+.container {
+  max-width: 1000px !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+  margin: 0 auto;
+  margin-top: 0px !important;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 header {
-  background-color: #f5f5f5; 
   padding-top: 20px;  
   padding-bottom: 20px; 
 }
-.for-line {
-  width: 110px;
-  float: left;
-  border-right: 1px solid black;
-}
-.a-mail {
-  margin-left: 5px;
+
+.site-header {
+  margin-top: 0px;
+  padding: 0px;
 }
 
+header .header-text {
+  margin-top: 0px !important;
+}
 
 .hstack {
-  background-color: rgb(241, 241, 241);
+  margin-top: 0;
+  font-size: 0.8rem;
+  width: 100%;
+  position: relative; 
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
 }
+
+.hstack-background {
+  width: 100vw; /* Tüm ekran genişliğini kaplayacak */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hstack::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Tüm ekran genişliğini kaplayacak */
+  height: 100%; /* Yükseklik olarak hstack'in yüksekliğini kullanacak */
+  background-color: #f1f1f1; /* Arka plan rengini ayarlıyoruz */
+  z-index: -1; /* Pseudo-element'i arka plana yerleştiriyoruz */
+}
+
+.header-text .form-select {
+  font-size: 0.8rem; /* Dropdown menülerdeki yazı boyutunu da aynı şekilde ayarlıyoruz */
+}
+
 .hstack select {
   border: 0;
   background-color: #f1f1f1;
 }
+
+
+form.example {
+  position: relative;
+  width: 100%;
+}
+
 form.example input[type="text"] {
-  padding: 10px;
+  padding: 10px 40px 10px 20px; /* Sağda simge için boşluk bırakıyoruz */
   font-size: 17px;
-  border: 0px solid grey;
-  float: left;
-  width: 80%;
+  border: 1px solid #ccc;
+  width: 100%;
   background: #f1f1f1;
+  border-radius: 20px; /* Köşeleri yuvarlak yapıyoruz */
+  box-sizing: border-box;
+  height: 40px; /* Arama çubuğunun yüksekliği */
 }
 
 form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
- 
+  position: absolute;
+  right: 10px; /* Sağdan 10px boşluk bırakıyoruz */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
   color: black;
-  font-size: 17px;
-  border: 0px solid grey;
-  border-left: none;
+  font-size: 18px; /* Simge boyutu */
   cursor: pointer;
+  padding: 0;
+  height: 100%; /* Butonun yüksekliği */
 }
 
 form.example button:hover {
-  background: #0b7dda;
+  color: #0b7dda; /* Hover'da simge rengini değiştiriyoruz */
 }
 
 form.example::after {
@@ -59,10 +126,51 @@ form.example::after {
   display: table;
 }
 
-.atshop-1 a {
+
+/* Metinleri sola yasla ve dikey olarak ortala */
+.carousel-item .col-6.align-content-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Metinleri dikey olarak ortalar */
+  align-items: flex-start; /* Metinleri sola yaslar */
+  text-align: left; /* Metinlerin sola hizalanmasını sağlar */
+}
+
+/* SHOP NOW butonunu biraz küçült */
+.carousel-item .shop-now {
+  font-size: 1rem !important; /* Butonun metin boyutunu biraz küçült */
+  padding: 1rem 2.5rem !important; /* Butonun iç dolgusunu biraz küçült */
+  margin-top: 1.5rem !important; /* Butonu daha aşağıya taşır */
+  background-color: #000 !important; /* Butonun arka plan rengini siyah yap */
+  color: #fff !important; /* Butonun metin rengini beyaz yap */
+  border: none !important;
+  border-radius: 6px !important; /* Butonun köşelerini biraz daha az yuvarla */
+  position: relative !important;
+  z-index: 10 !important; /* Butonun diğer elementlerin üstünde kalmasını sağlar */
+  display: inline-block !important; /* Buton genişliğini içeriğe göre zorunlu olarak belirler */
+  text-align: center !important;
+  cursor: pointer !important; /* Butonun üzerine gelindiğinde fare imlecini değiştir */
+}
+
+aside .container .shop-now {
+  padding: 15px 30px !important;
+  font-size: 15px !important;
+  border-radius: 8px !important;
+  background-color: #000 !important; /* Renk örneği */
+  color: #fff !important;
+  text-align: center !important;
+  display: inline-block !important;
+}
+
+
+.top-banner {
+  margin-top: 0px !important;
+}
+
+.top-banner a {
   text-decoration: none;
   color: black;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: bold;
 }
 
@@ -75,6 +183,7 @@ form.example::after {
   font-size: 17px;
   border: 0px solid grey;
 }
+
 .dr-menu {
   background-color: #f1f1f1;
   margin-top: 20px;
@@ -82,61 +191,80 @@ form.example::after {
   align-items: center;
   cursor: pointer;
 }
+
 .dr-menu a {
   text-decoration: none;
   color: black;
   font-size: 15px;
   font-weight: bold;
 }
+
 .mt-vr {
   margin-inline-start: 230px;
 }
 
+/* Dropdown Menü için Stil */
 .dropdown-content-2 {
   display: none;
   position: absolute;
+  background-color: white;
+  width: 100%; /* Menü genişliğini ekranın tamamına yayılacak şekilde ayarlıyoruz */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  top: 100%;
-  background-color: #f9f9f9;
-  min-width: 100%;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  margin-top: px;
-}
-
-.dropdown-2 {
-  display: flex;
-  position: relative;
-}
-
-.dropdown-2:hover .dropdown-content-2 {
-  display: flex;
+  left: 0; /* Menü ekranın solundan başlayacak */
+  top: 50px;
+  padding: 10px;
+  border-radius: 5px;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: stretch;
-  flex-direction: row;
 }
 
-.dropdown-content-2 {
-  display: none;
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  background-color: #f9f9f9;
-
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
-
-.dropdown-2 {
+/* Kategorilerin Görünümünü İyileştir */
+.category-group {
   display: flex;
-  position: relative;
-  justify-content: center;
-  max-width: 500px;
+  flex-wrap: nowrap; /* Sütunların bir satırda kalmasını sağlar */
+  justify-content: space-between;
+  gap: 5px; /* Sütunlar arasındaki boşlukları azaltıyoruz */
 }
 
-.dropdown-2:hover .dropdown-content-2 {
-  display: block;
+.category {
+  flex: 1; /* Her sütunun eşit genişlikte olmasını sağlıyoruz */
+  padding: 8px; /* Sütun içindeki boşluğu biraz azaltıyoruz */
+  min-width: 120px !important; /* Sütunların minimum genişlik sınırını küçültüyoruz */
 }
+
+.category h1 {
+  font-size: 14px; /* Başlık boyutunu biraz küçültüyoruz */
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.category ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.category ul li {
+  margin-bottom: 6px; /* Liste öğeleri arasındaki boşluğu azaltıyoruz */
+}
+
+.category ul li a {
+  font-size: 13px; /* Yazı boyutunu biraz küçültüyoruz */
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+
+/* Dropdown Menü Hover Efekti */
+.dropdown-2:hover .dropdown-content-2 {
+  display: flex;
+  justify-content: space-between; /* Kategorileri eşit şekilde yerleştirir */
+  flex-wrap: nowrap; /* Sütunların bir satırda kalmasını sağlar */
+}
+
 
 .category-group {
   display: flex;
@@ -156,33 +284,35 @@ form.example::after {
   list-style-type: none;
   padding: 0;
 }
+
 .category {
   min-width: 350px;
 }
+
 .category ul li {
   margin-bottom: 5px;
 }
+
 .category ul li a {
   font-size: 14px;
-
   color: black;
   text-decoration: none;
   display: block;
   padding: 8px 10px;
 }
+
 .category-group ul li a:hover {
   border-bottom: 1px solid #333;
 }
-/* slider */
+
+/* Slider */
 .carousel-item {
   opacity: 0;
   transition: opacity 0.01s ease-in-out;
-  
 }
 
 .carousel-item.active {
   opacity: 1;
-  
 }
 
 .carousel-item .f-name,
@@ -224,36 +354,89 @@ form.example::after {
   transform: translateY(0);
   transition-delay: 0.5s;
 }
-/* shop collection butonlarının oldduğu kısım */
-.shop-clc-card img:hover {
-  transform: scale(1.5);
+
+
+/* buton shop now heart shopping*/
+.btn-dark-1, .shop-now, .like-btn-1 {
+  padding: 3px 8px !important; /* Butonların iç kenar boşluklarını daha da küçültür */
+  font-size: 10px !important; /* Yazı boyutunu daha da küçültür */
 }
-.shop-clc-card a:hover {
-  transform: scale(1.5);
+
+.btn-dark-1 i, .like-btn-1 i {
+  font-size: 12px !important; /* İkonların boyutunu küçültür */
 }
+/* Buton Hover Efekti */
+.btn-dark-1:hover, .shop-now:hover, .like-btn-1:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important; /* Yazı siyah */
+
+}
+.carousel-item .btn-dark-1, 
+.carousel-item .shop-now, 
+.carousel-item .like-btn-1 {
+  border: 2px solid transparent !important; /* Varsayılan durumda şeffaf kenarlık ekleyin */
+}
+
+.carousel-item .btn-dark-1:hover, 
+.carousel-item .shop-now:hover, 
+.carousel-item .like-btn-1:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important; /* Yazı siyah */
+  font-weight: 600;
+  border: 2px solid #000000 !important; /* Hover durumunda siyah kenarlık ekleyin */
+  border-radius: 6px !important; /* Köşeleri yuvarla */
+}
+
+
+
+
+
+/* Shop collection button styles */
+.shop-collection{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/* Buton Hover Efekti */
+.btn.shop-clc:hover {
+  background-color: #ffffff; /* Zemin beyaz */
+  color: #000000; /* Yazı siyah */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 500;
+}
+
+/* Görsel Hover Efekti */
+.card:hover img {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+
 .shop-clc-card a {
   margin-top: 20px;
 }
 
-/* lates kısmı */
 
-.models{
+
+
+/* Latest section */
+.models {
   margin: 0 auto;
-  
 }
-.models-img{
+
+.models-img {
   display: inline-block;
-  
   overflow: hidden;
   position: relative;
   opacity: .99;
   border-radius: 4px;
-  /* box-shadow: 0 0 20px 0 rgba(0,0,0,0.05); */
 }
-.models-img:before{
+
+.models-img:before {
   content: '';
- /*  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7)100%);
-  background: -webkit-linear-gradient(top, transparent 0%, rgba(0,0,0,0.7)100%); */
   width: 100%;
   height: 50%;
   position: absolute;
@@ -261,12 +444,13 @@ form.example::after {
   z-index: 2;
   transition-property: top,opacity;
   transition-duration: 0.3s;
-  
 }
 
-.models img{display: block;}
+.models img {
+  display: block;
+}
 
-.detaly span{
+.detaly span {
   display: block;
   position: relative;
   top: 1500px;
@@ -275,41 +459,55 @@ form.example::after {
   transition-delay: 0s;
   text-align: center;
 }
-.head{
+
+.head {
   line-height: 0;
   font-weight: bold;
   font-size: 5px;
 }
-.information{
+
+.information {
   line-height: 1.2;
   margin-top: 5px;
   font-size: 12px;
 }
-.models:focus:before,.models:focus span, .models:hover:before, .models:hover span{
+
+.models:focus:before,
+.models:focus span,
+.models:hover:before,
+.models:hover span {
   opacity: 1;
 }
-.models:focus:before,.models:hover:before{
-  top:50%;
+
+.models:focus:before,
+.models:hover:before {
+  top: 50%;
 }
-.models:focus span,.models:hover span{
-  top:0;
+
+.models:focus span,
+.models:hover span {
+  top: 0;
 }
-.models:focus .head,.models:hover .head{
+
+.models:focus .head,
+.models:hover .head {
   transition-delay: 0.15s;
 }
-.models:focus .information, .models:hover .information{
+
+.models:focus .information,
+.models:hover .information {
   transition-delay: 0.25s;
 }
 
-/* jbl tune kısmı */
-aside  {
+/* JBL Tune Section */
+aside {
   background-color: #f5f5f5; /* Footer arka plan rengi */
   padding-top: 20px; /* Üstten iç boşluk */
-  padding-bottom: 20px; 
-  
+  padding-bottom: 20px;
 }
-/* sepet */
-.shopping-cart-list{
+
+/* Sepet */
+.shopping-cart-list {
   position: absolute;
   width: 25rem;
   right: -0.75rem;
@@ -317,11 +515,13 @@ aside  {
   padding: 1rem;
   z-index: 1;
 }
+
 .cart-btn {
   border: none;
   background: transparent;
   position: relative;
 }
+
 .cart-btn .cart-items {
   position: absolute;
   right: -1rem;
@@ -330,16 +530,16 @@ aside  {
   font-size: 0.875rem;
   border-radius: 30%;
   background-color: #FFB338;
-  
   font-weight: bold;
 }
+
 .cart-btn .fa-cart-shopping {
   font-size: 2rem;
   color: #fff;
 }
 
-/* sepet */
-.shopping-cart-list{
+/* Sepet */
+.shopping-cart-list {
   position: absolute;
   width: 25rem;
   right: -0.75rem;
@@ -347,20 +547,17 @@ aside  {
   padding: 1rem;
   z-index: 1;
   background: #f5f5f5;
-  
 }
-.title{
+
+.title {
   color: black;
 }
-.shopping-cart-list .list-item{
+
+.shopping-cart-list .list-item {
   margin-top: 1rem;
-  
 }
 
-
-
-/* footer styles */
-
+/* Footer styles */
 footer {
   background-color: #f5f5f5;
   padding-top: 20px;
@@ -395,11 +592,8 @@ footer h6 {
   font-size: 12px;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-}
-.shopping-like-list, .shopping-cart-list {
+.shopping-like-list,
+.shopping-cart-list {
   position: absolute;
   right: 0;
   top: 100%; 
@@ -412,11 +606,13 @@ body {
   overflow: hidden; 
 }
 
-.shopping-like-list .list-item, .shopping-cart-list .list-item {
+.shopping-like-list .list-item,
+.shopping-cart-list .list-item {
   padding: 10px;
   border-bottom: 1px solid #eee;
 }
 
-.shopping-like-list .list-item:last-child, .shopping-cart-list .list-item:last-child {
+.shopping-like-list .list-item:last-child,
+.shopping-cart-list .list-item:last-child {
   border-bottom: none; 
 }

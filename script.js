@@ -259,14 +259,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const shopCollectionBtn = document.querySelector('.shop-clcinear');
-
+  
   if (shopCollectionBtn) {
     shopCollectionBtn.addEventListener('click', (e) => {
       e.preventDefault();
       window.location.href = 'filter.html?category=in-ear';
     });
   }
-});
+  }
+);
 
 
 // Carousel ve shop collection bölümlerini oluşturacak konteyner elementleri
@@ -283,29 +284,79 @@ function getRandomIndexes(arrayLength, numberOfItems) {
   return Array.from(indexes);
 }
 
-// Fonksiyon: Carousel (Slider) bölümünü oluşturma
-function createCarouselItems(products) {
-  const randomIndexes = getRandomIndexes(products.length, 3); // 40 üründen rastgele 3 ürün seçiyoruz
+function createCarouselItems(products) {function createCarouselItems(products) {
+  const randomIndexes = getRandomIndexes(products.length, 3); // 3 rastgele ürünü seçiyoruz
 
   randomIndexes.forEach((index, i) => {
     const product = products[index];
     const carouselItem = document.createElement('div');
     carouselItem.className = `carousel-item d-flex ${i === 0 ? 'active' : ''}`;
-
-    // carouselItem elementine içeriği tanımlıyoruz
     carouselItem.innerHTML = `
       <div class="col-6 align-content-center fw-bold">
         <h5 class="f-name">${product.name}</h5>
         <h2 class="s-name">${product.brand}</h2>
         <p class="description">${product.description}</p>
-        <button class="btn btn-dark">SHOP NOW</button>
+        <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
       </div>
       <img class="col-6 img-1" src="${product.image}" class="d-block w-100" alt="${product.name}"/>
     `;
-
     carouselContainer.appendChild(carouselItem);
   });
+
+  // "SHOP NOW" butonuna tıklama olayı
+  document.querySelectorAll('.shop-now').forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.stopPropagation(); // Bu satır carousel'in yanlışlıkla geçiş yapmasını engeller
+      const productId = this.getAttribute('data-product-id');
+      window.location.href = `shop-page.html?id=${productId}`;
+    });
+  });
 }
+
+  const randomIndexes = getRandomIndexes(products.length, 3); // 3 rastgele ürünü seçiyoruz
+
+  randomIndexes.forEach((index, i) => {
+    const product = products[index];
+    const carouselItem = document.createElement('div');
+    carouselItem.className = `carousel-item d-flex ${i === 0 ? 'active' : ''}`;
+    carouselItem.innerHTML = `
+      <div class="col-6 align-content-center fw-bold">
+        <h5 class="f-name">${product.name}</h5>
+        <h2 class="s-name">${product.brand}</h2>
+        <p class="description">${product.description}</p>
+        <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
+      </div>
+      <img class="col-6 img-1" src="${product.image}" class="d-block w-100" alt="${product.name}"/>
+    `;
+    carouselContainer.appendChild(carouselItem);
+  });
+
+  // Bootstrap carousel örneğini oluştur
+  const carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
+    interval: false // Otomatik geçişi durdurur
+  });
+
+  // "SHOP NOW" butonuna tıklama olayı
+  document.querySelectorAll('.shop-now').forEach(button => {
+    // Butona tıklandığında geçişi durdur
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const productId = this.getAttribute('data-product-id');
+      window.location.href = `shop-page.html?id=${productId}`;
+    });
+
+    // Butona gelindiğinde geçişi durdur
+    button.addEventListener('mouseenter', function() {
+      carousel.pause();
+    });
+
+    // Butondan ayrıldığında geçişi tekrar başlat
+    button.addEventListener('mouseleave', function() {
+      carousel.cycle();
+    });
+  });
+}
+
 
 // Fonksiyon: Shop collection bölümlerini oluşturma (Önceki haliyle aynıdır)
 function createShopCollections(products) {
@@ -323,20 +374,30 @@ function createShopCollections(products) {
 
     // collectionItem elementine içeriği tanımlıyoruz
     collectionItem.innerHTML = `
-      <div class="card" style="border: none; background-color: #f1f1f1">
-        <div class="row shop-clc-card">
-          <div class="col-8">
-            <div class="card-body d">
-              <h5 class="card-title">${category.name}</h5>
-              <a href="#" class="btn btn-dark ${category.className}">SHOP COLLECTION</a>
-            </div>
-          </div>
-          <div class="col-4">
-            <img src="${product.image}" class="img-fluid" alt="${product.name}"/>
-          </div>
+  <div class="card" style="border: none; background-color: #f1f1f1">
+    <div class="row shop-clc-card">
+      <div class="col-8">
+        <div class="card-body d">
+          <h5 class="card-title">${category.name}</h5>
+          <a href="#" class="btn btn-dark shop-clc" data-category="${category.name}">SHOP COLLECTION</a>
         </div>
       </div>
-    `;
+      <div class="col-4">
+        <img src="${product.image}" class="img-fluid" alt="${product.name}"/>
+      </div>
+    </div>
+  </div>
+`;
+
+// Butona tıklama olayını yakalayıp filtre sayfasına yönlendirme
+document.querySelectorAll('.shop-clc').forEach(button => {
+  button.addEventListener('click', function(event) {
+    event.preventDefault(); // Butonun default davranışını engelle
+    const categoryName = this.getAttribute('data-category');
+    window.location.href = `filter.html?category=${encodeURIComponent(categoryName)}`;
+  });
+});
+
 
     shopCollectionContainer.appendChild(collectionItem);
   });
@@ -347,3 +408,50 @@ document.addEventListener('DOMContentLoaded', () => {
   createCarouselItems(products); // Rastgele ürünleri slider için oluşturuyoruz
   createShopCollections(products); // Shop collection için içerik oluşturuyoruz
 });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.shop-clc').forEach(button => {
+      button.addEventListener('click', function(event) {
+          event.preventDefault(); // Butonun varsayılan davranışını engelle
+          const categoryName = this.getAttribute('data-category').trim().toLowerCase(); // Kategori ismini düzgün bir şekilde alın
+          window.location.href = `filter.html?category=${encodeURIComponent(categoryName)}`;
+      });
+  });
+});
+
+
+function getRandomIndex(arrayLength) {
+  return Math.floor(Math.random() * arrayLength);
+}
+
+function displayRandomProduct() {
+  const randomIndex = getRandomIndex(products.length);
+  const product = products[randomIndex];
+
+  const productContainer = document.getElementById('dynamic-product');
+  
+  productContainer.innerHTML = `
+      <div class="row align-content-center">
+          <div class="col-4">
+              <img class="img-fluid" src="${product.image}" alt="${product.name}"/>
+          </div>
+          <div class="col-8">
+              <h2>${product.name}</h2>
+              <p>${product.description}</p>
+              <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
+          </div>
+      </div>
+  `;
+
+  // "SHOP NOW" butonuna tıklama olayı
+  const shopNowButton = productContainer.querySelector('.shop-now');
+  shopNowButton.addEventListener('click', function() {
+      const productId = this.getAttribute('data-product-id');
+      window.location.href = `shop-page.html?id=${productId}`;
+  });
+}
+
+// Sayfa yüklendiğinde rastgele bir ürünü göster
+document.addEventListener('DOMContentLoaded', displayRandomProduct);

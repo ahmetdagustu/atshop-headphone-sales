@@ -6,18 +6,18 @@
   <link rel="icon" type="image/png" href="images/favicon.png">
   <title>AT Shop</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 </head>
 <body>
-  <header class>
+  <header class="site-header">
     <div class="container mt-1">
-      <div class="hstack gap-3 fs-7 align-items-center">
+      <div class="hstack gap-3 d-flex fs-7 align-items-center">
         <div>0 555 555 55 55</div>
         <div class="vr"></div>
         <div>atshop@gmail.com</div>
         <div class="ms-auto">
-          <select id="flag" class="form-select" aria-label="Default select example">
+          <select id="flag" class="form-select">
             <option value="1">USD</option>
             <option value="2">TRY</option>
             <option value="3">Euro</option>
@@ -25,33 +25,33 @@
         </div>
         <div class="vr"></div>
         <div>
-          <select class="form-select" aria-label="Default select example">
-            <option value="1">ENGLISH</option>
-            <option value="2">TURKISH</option>
-            <option value="3">GERMAN</option>
+          <select class="form-select">
+            <option value="1">English</option>
+            <option value="2">Turkish</option>
+            <option value="3">German</option>
           </select>
         </div>
         <div class="vr"></div>
-        <div>ORDER TRACKİNG</div>
+        <div>ORDER TRACKING</div>
       </div>
       <div>
-        <div class="row d-flex mt-3 align-items-center atshop-1">
+        <div class="top-banner row d-flex mt-3 align-items-center ">
           <div class="col-lg-4">
-            <a class="atshop-250" href="#">ATShop</a>
+            <a href="#">ATShop</a>
           </div>
           <div class="col-lg-4 d-grid search-btn">
             <form class="example" action="/action_page.php" style="max-width: 100%">
-              <input type="text" placeholder="Search.." name="search2" />
-              <button type="submit"><i class="fa fa-search"></i></button>
+                <input type="text" placeholder="Search.." name="search2" />
+                <button type="submit"><i class="fa fa-search"></i></button>
             </form>
-          </div>
+        </div>                 
           <div class="col-lg-4 text-end btn-i">
             <div class="shopping-cart position-relative">
               <button class="btn btn-dark btn-card2"><i class="fa-solid fa-heart position-relative"></i><span id="item-count-like" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span></button>
-              <div class="shopping-like-list d-none"><b class="fs-5 my-3">Like Cart</b><!-- Like cart items will be inserted here --></div>
-              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"><i class="fa-solid fa-user"></i></button>
+              <div class="shopping-like-list d-none"><b class="fs-5 my-3">Like Cart</b></div>
+              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user"></i></button>
               <button type="button" class="btn btn-dark position-relative btn-card"><i class="fa-solid fa-cart-shopping"></i><span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span></button>
-              <div class="shopping-cart-list d-none"><b class="fs-5 my-3">Shopping Cart</b><!-- Shopping cart items will be inserted here --></div>
+              <div class="shopping-cart-list d-none"><b class="fs-5 my-3">Shopping Cart</b></div>
             </div>
           </div>
         </div>
@@ -114,6 +114,7 @@
       <a href="">CONTACT</a>
     </div>
   </header>
+
   <!-- Latest Products Section -->
   <section class="py-4 d-block">
     <div class="container">
@@ -129,9 +130,14 @@
                 <span class="carousel-control-next-icon" style="background-color: black" aria-hidden="true"></span>
                 <span class="visually-hidden next">Next</span>
             </button>
-        </div>
+        </div>       
     </div>
-      <div class="latest mt-5">
+    <div class="shop-collection">
+      <div class="row">
+        <!-- JavaScript ile eklenecek içerikler buraya gelecek -->
+      </div>
+    </div> 
+      <div class="container latest mt-5">
         <div class="row">
           <div class="col">
             <h3 class="text-center fw-bold mt-5">LATEST PRODUCT</h3>
@@ -144,21 +150,15 @@
       </div>
     </div>
   </section>
+
   <!-- Highlight Section -->
   <aside class="py-4">
     <div class="container">
-      <div class="jbl-tune my-5">
-        <div class="row align-content-center">
-          <div class="col-4"><img class="img-fluid" src="/images/image3_3.webp" alt="Product"/></div>
-          <div class="col-8">
-            <h2>JBL TUNE 750TNC</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto omnis exercitationem distinctio! Velit voluptate fugit quibusdam cumque assumenda laudantium alias odio tempore ratione corrupti itaque rerum praesentium minus deserunt eos cum rem, magnam, vero placeat voluptatibus soluta ut minima. Commodi?</p>
-            <button class="btn btn-dark">SHOP NOW</button>
-          </div>
-        </div>
-      </div>
+        <div id="dynamic-product" class="my-5"></div>
     </div>
-  </aside>
+</aside>
+
+
   <!-- Best Selling Section -->
   <article class="my-5">
     <div class="container">
@@ -178,13 +178,13 @@
         <div class="row text-start align-items-center my-5">
           <div class="col-6"><img class="img-fluid" src="/images/lifestyle1.webp" alt="Product"/></div>
           <div class="col-6">
-            <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, quisquam.</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, in animi, sapiente nam illum porro dicta eveniet quo consequatur commodi, quisquam pariatur voluptatem facere quae aut ad vitae nisi aliquam ducimus delectus eos tempore at dignissimos rem! Ducimus, sapiente! Voluptas?</p>
+            <h5>Perfect for Gamers</h5>
+            <p>Designed with gamers in mind, this product offers exceptional sound clarity and immersive audio experience. Whether you're strategizing with your team or enjoying a solo campaign, these headphones ensure you catch every detail, giving you the competitive edge.</p>
             <button class="btn btn-dark">READ MORE</button>
           </div>
           <div class="col-6">
-            <h5>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, quisquam.</h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, in animi, sapiente nam illum porro dicta eveniet quo consequatur commodi, quisquam pariatur voluptatem facere quae aut ad vitae nisi aliquam ducimus delectus eos tempore at dignissimos rem! Ducimus, sapiente! Voluptas?</p>
+            <h5>Ideal for Outdoor Use</h5>
+            <p>Built for outdoor enthusiasts, these headphones are both durable and comfortable, providing excellent sound quality on the go. Whether you're running in the park or hiking in the mountains, they stay secure and deliver powerful audio, no matter the environment.</p>
             <button class="btn btn-dark">READ MORE</button>
           </div>
           <div class="col-6 my-5"><img class="img-fluid" src="/images/lifestyle3.webp" alt="Product"/></div>
@@ -193,6 +193,7 @@
       <div class="text-center"><button class="btn btn-dark">VIEW ALL</button></div>
     </div>
   </article>
+
   <!-- Footer -->
   <footer class="py-4">
     <div class="container text-center">
@@ -236,13 +237,14 @@
             <a href="http://www.youtube.com" class="social-media me-2"><i class="fab fa-youtube"></i></a>
           </div>
           <div class="input-group">
-            <input type="email" id="emailInput" class="form-control custom-width" placeholder="ENTER YOUR EMAIL" aria-label="ENTER YOUR EMAIL"/>
+            <input type="email" id="emailInput" class="form-control custom-width" placeholder="ENTER YOUR EMAIL" />
             <button class="btn btn-primary custom-btn" id="subscribeButton" type="button">Subscribe</button>
           </div>
         </div>
       </div>
     </div>
   </footer>
+
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -255,7 +257,7 @@
           <form>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input type="email" class="form-control" id="exampleInputEmail1">
               <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
@@ -272,8 +274,9 @@
       </div>
     </div>
   </div>
+
   <script type="module" src="script.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

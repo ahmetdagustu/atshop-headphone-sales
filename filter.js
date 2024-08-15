@@ -113,8 +113,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const pagination = document.getElementById('pagination');
     const ui = new UI();
 
+    // URL'den kategori parametresini al ve filtrelemeyi başlat
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+
+    if (category) {
+        filterProductsByCategory(category);
+    } else {
+        displayProducts(products, currentPage); // Varsayılan olarak tüm ürünleri göster
+    }
+
+    filterCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterProducts);
+    });
+
+    minPriceInput.addEventListener('input', filterProducts);
+    maxPriceInput.addEventListener('input', filterProducts);
+
+    function filterProductsByCategory(category) {
+        const formattedCategory = category.trim().toLowerCase(); // Gelen category ismini küçük harflere çevir
+        const filteredProducts = products.filter(product => {
+            return product.category.trim().toLowerCase() === formattedCategory; // Ürün kategorisini küçük harflere çevirerek karşılaştırma yap
+        });
+
+        displayProducts(filteredProducts, 1);
+    }
+
     function filterProducts() {
-        const selectedCategories = [];
+        const selectedCategories = category ? [category] : [];
         const selectedBrands = [];
         const selectedColors = [];
         const selectedRatings = [];
@@ -127,9 +153,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (checkbox.id.startsWith('wireless') || checkbox.id.startsWith('in-ear') ||
                     checkbox.id.startsWith('over-ear') || checkbox.id.startsWith('sport')) {
                     selectedCategories.push(checkbox.nextElementSibling.textContent);
-                } else if (checkbox.id.startsWith('jbl') || checkbox.id.startsWith('beats') || // Updated brand names
+                } else if (checkbox.id.startsWith('jbl') || checkbox.id.startsWith('beats') || 
                     checkbox.id.startsWith('logitech') || checkbox.id.startsWith('samsung') ||
-                    checkbox.id.startsWith('sony')) { // Added 'sony'
+                    checkbox.id.startsWith('sony')) {
                     selectedBrands.push(checkbox.nextElementSibling.textContent);
                 } else if (checkbox.id.startsWith('blue') || checkbox.id.startsWith('white') ||
                     checkbox.id.startsWith('pink') || checkbox.id.startsWith('yellow')) {
@@ -268,16 +294,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         pagination.appendChild(nextPageItem);
     }
-
-    filterCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', filterProducts);
-    });
-
-    minPriceInput.addEventListener('input', filterProducts);
-    maxPriceInput.addEventListener('input', filterProducts);
-
-    displayProducts(products, currentPage);
 });
+
+window.goToProduct = function(productId) {
+    window.location.href = `shop-page.html?id=${productId}`;
+};
+
 
 window.goToProduct = function(productId) {
     window.location.href = `shop-page.html?id=${productId}`;
@@ -302,3 +324,27 @@ const showSubscribeMessage = () => {
 
     alert(`Subscribed successfully with email: ${emailInput}`);
 };
+
+
+function filterProductsByCategory(category) {
+    // Gelen kategoriyi normalize et
+    const formattedCategory = category.trim().toLowerCase();
+
+    // Kategori eşleştirme için bir haritalama yap
+    const categoryMapping = {
+        "sport headphones": "sport headphone",
+        "over-ear headphone": "over-ear headphone",
+        "in-ear headphone": "in-ear headphone"
+    };
+
+    // Gelen kategori ismini haritalama kullanarak bul
+    const mappedCategory = categoryMapping[formattedCategory] || formattedCategory;
+
+    // Haritalanmış kategori ile ürünleri filtrele
+    const filteredProducts = products.filter(product => {
+        return product.category.trim().toLowerCase() === mappedCategory;
+    });
+
+    // Ürünleri görüntüle
+    displayProducts(filteredProducts, 1);
+}
