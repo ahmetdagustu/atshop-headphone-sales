@@ -11,29 +11,31 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="container mt-1">
-      <div class="hstack gap-3 d-flex fs-7 align-items-center">
-        <div>0 555 555 55 55</div>
+    <div class="hstack gap-3 d-flex fs-7 align-items-center">
+      <div class="hstack-context">
+        <p><a href="tel:05555555555">0 555 555 55 55</a></p>
         <div class="vr"></div>
-        <div>atshop@gmail.com</div>
-        <div class="ms-auto">
-          <select id="flag" class="form-select">
-            <option value="1">USD</option>
-            <option value="2">TRY</option>
-            <option value="3">Euro</option>
-          </select>
-        </div>
-        <div class="vr"></div>
-        <div>
-          <select class="form-select">
-            <option value="1">English</option>
-            <option value="2">Turkish</option>
-            <option value="3">German</option>
-          </select>
-        </div>
-        <div class="vr"></div>
-        <div>ORDER TRACKING</div>
+        <p><a href="mailto:atshop@gmail.com">atshop@gmail.com</a></p>
       </div>
+      <div class="ms-auto">
+        <select id="flag" class="form-select">
+          <option value="1">USD</option>
+          <option value="2">TRY</option>
+          <option value="3">Euro</option>
+        </select>
+      </div>
+      <div class="vr"></div>
+      <div>
+        <select class="form-select">
+          <option value="1">English</option>
+          <option value="2">Turkish</option>
+          <option value="3">German</option>
+        </select>
+      </div>
+      <div class="vr"></div>
+      <div>ORDER TRACKING</div>
+    </div>
+    <div class="container mt-1">
       <div>
         <div class="top-banner row d-flex mt-3 align-items-center ">
           <div class="col-lg-4">
@@ -45,15 +47,29 @@
                 <button type="submit"><i class="fa fa-search"></i></button>
             </form>
         </div>                 
-          <div class="col-lg-4 text-end btn-i">
-            <div class="shopping-cart position-relative">
-              <button class="btn btn-dark btn-card2"><i class="fa-solid fa-heart position-relative"></i><span id="item-count-like" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span></button>
-              <div class="shopping-like-list d-none"><b class="fs-5 my-3">Like Cart</b></div>
-              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-user"></i></button>
-              <button type="button" class="btn btn-dark position-relative btn-card"><i class="fa-solid fa-cart-shopping"></i><span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span></button>
-              <div class="shopping-cart-list d-none"><b class="fs-5 my-3">Shopping Cart</b></div>
+        <div class="col-lg-4 text-end btn-i">
+          <div class="shopping-cart position-relative">
+            <button class="btn btn-dark btn-card2">
+              <i class="fa-solid fa-heart position-relative"></i>
+              <span id="item-count-like" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
+            </button>
+            <div class="shopping-like-list d-none">
+              <b class="fs-5 my-3">Like Cart</b>
             </div>
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+              <i class="fa-solid fa-user"></i>
+            </button>
+            <button type="button" class="btn btn-dark position-relative btn-card">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
+            </button>
+            <div class="shopping-cart-list d-none">
+              <b class="fs-5 my-3">Shopping Cart</b>
+              <!-- Toplam fiyatın görüntüleneceği alan burada olacak, JavaScript ile eklenecek -->
+            </div>
+            
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -257,15 +273,15 @@
           <form>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1">
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
               <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <input type="password" class="form-control" id="exampleInputPassword1" />
             </div>
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1" />
               <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>

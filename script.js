@@ -64,33 +64,43 @@ class UI {
   }
 
   removeCard() {
-    let btnRemove = document.getElementsByClassName("fa-trash");
+    let btnRemove = document.querySelectorAll(".shopping-cart-list .btn-delete");
     let self = this;
-    for (let i = 0; i < btnRemove.length; i++) {
-      btnRemove[i].addEventListener("click", function () {
-        this.parentElement.parentElement.parentElement.remove();
-        self.cardCount();
-      });
-    }
+    btnRemove.forEach(function(button) {
+        button.addEventListener("click", function() {
+            const itemToRemove = button.closest(".list-item");
+            itemToRemove.remove();
+            self.cardCount();
+            
+            if (cardList.getElementsByClassName("list-item").length === 0) {
+                document.getElementById("item-count").innerHTML = 0;
+            }
+        });
+    });
   }
 
   removeLike() {
-    let btnRemove = document.getElementsByClassName("fa-broken-heart");
+    let btnRemove = document.querySelectorAll(".shopping-like-list .btn-delete");
     let self = this;
-    for (let i = 0; i < btnRemove.length; i++) {
-      btnRemove[i].addEventListener("click", function () {
-        this.parentElement.parentElement.parentElement.remove();
-        self.likeCount();
-      });
-    }
+    btnRemove.forEach(function(button) {
+        button.addEventListener("click", function() {
+            const itemToRemove = button.closest(".list-item");
+            itemToRemove.remove();
+            self.likeCount();
+            
+            if (likeList.getElementsByClassName("list-item").length === 0) {
+                document.getElementById("item-count-like").innerHTML = 0;
+            }
+        });
+    });
   }
 
-  addToCard(shopping) {
+  addToCard(shopping, btnAdd) {
     const listItem = document.createElement("div");
     listItem.classList = "list-item";
 
     listItem.innerHTML = `
-    <div class="row align-items-center text-white-50">
+    <div class="row align-items-center text-black">
       <div class="col-md-3">
         <img class="img-fluid" src="${shopping.image}" alt="">
       </div>
@@ -100,14 +110,18 @@ class UI {
       <div class="col-md-2">
         <div class="price">${shopping.price}</div>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 text-end">
         <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>
     `;
+
     cardList.appendChild(listItem);
-    this.removeCard();
-    this.cardCount();
+    this.removeCard();  // Bu fonksiyonu çağırarak sepetten ürün silinmesini sağlıyoruz
+    this.cardCount();   // Sepetteki ürün sayısını güncelliyoruz
+    
+    btnAdd.classList.add("disabled");
+    btnAdd.textContent = "In Cart";
   }
 
   addToLike(like, btnLike) {
@@ -115,15 +129,15 @@ class UI {
     listItem.classList = "list-item";
 
     listItem.innerHTML = `
-    <div class="row align-items-center text-white-50">
+    <div class="row align-items-center text-black">
       <div class="col-md-3">
         <img class="img-fluid" src="${like.image}" alt="">
       </div>
       <div class="col-md-7">
         <div class="title">${like.title}</div>
       </div>
-      <div class="col-md-2">
-        <button class="btn btn-delete text-danger"><i class="fa-solid fa-broken-heart"></i></button>
+      <div class="col-md-2 text-end">
+        <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>
     `;
@@ -137,6 +151,7 @@ class UI {
   }
 }
 
+
 // Function to render products into a given row
 function renderProducts(products, targetRow) {
   products.slice(0, 8).forEach((product) => {
@@ -144,11 +159,10 @@ function renderProducts(products, targetRow) {
     productDiv.classList.add("col-3", "models", "models-img", "shop");
 
     productDiv.innerHTML = `
-      <img
-        class="img-fluid show-image"
-        src="${product.image}"
-        alt="${product.name}"
-      />
+       <div class="product-image-container">
+        <img class="img-fluid show-image first-image" src="${product.image}" alt="${product.name}"/>
+        <img class="img-fluid second-image" src="${product.image2}" alt="${product.name}" />
+      </div>
       <div class="detaly d-inline">
         <span class="head z-3">
           <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
@@ -284,7 +298,7 @@ function getRandomIndexes(arrayLength, numberOfItems) {
   return Array.from(indexes);
 }
 
-function createCarouselItems(products) {function createCarouselItems(products) {
+function createCarouselItems(products) {
   const randomIndexes = getRandomIndexes(products.length, 3); // 3 rastgele ürünü seçiyoruz
 
   randomIndexes.forEach((index, i) => {
@@ -312,51 +326,6 @@ function createCarouselItems(products) {function createCarouselItems(products) {
     });
   });
 }
-
-  const randomIndexes = getRandomIndexes(products.length, 3); // 3 rastgele ürünü seçiyoruz
-
-  randomIndexes.forEach((index, i) => {
-    const product = products[index];
-    const carouselItem = document.createElement('div');
-    carouselItem.className = `carousel-item d-flex ${i === 0 ? 'active' : ''}`;
-    carouselItem.innerHTML = `
-      <div class="col-6 align-content-center fw-bold">
-        <h5 class="f-name">${product.name}</h5>
-        <h2 class="s-name">${product.brand}</h2>
-        <p class="description">${product.description}</p>
-        <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
-      </div>
-      <img class="col-6 img-1" src="${product.image}" class="d-block w-100" alt="${product.name}"/>
-    `;
-    carouselContainer.appendChild(carouselItem);
-  });
-
-  // Bootstrap carousel örneğini oluştur
-  const carousel = new bootstrap.Carousel(document.querySelector('#carouselExampleCaptions'), {
-    interval: false // Otomatik geçişi durdurur
-  });
-
-  // "SHOP NOW" butonuna tıklama olayı
-  document.querySelectorAll('.shop-now').forEach(button => {
-    // Butona tıklandığında geçişi durdur
-    button.addEventListener('click', function(e) {
-      e.preventDefault();
-      const productId = this.getAttribute('data-product-id');
-      window.location.href = `shop-page.html?id=${productId}`;
-    });
-
-    // Butona gelindiğinde geçişi durdur
-    button.addEventListener('mouseenter', function() {
-      carousel.pause();
-    });
-
-    // Butondan ayrıldığında geçişi tekrar başlat
-    button.addEventListener('mouseleave', function() {
-      carousel.cycle();
-    });
-  });
-}
-
 
 // Fonksiyon: Shop collection bölümlerini oluşturma (Önceki haliyle aynıdır)
 function createShopCollections(products) {
@@ -409,8 +378,6 @@ document.addEventListener('DOMContentLoaded', () => {
   createShopCollections(products); // Shop collection için içerik oluşturuyoruz
 });
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.shop-clc').forEach(button => {
       button.addEventListener('click', function(event) {
@@ -421,36 +388,35 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
 function getRandomIndex(arrayLength) {
-  return Math.floor(Math.random() * arrayLength);
+    return Math.floor(Math.random() * arrayLength);
 }
 
 function displayRandomProduct() {
-  const randomIndex = getRandomIndex(products.length);
-  const product = products[randomIndex];
+    const randomIndex = getRandomIndex(products.length);
+    const product = products[randomIndex];
 
-  const productContainer = document.getElementById('dynamic-product');
-  
-  productContainer.innerHTML = `
-      <div class="row align-content-center">
-          <div class="col-4">
-              <img class="img-fluid" src="${product.image}" alt="${product.name}"/>
-          </div>
-          <div class="col-8">
-              <h2>${product.name}</h2>
-              <p>${product.description}</p>
-              <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
-          </div>
-      </div>
-  `;
+    const productContainer = document.getElementById('dynamic-product');
+    
+    productContainer.innerHTML = `
+        <div class="row align-content-center">
+            <div class="col-4">
+                <img class="img-fluid" src="${product.image}" alt="${product.name}"/>
+            </div>
+            <div class="col-8">
+                <h2>${product.name}</h2>
+                <p>${product.description}</p>
+                <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
+            </div>
+        </div>
+    `;
 
-  // "SHOP NOW" butonuna tıklama olayı
-  const shopNowButton = productContainer.querySelector('.shop-now');
-  shopNowButton.addEventListener('click', function() {
-      const productId = this.getAttribute('data-product-id');
-      window.location.href = `shop-page.html?id=${productId}`;
-  });
+    // "SHOP NOW" butonuna tıklama olayı
+    const shopNowButton = productContainer.querySelector('.shop-now');
+    shopNowButton.addEventListener('click', function() {
+        const productId = this.getAttribute('data-product-id');
+        window.location.href = `shop-page.html?id=${productId}`;
+    });
 }
 
 // Sayfa yüklendiğinde rastgele bir ürünü göster
