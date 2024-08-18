@@ -111,10 +111,12 @@ class UI {
             button.addEventListener("click", function () {
                 const itemToRemove = button.closest(".list-item");
                 itemToRemove.remove();
+                self.updateTotalPrice();
                 self.cardCount();
 
                 if (cardList.getElementsByClassName("list-item").length === 0) {
                     document.getElementById("item-count").innerHTML = 0;
+                    document.getElementById('total-price').textContent = '';
                 }
             });
         });
@@ -137,29 +139,59 @@ class UI {
     }
 
     addToCard(shopping) {
-        const listItem = document.createElement("div");
-        listItem.classList = "list-item";
+        const existingItem = Array.from(cardList.getElementsByClassName('list-item'))
+            .find(item => item.querySelector('.title').textContent === shopping.title);
 
-        listItem.innerHTML = `
-        <div class="row align-items-center text-black">
-            <div class="col-md-3">
-                <img class="img-fluid" src="${shopping.image}" alt="">
-            </div>
-            <div class="col-md-5">
-                <div class="title">${shopping.title}</div>
-            </div>
-            <div class="col-md-2">
-                <div class="price">${shopping.price}</div>
-            </div>
-            <div class="col-md-2 text-end">
-                <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
-        `;
+        let price = parseFloat(shopping.price.replace('$', ''));
 
-        cardList.appendChild(listItem);
+        if (existingItem) {
+            const quantityElem = existingItem.querySelector('.quantity');
+            const priceElem = existingItem.querySelector('.price');
+
+            let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
+            quantity++;
+            quantityElem.textContent = quantity > 1 ? `x${quantity}` : '';
+
+            const newPrice = price * quantity;
+            priceElem.textContent = `$${newPrice}`;
+        } else {
+            const listItem = document.createElement("div");
+            listItem.classList = "list-item";
+
+            listItem.innerHTML = `
+            <div class="row align-items-center text-black">
+                <div class="col-md-2">
+                    <img class="img-fluid" src="${shopping.image}" alt="">
+                </div>
+                <div class="col-md-4">
+                    <div class="title">${shopping.title}</div>
+                </div>
+                <div class="col-md-2">
+                    <div class="quantity"></div>
+                </div>
+                <div class="col-md-2">
+                    <div class="price">$${price}</div>
+                </div>
+                <div class="col-md-2 text-end">
+                    <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
+            `;
+
+            cardList.appendChild(listItem);
+        }
+
+        this.updateTotalPrice();
         this.removeCard();
         this.cardCount();
+    }
+
+    updateTotalPrice() {
+        const prices = Array.from(cardList.getElementsByClassName('price'))
+            .map(priceElem => parseFloat(priceElem.textContent.replace('$', '')));
+        
+        const totalPrice = prices.reduce((sum, price) => sum + price, 0);
+        document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
 
     addToLike(like, btnLike) {

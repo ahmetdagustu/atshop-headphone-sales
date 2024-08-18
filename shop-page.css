@@ -1,58 +1,151 @@
-body {
-  font-family: Arial, sans-serif;
-}
+/* General Styles */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* navbar */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* Yatay kaydırmayı önlemek için */
+  font-family: Arial, sans-serif;
+  background-color: #fff !important;
+}
+/* Container Adjustments */
+.container {
+  max-width: 1000px !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.site-header {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+/* Header Styles */
+
+
+header .container .hstack {
+  padding-left: 0 !important;
+}
+.header-text .form-select {
+  font-size: 7rem; /* Dropdown menülerdeki yazı boyutunu da aynı şekilde ayarlıyoruz */
+}
+
 header {
-  background-color: #f5f5f5; 
   padding-top: 20px;  
   padding-bottom: 20px; 
 }
-.for-line {
-  width: 110px;
-  float: left;
-  border-right: 1px solid black;
-}
-.a-mail {
-  margin-left: 5px;
+
+.site-header {
+  margin-top: 0px;
+  padding: 0px;
 }
 
+header .header-text {
+  margin-top: 0px !important;
+}
+
+
+/* HStack Context */
+.hstack-context {
+  display: inline-flex; /* Elemanları yatayda hizalar */
+  align-items: center;  /* Elemanları dikeyde ortalar */
+  padding-left: 210px;   /* İstediğiniz kadar boşluk ekler */
+  font-size: 1rem;
+  display: flex;
+  max-width: 1000px !important;
+}
+
+.hstack-context .vr {
+  margin-left: 10px; /* Ayırıcı çizgilerin yerini ayarlamak için */
+  margin-right: 10px; /* Ayırıcı çizgilerin yerini ayarlamak için */
+}
+
+.hstack-context a {
+  text-decoration: none; /* Altını çizmemek için */
+  color: inherit; /* Varsayılan metin rengiyle aynı yapmak için */
+}
+
+.hstack-context a:hover {
+  color: inherit; /* Hover durumunda da rengin değişmemesi için */
+  text-decoration: none; /* Hover durumunda da altını çizmemek için */
+}
 
 .hstack {
-  background-color: rgb(241, 241, 241);
+  margin-top: 0;
+  width: 100%;
+  position: relative; 
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
+
+.hstack-background {
+  width: 100vw; /* Tüm ekran genişliğini kaplayacak */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hstack::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Tüm ekran genişliğini kaplayacak */
+  height: 100%; /* Yükseklik olarak hstack'in yüksekliğini kullanacak */
+  background-color: #f1f1f1; /* Arka plan rengini ayarlıyoruz */
+  z-index: -1; /* Pseudo-element'i arka plana yerleştiriyoruz */
+}
+
 .hstack select {
   border: 0;
   background-color: #f1f1f1;
 }
+
+
+
+/* Form Example Styles */
+form.example {
+  position: relative;
+  width: 100%;
+}
+
 form.example input[type="text"] {
-  padding: 10px;
+  padding: 10px 40px 10px 20px; /* Sağda simge için boşluk bırakıyoruz */
   font-size: 17px;
-  border: 0px solid grey;
-  float: left;
-  width: 80%;
+  border: 1px solid #ccc;
+  width: 100%;
   background: #f1f1f1;
+  border-radius: 20px; /* Köşeleri yuvarlak yapıyoruz */
+  box-sizing: border-box;
+  height: 40px; /* Arama çubuğunun yüksekliği */
 }
 
 form.example button {
-  float: left;
-  width: 20%;
-  padding: 10px;
- 
+  position: absolute;
+  right: 10px; /* Sağdan 10px boşluk bırakıyoruz */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
   color: black;
-  font-size: 17px;
-  border: 0px solid grey;
-  border-left: none;
+  font-size: 18px; /* Simge boyutu */
   cursor: pointer;
+  padding: 0;
+  height: 100%; /* Butonun yüksekliği */
 }
 
 form.example button:hover {
-  background: #0b7dda;
+  color: #0b7dda; /* Hover'da simge rengini değiştiriyoruz */
 }
 
 form.example::after {
@@ -61,12 +154,24 @@ form.example::after {
   display: table;
 }
 
-.atshop-1 a {
+
+
+/* Top Banner Styles */
+
+
+.top-banner a {
   text-decoration: none;
   color: black;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: bold;
 }
+
+
+.shop-now, .cart-btn-1, .like-btn-1 {
+  padding: 5px 10px !important; /* Butonun iç dolgu alanı */
+  font-size: 8px !important;   /* Yazı boyutu */
+}
+
 
 .btn-i button {
   float: right;
@@ -77,6 +182,8 @@ form.example::after {
   font-size: 17px;
   border: 0px solid grey;
 }
+
+/* Dropdown Menu Styles */
 .dr-menu {
   background-color: #f1f1f1;
   margin-top: 20px;
@@ -84,60 +191,78 @@ form.example::after {
   align-items: center;
   cursor: pointer;
 }
+
 .dr-menu a {
   text-decoration: none;
   color: black;
   font-size: 15px;
   font-weight: bold;
 }
+
+/* MT-VR Margin Adjustments */
 .mt-vr {
   margin-inline-start: 230px;
 }
 
+/* Dropdown Content-2 Styles */
 .dropdown-content-2 {
   display: none;
   position: absolute;
+  background-color: white;
+  width: 100%; /* Menü genişliğini ekranın tamamına yayılacak şekilde ayarlıyoruz */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  top: 100%;
-  background-color: #f9f9f9;
-  min-width: 100%;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  margin-top: px;
-}
-
-.dropdown-2 {
-  display: flex;
-  position: relative;
-}
-
-.dropdown-2:hover .dropdown-content-2 {
-  display: flex;
+  left: 0; /* Menü ekranın solundan başlayacak */
+  top: 50px;
+  padding: 10px;
+  border-radius: 5px;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: stretch;
-  flex-direction: row;
 }
 
-.dropdown-content-2 {
-  display: none;
-  position: absolute;
-  z-index: 1;
-  top: 100%;
-  background-color: #f9f9f9;
-
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-}
-
-.dropdown-2 {
+/* Category Group Styles */
+.category-group {
   display: flex;
-  position: relative;
-  justify-content: center;
-  max-width: 500px;
+  flex-wrap: nowrap; /* Sütunların bir satırda kalmasını sağlar */
+  justify-content: space-between;
+  gap: 5px; /* Sütunlar arasındaki boşlukları azaltıyoruz */
 }
 
-.dropdown-2:hover .dropdown-content-2 {
+.category {
+  flex: 1; /* Her sütunun eşit genişlikte olmasını sağlıyoruz */
+  padding: 8px; /* Sütun içindeki boşluğu biraz azaltıyoruz */
+  min-width: 120px !important; /* Sütunların minimum genişlik sınırını küçültüyoruz */
+}
+
+.category h1 {
+  font-size: 14px; /* Başlık boyutunu biraz küçültüyoruz */
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.category ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.category ul li {
+  margin-bottom: 6px; /* Liste öğeleri arasındaki boşluğu azaltıyoruz */
+}
+
+.category ul li a {
+  font-size: 13px; /* Yazı boyutunu biraz küçültüyoruz */
+  color: #333;
+  text-decoration: none;
   display: block;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+/* Dropdown Hover Effects */
+.dropdown-2:hover .dropdown-content-2 {
+  display: flex;
+  justify-content: space-between; /* Kategorileri eşit şekilde yerleştirir */
+  flex-wrap: nowrap; /* Sütunların bir satırda kalmasını sağlar */
 }
 
 .category-group {
@@ -158,25 +283,78 @@ form.example::after {
   list-style-type: none;
   padding: 0;
 }
+
 .category {
   min-width: 350px;
 }
+
 .category ul li {
   margin-bottom: 5px;
 }
+
 .category ul li a {
   font-size: 14px;
-
   color: black;
   text-decoration: none;
   display: block;
   padding: 8px 10px;
 }
+
 .category-group ul li a:hover {
   border-bottom: 1px solid #333;
 }
 
 
+
+/* Form Example Styles */
+form.example {
+  position: relative;
+  width: 100%;
+}
+
+form.example input[type="text"] {
+  padding: 10px 40px 10px 20px; /* Sağda simge için boşluk bırakıyoruz */
+  font-size: 17px;
+  border: 1px solid #ccc;
+  width: 100%;
+  background: #f1f1f1;
+  border-radius: 20px; /* Köşeleri yuvarlak yapıyoruz */
+  box-sizing: border-box;
+  height: 40px; /* Arama çubuğunun yüksekliği */
+}
+
+form.example button {
+  position: absolute;
+  right: 10px; /* Sağdan 10px boşluk bırakıyoruz */
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: black;
+  font-size: 18px; /* Simge boyutu */
+  cursor: pointer;
+  padding: 0;
+  height: 100%; /* Butonun yüksekliği */
+}
+
+form.example button:hover {
+  color: #0b7dda; /* Hover'da simge rengini değiştiriyoruz */
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Carousel Item Styles */
+.carousel-item .col-6.align-content-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Metinleri dikey olarak ortalar */
+  align-items: flex-start; /* Metinleri sola yaslar */
+  text-align: left; /* Metinlerin sola hizalanmasını sağlar */
+}
 /* main */
 .product-images img { 
     width: 100px;
@@ -188,121 +366,6 @@ form.example::after {
 .review {
     margin-bottom: 20px;
 }
-
-
-/* rewiews kısmı */
-.product-card {
-    border-radius: 15px;
-    padding: 0;
-    margin-bottom: 20px;
-    transition: transform 0.2s ease-in-out;
-    width: 220px;
-    height: 350px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .product-card:hover {
-    background-color: #f0f0f0;
-  }
-  
-  .product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  .second-image{
-    display: none;
-  }
-  
-  .product-card:hover .first-image {
-    display: none;
-  }
-  
-  .product-card:hover .second-image {
-    display: block;
-  }
-  
-  .shopNow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px !important;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    transform: translateY(20px);
-  }
-  
-  .product-card:hover .shopNow {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .shopNow-item {
-    background-color: #000;
-    border: 1px solid transparent;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s, border 0.3s, color 0.3s;
-  }
-  
-  .shopNow p {
-    margin: 0;
-    font-weight: bold;
-    padding: 10px;
-    color: #fff !important;
-    font-size: 0.8rem;
-    height: 28px;
-    width: 100px;
-  }
-  
-  .shopNow-item i {
-    color: #fff;
-  }
-  .shopNow-item.fa-heart, .shopNow-item.fa-cart-shopping {
-  color: #ffffff;
-}
-  
-  .shopNow-item:hover {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #000;
-  }
-  
-  .shopNow p:hover {
-    color: #000 !important;
-  }
-  
-  .shopNow-item i:hover {
-    color: #000;
-  }
-  
-  .price-container {
-    margin-top: 0px !important;
-  }
-  
-  .product-card h6 {
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .product-card p {
-    color: #555;
-    margin-top: 20px;
-    padding: 0;
-    margin: 0px !important;
-  }
-  
-  .redPrice {
-    color: #ff0000;
-    font-size: 1.2rem;
-  }
    
 
   /* stars */
@@ -416,4 +479,428 @@ body {
 
 .far {
   color: gray; /* Boş yıldızları gri yapmak için */
+}
+
+
+/* Shopping Cart and Like List Styles */
+.shopping-like-list,
+.shopping-cart-list {
+  position: absolute;
+  right: 0;
+  top: 100%; 
+  z-index: 1050; 
+  background-color: white; 
+  width: 400px;
+  border: 1px solid #ccc; 
+  border-radius: 4px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  overflow: hidden; 
+  padding: 10px;
+}
+.shopping-cart-list .row {
+    display: flex; /* Flexbox düzeni */
+    justify-content: space-between; /* Alanı eşit şekilde dağıt */
+    align-items: center; /* Tüm öğeleri dikeyde ortalar */
+    width: 100%; /* Satırı tam genişlikte yap */
+}
+
+.shopping-like-list .list-item,
+.shopping-cart-list .list-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  margin-top: 1rem;
+  font-size: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shopping-cart-list .list-item img {
+  width: 40px; /* Resim boyutunu küçültün */
+  margin-right: 10px; /* Resim ile metin arasına boşluk ekleyin */
+}
+
+
+.shopping-like-list .list-item:last-child,
+.shopping-cart-list .list-item:last-child {
+  border-bottom: none; 
+}
+
+.shopping-like-list .btn-delete,
+.shopping-cart-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shopping-like-list .btn-delete i,
+.shopping-cart-list .btn-delete i {
+  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
+}
+
+.shopping-like-list .row.align-items-center,
+.shopping-cart-list .row.align-items-center {
+  align-items: center;
+}
+
+.shopping-like-list .row .col-md-2,
+.shopping-cart-list .row .col-md-2 {
+  display: flex;
+  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
+}
+
+
+.shopping-cart-list .col-md-5,
+.shopping-like-list .col-md-7 {
+  max-width: 60%; /* Ürün ismi ve marka için genişlik ayarı */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Taşan metin için ellipsis kullanarak sonuna üç nokta ekler */
+  white-space: nowrap; /* Metni tek satırda tutar */
+}
+
+.shopping-cart-list .col-md-2,
+.shopping-like-list .col-md-2 {
+  max-width: 20%;
+  text-align: right; /* Fiyatları ve simgeleri sağa hizalar */
+}
+
+.shopping-cart-list .title,
+.shopping-like-list .title {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  color: black;
+  flex-grow: 1;
+}
+
+.shopping-cart-list .price,
+.shopping-like-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: right;
+  white-space: nowrap !important;
+}
+
+.shopping-cart-list b.fs-5.my-3 {
+  display: inline-block;
+  width: 50%; /* Yarı genişlik ayarlandı */
+  text-align: left; /* Sol hizalama */
+  font-size: 1.25rem; /* Font boyutu */
+  font-weight: bold; /* Kalın yazı */
+}
+
+.shopping-cart-list .total-price {
+  display: inline-block;
+  width: 50%; /* Yarı genişlik ayarlandı */
+  text-align: right; /* Sağ hizalama */
+  font-size: 1.2rem; /* Font boyutu */
+  font-weight: bold; /* Kalın yazı */
+  color: #333; /* Renk ayarı */
+}
+
+.shopping-cart-list .btn-delete,
+.shopping-like-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px; /* Silme butonu simgesini küçültün */
+  margin-left: 10px; /* Silme butonunu sağa yaslayın */
+  align-self: flex-end;
+}
+
+.shopping-cart-list .row.align-items-center,
+.shopping-like-list .row.align-items-center {
+  align-items: center;
+}
+
+.shopping-cart-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+  text-align: right;
+}
+
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+}
+.product-image-container:hover .first-image {
+  opacity: 0;
+}
+
+.product-image-container:hover .second-image {
+  opacity: 1;
+}
+
+.first-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.second-image {
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+
+.shopping-like-list .btn-delete,
+.shopping-cart-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shopping-like-list .btn-delete i,
+.shopping-cart-list .btn-delete i {
+  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
+}
+
+.shopping-like-list .row.align-items-center,
+.shopping-cart-list .row.align-items-center {
+  align-items: center;
+}
+
+.shopping-like-list .row .col-md-2,
+.shopping-cart-list .row .col-md-2 {
+  display: flex;
+  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
+}
+
+.shopping-like-list .list-item,
+.shopping-cart-list .list-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.shopping-like-list .list-item:last-child,
+.shopping-cart-list .list-item:last-child {
+  border-bottom: none; 
+}
+
+.shopping-cart-list .col-md-5,
+.shopping-like-list .col-md-7 {
+  max-width: 60%; /* Ürün ismi ve marka için genişlik ayarı */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Taşan metin için ellipsis kullanarak sonuna üç nokta ekler */
+  white-space: nowrap; /* Metni tek satırda tutar */
+}
+
+.shopping-cart-list .col-md-2,
+.shopping-like-list .col-md-2 {
+  max-width: 20%;
+  text-align: right; /* Fiyatları ve simgeleri sağa hizalar */
+}
+
+.shopping-cart-list .title,
+.shopping-like-list .title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shopping-cart-list .price,
+.shopping-like-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: right;
+}
+
+.shopping-cart-list b.fs-5.my-3 {
+  display: inline-block;
+  width: 50%; /* Yarı genişlik ayarlandı */
+  text-align: left; /* Sol hizalama */
+  font-size: 1.25rem; /* Font boyutu */
+  font-weight: bold; /* Kalın yazı */
+}
+
+.shopping-cart-list .total-price {
+  display: inline-block;
+  width: 50%; /* Yarı genişlik ayarlandı */
+  text-align: right; /* Sağ hizalama */
+  font-size: 1.25rem; /* Font boyutu */
+  font-weight: bold; /* Kalın yazı */
+  color: #333; /* Renk ayarı */
+}
+
+.shopping-cart-list .btn-delete,
+.shopping-like-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shopping-cart-list .btn-delete i,
+.shopping-like-list .btn-delete i {
+  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
+}
+
+.shopping-cart-list .row.align-items-center,
+.shopping-like-list .row.align-items-center {
+  align-items: center;
+}
+
+.shopping-cart-list .row .col-md-2,
+.shopping-like-list .row .col-md-2 {
+  display: flex;
+  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
+}
+
+.shopping-cart-list .list-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.shopping-cart-list .list-item:last-child {
+  border-bottom: none;
+}
+ 
+.shopping-cart-list .title {
+  font-size: 1rem;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.shopping-cart-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+  text-align: right;
+}.models {
+  margin: 0 auto;
+}
+
+.models-img {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  opacity: .99;
+  border-radius: 4px;
+}
+
+.models-img:before {
+  content: '';
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  top: 100%;
+  z-index: 2;
+  transition-property: top,opacity;
+  transition-duration: 0.3s;
+}
+
+.models img {
+  display: block;
+}
+
+.detaly span {
+  display: block;
+  position: relative;
+  top: 1500px;
+  transition-property: top, opacity;
+  transition-duration: 0.15s;
+  transition-delay: 0s;
+  text-align: center;
+}
+
+.head {
+  line-height: 0;
+  font-weight: bold;
+  font-size: 5px;
+}
+
+.information {
+  line-height: 1.2;
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.models:focus:before,
+.models:focus span, 
+.models:hover:before, 
+.models:hover span {
+  opacity: 1;
+}
+
+.models:focus:before,
+.models:hover:before {
+  top:50%;
+}
+
+.models:focus span,
+.models:hover span {
+  top:0;
+}
+
+.models:focus .head,
+.models:hover .head {
+  transition-delay: 0.15s;
+}
+
+.models:focus .information, 
+.models:hover .information {
+  transition-delay: 0.25s;
+}
+
+/* Kartın üzerine gelindiğinde arka plan rengini değiştirme */
+.models:hover {
+  background-color: #f1f1f1; /* İstenen arka plan rengi */
+  border-radius: 20px;
+}
+
+/* Kartın üzerine gelindiğinde ikinci resmin görünmesi */
+.models:hover .first-image {
+  opacity: 0;
+}
+
+.models:hover .second-image {
+  opacity: 1;
+}
+
+/* JBL Tune Section Styles */
+aside {
+  background-color: #f5f5f5; /* Footer arka plan rengi */
+  padding-top: 20px; /* Üstten iç boşluk */
+  padding-bottom: 20px;
+}
+
+/* Shopping Cart and Like List Styles */
+.shopping-cart-list {
+  position: absolute;
+  width: 25rem;
+  right: -0.75rem;
+  top: 2.9rem;
+  padding: 1rem;
+  z-index: 1;
+}
+
+#related-products {
+  margin-bottom: 20px !important;
+}
+
+#related-products .card {
+  margin: 100px; /* Kartlar arasındaki boşluğu azaltır */
+  flex: 1 1 calc(25% - 20px); /* Kart genişliğini artırır ve boşlukları düzenler */
+}
+
+#related-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Kartlar arasındaki boşluğu daha hassas bir şekilde kontrol eder */
 }

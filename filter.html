@@ -39,7 +39,7 @@
       <div>
         <div class="top-banner row d-flex mt-3 align-items-center ">
           <div class="col-lg-4">
-            <a href="#">ATShop</a>
+            <a href="index.html">ATShop</a>
           </div>
           <div class="col-lg-4 d-grid search-btn">
             <form class="example" action="/action_page.php" style="max-width: 100%">
@@ -64,9 +64,12 @@
               <span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
             </button>
             <div class="shopping-cart-list d-none">
-              <b class="fs-5 my-3">Shopping Cart</b>
-              <!-- Toplam fiyatın görüntüleneceği alan burada olacak, JavaScript ile eklenecek -->
-            </div>
+              <div class="shopping-cart-header d-flex align-items-center justify-content-center">
+                  <b class="fs-5 my-3 flex-grow-1 text-start">Shopping Cart</b>
+                  <span id="total-price" class="fs-5 my-3 text-end"></span>
+              </div>
+              <!-- Diğer içerikler burada olacak -->
+            </div>  
           </div>
         </div>
         </div>

@@ -460,29 +460,145 @@ h4 + .price-range {
 } */
 
 /* Shopping Cart and Wishlist */
-.shopping-cart-list,
-.shopping-like-list {
+.shopping-like-list,
+.shopping-cart-list {
   position: absolute;
   right: 0;
   top: 100%; 
   z-index: 1050; 
   background-color: white; 
-  width: 300px; 
+  width: 400px;
   border: 1px solid #ccc; 
   border-radius: 4px; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   overflow: hidden; 
+  padding: 10px;
+}
+.shopping-cart-list .row {
+    display: flex; /* Flexbox düzeni */
+    justify-content: space-between; /* Alanı eşit şekilde dağıt */
+    align-items: center; /* Tüm öğeleri dikeyde ortalar */
+    width: 100%; /* Satırı tam genişlikte yap */
 }
 
-.shopping-cart-list .list-item,
-.shopping-like-list .list-item {
+.shopping-like-list .list-item,
+.shopping-cart-list .list-item {
   padding: 10px;
   border-bottom: 1px solid #eee;
+  margin-top: 1rem;
+  font-size: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.shopping-cart-list .list-item:last-child,
-.shopping-like-list .list-item:last-child {
+.shopping-cart-list .list-item img {
+  width: 40px; /* Resim boyutunu küçültün */
+  margin-right: 10px; /* Resim ile metin arasına boşluk ekleyin */
+}
+
+
+.shopping-like-list .list-item:last-child,
+.shopping-cart-list .list-item:last-child {
   border-bottom: none; 
+}
+
+.shopping-like-list .btn-delete,
+.shopping-cart-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shopping-like-list .btn-delete i,
+.shopping-cart-list .btn-delete i {
+  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
+}
+
+.shopping-like-list .row.align-items-center,
+.shopping-cart-list .row.align-items-center {
+  align-items: center;
+}
+
+.shopping-like-list .row .col-md-2,
+.shopping-cart-list .row .col-md-2 {
+  display: flex;
+  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
+}
+
+
+.shopping-cart-list .col-md-5,
+.shopping-like-list .col-md-7 {
+  max-width: 60%; /* Ürün ismi ve marka için genişlik ayarı */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Taşan metin için ellipsis kullanarak sonuna üç nokta ekler */
+  white-space: nowrap; /* Metni tek satırda tutar */
+}
+
+.shopping-cart-list .col-md-2,
+.shopping-like-list .col-md-2 {
+  max-width: 20%;
+  text-align: right; /* Fiyatları ve simgeleri sağa hizalar */
+}
+
+.shopping-cart-list .title,
+.shopping-like-list .title {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  color: black;
+  flex-grow: 1;
+}
+
+.shopping-cart-list .price,
+.shopping-like-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: right;
+  white-space: nowrap !important;
+}
+
+.shopping-cart-list b.fs-5.my-3 {
+  display: inline-block;
+  width: 50%; /* Yarı genişlik ayarlandı */
+  text-align: left; /* Sol hizalama */
+  font-size: 1.25rem; /* Font boyutu */
+  font-weight: bold; /* Kalın yazı */
+}
+
+.shopping-cart-list .total-price {
+  display: inline-block;
+  width: 50%; /* Yarı genişlik ayarlandı */
+  text-align: right; /* Sağ hizalama */
+  font-size: 1.2rem; /* Font boyutu */
+  font-weight: bold; /* Kalın yazı */
+  color: #333; /* Renk ayarı */
+}
+
+.shopping-cart-list .btn-delete,
+.shopping-like-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px; /* Silme butonu simgesini küçültün */
+  margin-left: 10px; /* Silme butonunu sağa yaslayın */
+  align-self: flex-end;
+}
+
+.shopping-cart-list .row.align-items-center,
+.shopping-like-list .row.align-items-center {
+  align-items: center;
+}
+
+.shopping-cart-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+  text-align: right;
 }
 
 .cart-btn {
