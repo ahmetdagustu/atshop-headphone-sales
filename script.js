@@ -503,13 +503,25 @@ function createCarouselItems(products) {
 
     randomIndexes.forEach((index, i) => {
         const product = products[index];
+
+        // description metnini iki cümle ile sınırla
+        let limitedDescription = product.description;
+        if (limitedDescription) {
+            const sentences = limitedDescription.match(/[^\.!\?]+[\.!\?]+/g);
+            if (sentences && sentences.length > 1) {
+                limitedDescription = sentences.slice(0, 2).join(" ");
+            } else if (sentences) {
+                limitedDescription = sentences[0]; // Sadece bir cümle varsa onu kullan
+            }
+        }
+
         const carouselItem = document.createElement('div');
         carouselItem.className = `carousel-item d-flex ${i === 0 ? 'active' : ''}`;
         carouselItem.innerHTML = `
         <div class="col-6 align-content-center fw-bold">
             <h5 class="f-name">${product.name}</h5>
             <h2 class="s-name">${product.brand}</h2>
-            <p class="description">${product.description}</p>
+            <p class="description">${limitedDescription}</p>
             <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
         </div>
         <img class="col-6 img-1" src="${product.image}" class="d-block w-100" alt="${product.name}"/>
@@ -526,6 +538,7 @@ function createCarouselItems(products) {
         });
     });
 }
+
 
 // Fonksiyon: Shop collection bölümlerini oluşturma
 function createShopCollections(products) {

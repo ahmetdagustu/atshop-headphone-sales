@@ -384,6 +384,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("product-price").innerText = `$${product.price}`;
         document.getElementById("product-description-full").innerText = product.description;
 
+        // Description altına büyük resmi ekle
+        const largeImageElement = document.getElementById("product-large-image");
+        largeImageElement.src = product.image3;
+
         document.getElementById("thumbnail1").addEventListener("click", () => {
             document.getElementById("main-image").src = product.image;
         });
@@ -567,6 +571,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
 window.goToProduct = function(productId) {
     window.location.href = `shop-page.html?id=${productId}`;
 };
@@ -588,7 +593,7 @@ document.addEventListener("DOMContentLoaded", () => {
         descriptionElement.innerText = sentences[0];
     }
 
-    
+
     const ratingValueElement = document.getElementById("rating-value");
     const ratingDescriptionElement = document.getElementById("rating-description");
 

@@ -15,7 +15,7 @@ html, body {
 }
 /* Container Adjustments */
 .container {
-  max-width: 1000px !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+  max-width: 75% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
   margin: 0 auto;
   padding-left: 15px;
   padding-right: 15px;
@@ -58,7 +58,7 @@ header .header-text {
   padding-left: 210px;   /* İstediğiniz kadar boşluk ekler */
   font-size: 1rem;
   display: flex;
-  max-width: 1000px !important;
+  max-width: 75% !important;
 }
 
 .hstack-context .vr {
@@ -903,4 +903,11 @@ aside {
   display: flex;
   flex-wrap: wrap;
   gap: 8px; /* Kartlar arasındaki boşluğu daha hassas bir şekilde kontrol eder */
+}
+
+
+.product-small-image {
+  max-width: 50% !important; /* Görsel genişliğini %30 olarak ayarladık */
+  height: auto;
+  margin: 0 auto; /* Ortalamak için */
 }
