@@ -16,7 +16,7 @@ html, body {
 
 /* Section Padding Adjustments */
 section.py-4.d-block {
-  padding: 0 !important;
+  padding: 0.6rem !important;
 }
 
 /* Header Styles */
@@ -200,8 +200,8 @@ aside .container .shop-now {
 }
 
 /* Top Banner Styles */
-.top-banner {
-  margin-top: 0px !important;
+.site-header .top-banner {
+  margin-top: 0 !important;
 }
 
 .top-banner a {
@@ -802,4 +802,242 @@ footer h6 {
   color: #fff !important;
   border: none !important;
   font-weight: bold;
+}
+ 
+.mobile-shopping-cart-list,
+.mobile-shopping-like-list {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    top: 100px; /* İkonların hemen altında göster */
+    left: 0;
+    z-index: 5; /* İkonların üstünde göster */
+}
+
+.icons.d-flex {
+    position: relative;
+    z-index: 10; /* İkonların açılan sekmelerin üzerinde görünmesini sağla */
+}
+
+.mobile-shopping-cart-list .list-item,
+.mobile-shopping-like-list .list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.mobile-shopping-cart-list .list-item img,
+.mobile-shopping-like-list .list-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.mobile-shopping-cart-list .list-item .title,
+.mobile-shopping-like-list .list-item .title {
+    flex-grow: 1;
+    padding-left: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.mobile-shopping-cart-list .list-item .btn-delete,
+.mobile-shopping-like-list .list-item .btn-delete {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.mobile-shopping-cart-list.d-none,
+.mobile-shopping-like-list.d-none {
+    display: none;
+}
+
+/* Mobil Sepet ve Favori Listesi Stil Düzenlemeleri */
+.mobile-shopping-cart-list .list-item,
+.mobile-shopping-like-list .list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.mobile-shopping-cart-list .list-item img,
+.mobile-shopping-like-list .list-item img {
+    max-width: 50px;
+    margin-right: 10px;
+}
+
+.mobile-shopping-cart-list .list-item .title,
+.mobile-shopping-like-list .list-item .title {
+    flex-grow: 1;
+    font-weight: bold;
+}
+
+.mobile-shopping-cart-list .list-item .quantity,
+.mobile-shopping-cart-list .list-item .price,
+.mobile-shopping-like-list .list-item .quantity,
+.mobile-shopping-like-list .list-item .price {
+    width: 60px;
+    text-align: center;
+}
+
+.mobile-shopping-cart-list .list-item .btn-delete,
+.mobile-shopping-like-list .list-item .btn-delete {
+    color: red;
+    background: none;
+    border: none;
+}
+
+
+
+@media (max-width: 767px) {
+  #header-container, #hstack, #dr-menu {
+      display: none !important; /* PC ekranındaki öğeleri gizler */
+  }
+  
+  .top-banner {
+      padding: 10px 15px;
+      background-color: #f5f5f5;
+  }
+
+  .navbar-mobile {
+      position: fixed; 
+      top: 0; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f8f8f8;
+      z-index: 1000;
+      display: none; 
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px; 
+      overflow-y: auto; 
+  }
+
+  .navbar-mobile.active {
+      display: flex;
+  }
+
+  .navbar-mobile .close-menu,
+  .navbar-mobile a:first-child {
+      font-size: 30px;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+  }
+
+  .navbar-mobile .icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #000;
+  }
+
+  .navbar-mobile .search-btn {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .navbar-mobile .search-btn form {
+      width: 100%;
+  }
+
+  .navbar-mobile .categories-container {
+      background-color: #f5f5f5;
+      width: 100%;
+      padding: 20px;
+      text-align: left;
+  }
+
+  .navbar-mobile .categories-container a {
+      color: #000;
+      text-decoration: none;
+      font-size: 18px;
+      display: block;
+      margin-bottom: 10px;
+  }
+
+  .navbar-mobile .categories-container strong,
+  .navbar-mobile a:nth-child(2),
+  .navbar-mobile a:nth-child(3) {
+      font-weight: bold;
+      font-size: 20px;
+      display: block;
+      margin-bottom: 15px;
+  }
+
+  .navbar-mobile .categories-container ul {
+      list-style-type: none;
+      padding-left: 0;
+      margin-bottom: 20px;
+  }
+
+  .navbar-mobile .categories-container ul li {
+      margin-bottom: 10px;
+  }
+  
+  body.menu-open {
+      overflow: hidden; /* Sayfanın kaydırılmasını engeller */
+  }
+  /* ATShop Yazısının Alt Çizgisini Kaldırma */
+  .navbar-mobile a:first-child,
+  .top-banner a {
+      text-decoration: none !important;
+  }
+
+  /* Search Butonu ile ATShop Yazısı Arasındaki Boşluk */
+  .search-btn {
+      margin-top: 15px; /* Boşluğu ayarlamak için margin ekliyoruz */
+  }
+
+  /* Mobil İkonlar için Boşluk */
+  .navbar-mobile .icons {
+      margin-bottom: 15px; 
+  }
+  /* Mobil İkonlar için Stil */
+.navbar-mobile .icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.navbar-mobile .icons .btn {
+  background: none;
+  border: none;
+  color: #000;
+  font-size: 24px;
+  position: relative;
+}
+
+.navbar-mobile .icons .badge {
+  font-size: 14px;
+}
+
+
+}
+
+/* PC ekranları için medya sorgusu */
+@media (min-width: 768px) {
+  .hamburger-menu,
+  .navbar-mobile,
+  .mobile-logo a {
+      display: none !important; /* PC ekranlarında hamburger menü, mobil menü ve ATShop logosu gizlenir */
+  }
 }

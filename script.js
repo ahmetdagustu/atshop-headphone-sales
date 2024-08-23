@@ -187,6 +187,9 @@ class UI {
         this.updateTotalPrice();
         this.removeCard();
         this.cardCount();
+
+        // Mobil ve masaüstü sayı güncellemesi
+        updateItemCounts();
     }
 
     updateTotalPrice() {
@@ -221,6 +224,9 @@ class UI {
 
         btnLike.classList.add("disabled");
         btnLike.textContent = "Added";
+
+        // Mobil ve masaüstü sayı güncellemesi
+        updateItemCounts();
     }
 
     // Show notification message
@@ -326,7 +332,6 @@ class UI {
     }
 }
 
-
 // Ürünleri yüklenme tarihine göre sıralayan fonksiyon (en yeni tarih ilk sırada)
 function sortProductsByDate(products) {
     return products.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
@@ -343,7 +348,7 @@ function filterAndSortBestSellingProducts(products) {
 function renderProducts(products, targetRow) {
     products.forEach((product) => {
         const productDiv = document.createElement("div");
-        productDiv.classList.add("col-3", "models", "models-img", "shop");
+        productDiv.classList.add("col-12", "col-md-6", "col-lg-4", "models", "models-img", "shop");
         productDiv.innerHTML = `
            <div class="product-image-container">
             <img class="img-fluid show-image first-image" src="${product.image}" alt="${product.name}"/>
@@ -623,3 +628,144 @@ function displayRandomProduct() {
 
 // Sayfa yüklendiğinde rastgele bir ürünü göster
 document.addEventListener('DOMContentLoaded', displayRandomProduct);
+
+// Ekran boyutuna göre işlemler
+window.addEventListener('resize', () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth <= 767) {
+        // Mobil için özel işlemler
+    } else if (screenWidth <= 1024) {
+        // Tablet için özel işlemler
+    } else {
+        // Masaüstü için özel işlemler
+    }
+});
+
+// Hamburger menüyü açıp kapatma
+document.querySelector('.hamburger-menu').addEventListener('click', function () {
+    document.querySelector('.navbar-mobile').classList.toggle('active');
+    document.body.classList.toggle('menu-open'); // Menü açılınca diğer içeriği gizlemek için body'ye sınıf ekle/kaldır
+});
+
+// Menü kapatma
+document.querySelector('.close-menu').addEventListener('click', function () {
+    document.querySelector('.navbar-mobile').classList.remove('active');
+    document.body.classList.remove('menu-open'); // Menü kapanınca diğer içeriği tekrar göster
+});
+
+// Heart ve Cart ikonlarının işlevselliğini mobil menüye bağlama
+document.addEventListener('DOMContentLoaded', function () {
+    const itemCountLike = document.getElementById('item-count-like');
+    const itemCountCart = document.getElementById('item-count');
+    
+    const mobileItemCountLike = document.getElementById('item-count-like-mobile');
+    const mobileItemCountCart = document.getElementById('item-count-mobile');
+
+    function updateItemCounts() {
+        const likeCount = itemCountLike.textContent;
+        const cartCount = itemCountCart.textContent;
+    
+        mobileItemCountLike.textContent = likeCount;
+        mobileItemCountCart.textContent = cartCount;
+    }
+
+    function updateMobileCartList() {
+        const cartListItems = document.querySelector('.shopping-cart-list').innerHTML;
+        document.querySelector('#cart-list-items-mobile').innerHTML = cartListItems;
+        updateTotalPrice();
+        setupDeleteButtons();  // Silme tuşlarını yeniden ayarla
+    }
+
+    function updateMobileLikeList() {
+        const likeListItems = document.querySelector('.shopping-like-list').innerHTML;
+        document.querySelector('#like-list-items-mobile').innerHTML = likeListItems;
+        setupDeleteButtons();  // Silme tuşlarını yeniden ayarla
+    }
+
+    function setupDeleteButtons() {
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const itemToRemove = button.closest('.list-item');
+                itemToRemove.remove();
+                updateTotalPrice();
+                updateItemCounts();
+            });
+        });
+    }
+
+    // İlk yüklemede sayıları güncelle
+    updateItemCounts();
+
+    // Sepet ve favorilere ekleme işlemleri
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('.cart-btn-1') || e.target.closest('.like-btn-1')) {
+            updateItemCounts();
+            updateMobileCartList();
+            updateMobileLikeList();
+        }
+    });
+
+    // Sepet ve favori kutularını gösterme
+    document.querySelector('.btn-card-mobile').addEventListener('click', function () {
+        const cartList = document.querySelector('.mobile-shopping-cart-list');
+        const likeList = document.querySelector('.mobile-shopping-like-list');
+
+        cartList.classList.toggle('d-none');
+        likeList.classList.add('d-none');
+
+        const cartButton = this.getBoundingClientRect();
+        cartList.style.top = `${cartButton.bottom + 10}px`;
+    });
+
+    document.querySelector('.btn-card2-mobile').addEventListener('click', function () {
+        const cartList = document.querySelector('.mobile-shopping-cart-list');
+        const likeList = document.querySelector('.mobile-shopping-like-list');
+
+        likeList.classList.toggle('d-none');
+        cartList.classList.add('d-none');
+
+        const likeButton = this.getBoundingClientRect();
+        likeList.style.top = `${likeButton.bottom + 10}px`;
+    });
+
+    // Boşluğa tıklayınca menüleri kapatma
+    document.addEventListener('click', function (event) {
+        const cartList = document.querySelector('.mobile-shopping-cart-list');
+        const likeList = document.querySelector('.mobile-shopping-like-list');
+
+        if (!event.target.closest('.btn-card-mobile') && !cartList.contains(event.target)) {
+            cartList.classList.add('d-none');
+        }
+
+        if (!event.target.closest('.btn-card2-mobile') && !likeList.contains(event.target)) {
+            likeList.classList.add('d-none');
+        }
+    });
+
+    function updateTotalPrice() {
+        const prices = Array.from(document.querySelectorAll('.shopping-cart-list .price'))
+            .map(priceElem => parseFloat(priceElem.textContent.replace('$', '')));
+        
+        const totalPrice = prices.reduce((sum, price) => sum + price, 0);
+        document.querySelector('#total-price-mobile').textContent = `Total: $${totalPrice.toFixed(2)}`;
+    }
+
+    setupDeleteButtons(); // İlk başta silme tuşlarını ayarla
+});
+
+
+
+
+
+
+// Sepet ve favori kutularını gösterme
+document.querySelector('.btn-card-mobile').addEventListener('click', function () {
+    document.querySelector('.shopping-cart-list').classList.toggle('d-none');
+});
+
+document.querySelector('.btn-card2-mobile').addEventListener('click', function () {
+    document.querySelector('.shopping-like-list').classList.toggle('d-none');
+});
+
+
