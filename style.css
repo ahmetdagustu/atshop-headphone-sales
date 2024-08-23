@@ -814,7 +814,7 @@ footer h6 {
     overflow-y: auto;
     position: absolute;
     width: 100%;
-    top: 100px; /* İkonların hemen altında göster */
+    top: 200px; /* İkonların hemen altında göster */
     left: 0;
     z-index: 5; /* İkonların üstünde göster */
 }
@@ -1010,27 +1010,61 @@ footer h6 {
       margin-bottom: 15px; 
   }
   /* Mobil İkonlar için Stil */
-.navbar-mobile .icons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  margin-bottom: 20px;
-}
+  .navbar-mobile .icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-.navbar-mobile .icons .btn {
-  background: none;
-  border: none;
-  color: #000;
-  font-size: 24px;
-  position: relative;
-}
+  .navbar-mobile .icons .btn {
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 24px;
+    position: relative;
+  }
 
-.navbar-mobile .icons .badge {
-  font-size: 14px;
-}
+  .navbar-mobile .icons .badge {
+    font-size: 14px;
+  }
+  #cart-list-items-mobile .shopping-cart-header {
+    display: none !important;
+  }
 
+  .list-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
 
+    .list-item img {
+        max-width: 50px;
+        height: auto;
+    }
+
+    .list-item .title {
+        flex-grow: 1;
+        padding-left: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .list-item .price {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .list-item .btn-delete {
+        background: none;
+        border: none;
+        color: red;
+        cursor: pointer;
+        font-size: 18px;
+    }
+    
 }
 
 /* PC ekranları için medya sorgusu */
@@ -1040,4 +1074,42 @@ footer h6 {
   .mobile-logo a {
       display: none !important; /* PC ekranlarında hamburger menü, mobil menü ve ATShop logosu gizlenir */
   }
+  .navbar-pc .shopping-cart-header {
+    display: none;
 }
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.list-item img {
+  max-width: 50px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.list-item .title {
+  flex-grow: 1;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.list-item .actions {
+  text-align: right;
+}
+
+.list-item .btn-delete {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+

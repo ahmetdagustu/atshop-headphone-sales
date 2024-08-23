@@ -144,78 +144,105 @@ class UI {
     addToCard(shopping) {
         const existingItem = Array.from(cardList.getElementsByClassName('list-item'))
             .find(item => item.querySelector('.title').textContent === shopping.title);
-
+    
         let price = parseFloat(shopping.price.replace('$', ''));
-
+    
         if (existingItem) {
             const quantityElem = existingItem.querySelector('.quantity');
             const priceElem = existingItem.querySelector('.price');
-
+    
             let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
             quantity++;
-            quantityElem.textContent = quantity > 1 ? `x${quantity}` : '';
-
+            quantityElem.textContent = `x${quantity}`;
+    
             const newPrice = price * quantity;
-            priceElem.textContent = `$${newPrice}`;
+            priceElem.textContent = `$${newPrice.toFixed(2)}`;
         } else {
             const listItem = document.createElement("div");
-            listItem.classList = "list-item";
-
+            listItem.classList.add('list-item', 'd-flex', 'align-items-center', 'justify-content-between');
+    
             listItem.innerHTML = `
-            <div class="row align-items-center text-black">
-                <div class="col-md-2">
-                    <img class="img-fluid" src="${shopping.image}" alt="">
-                </div>
-                <div class="col-md-4">
-                    <div class="title">${shopping.title}</div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quantity"></div>
-                </div>
-                <div class="col-md-2">
-                    <div class="price">$${price}</div>
-                </div>
-                <div class="col-md-2 text-end">
-                    <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
+                <img class="img-fluid" src="${shopping.image}" alt="" style="max-width: 50px; height: auto; margin-right: 10px;">
+                <div class="title" style="flex-grow: 1; padding-left: 10px; font-size: 14px; font-weight: bold;">${shopping.title}</div>
+                <div class="quantity" style="text-align: center;">x1</div>
+                <div class="price" style="font-size: 16px; font-weight: bold; text-align: right; margin-right: 10px;">$${price.toFixed(2)}</div>
+                <button class="btn btn-delete text-danger" style="background: none; border: none; color: red; cursor: pointer; font-size: 18px;">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             `;
-
+    
             cardList.appendChild(listItem);
         }
-
+    
         this.updateTotalPrice();
         this.removeCard();
         this.cardCount();
-
+    
         // Mobil ve masaüstü sayı güncellemesi
         updateItemCounts();
     }
-
+  
     updateTotalPrice() {
-        const prices = Array.from(cardList.getElementsByClassName('price'))
-            .map(priceElem => parseFloat(priceElem.textContent.replace('$', '')));
-        
-        const totalPrice = prices.reduce((sum, price) => sum + price, 0);
+        let totalPrice = 0;
+    
+        const items = Array.from(cardList.getElementsByClassName('list-item'));
+        console.log('Items in cart:', items.length); // Sepetteki ürün sayısını kontrol et
+    
+        items.forEach(item => {
+            const quantityElem = item.querySelector('.quantity');
+            const priceElem = item.querySelector('.price');
+    
+            let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
+            let price = parseFloat(priceElem.textContent.replace('$', ''));
+    
+            console.log(`Calculating item - Price: $${price}, Quantity: ${quantity}`); // Fiyat ve miktarı kontrol et
+    
+            totalPrice += price;
+        });
+    
+        console.log('Total price calculated:', totalPrice); // Toplam fiyatı kontrol et
         document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
+    
+    
+    
+    
+
+    updateTotalPrice() {
+        let totalPrice = 0;
+    
+        const items = Array.from(document.querySelectorAll('.shopping-cart-list .list-item'));
+        console.log('Items in cart:', items.length); // Sepetteki ürün sayısını kontrol et
+    
+        items.forEach(item => {
+            const quantityElem = item.querySelector('.quantity');
+            const priceElem = item.querySelector('.price');
+    
+            let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
+            let price = parseFloat(priceElem.textContent.replace('$', ''));
+    
+            console.log(`Calculating item - Price: $${price}, Quantity: ${quantity}`); // Fiyat ve miktarı kontrol et
+    
+            totalPrice += price;
+        });
+    
+        console.log('Total price calculated:', totalPrice); // Toplam fiyatı kontrol et
+        document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
+    }
+       
 
     addToLike(like, btnLike) {
         const listItem = document.createElement("div");
-        listItem.classList = "list-item";
+        listItem.classList.add('list-item', 'd-flex', 'align-items-center', 'justify-content-between', 'p-2', 'border-bottom');
 
         listItem.innerHTML = `
-        <div class="row align-items-center text-black">
-            <div class="col-md-3">
-                <img class="img-fluid" src="${like.image}" alt="">
+            <div class="d-flex align-items-center">
+                <img class="img-fluid" src="${like.image}" alt="" style="max-width: 50px; height: auto; margin-right: 15px;">
+                <div class="title" style="font-size: 14px; font-weight: bold;">${like.title}</div>
             </div>
-            <div class="col-md-7">
-                <div class="title">${like.title}</div>
-            </div>
-            <div class="col-md-2 text-end">
-                <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
+            <button class="btn btn-delete text-danger" style="background: none; border: none; color: red; cursor: pointer; font-size: 18px;">
+                <i class="fa-solid fa-trash"></i>
+            </button>
         `;
 
         likeList.appendChild(listItem);
