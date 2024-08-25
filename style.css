@@ -113,7 +113,7 @@ header .header-text {
 
 /* Container Adjustments */
 .container {
-  max-width: 75% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+  max-width: 80% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
   margin: 0 auto;
   margin-top: 0px !important;
   padding-left: 15px;
@@ -1064,7 +1064,85 @@ footer h6 {
         cursor: pointer;
         font-size: 18px;
     }
-    
+    @media (max-width: 767px) {
+    .carousel-item img {
+        width: 100%; /* Resmi tam genişlikte yap */
+        height: auto; /* Yüksekliği otomatik ayarla */
+        object-fit: cover; /* Resmin kesilmesini engelle */
+    }
+
+    .carousel-item .f-name,
+    .carousel-item .s-name,
+    .carousel-item .description {
+        font-size: 0.875rem; /* Metin boyutunu küçült */
+        line-height: 1.2; /* Satır yüksekliğini ayarla */
+        margin-bottom: 0.5rem;
+    }
+
+    .carousel-item .description {
+        display: none; /* Metni tamamen gizleyebilirsiniz */
+    }
+
+    .carousel-item {
+        padding: 0.5rem 1rem; /* Kenar boşluklarını azalt */
+    }
+
+    .carousel-inner {
+        max-height: 400px; /* Maksimum yükseklik ayarı */
+        overflow: hidden; /* Taşan içeriği gizle */
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      max-height: 300px; /* Resmin aşırı uzamasını engeller */
+      object-fit: cover; /* Resmi düzgün bir şekilde kırpar */
+  }
+
+  .carousel-item .f-name,
+  .carousel-item .s-name {
+      font-size: 1.2rem; /* Mobilde başlık ve alt başlık boyutlarını ayarlar */
+      line-height: 1.3;
+  }
+
+  .carousel-item .description {
+      font-size: 1rem; /* Mobilde açıklama metni boyutunu ayarlar */
+      margin-top: 0.5rem;
+      display: block; /* Açıklama mobilde gösterilsin */
+  }
+
+  .carousel-item {
+      padding: 1rem; /* Mobilde kenar boşluklarını ayarlar */
+      text-align: center; /* Metinleri ortalar */
+  }
+
+  .carousel-inner {
+      max-height: 500px; /* Mobilde maksimum yükseklik */
+      overflow: hidden;
+  }
+
+  .carousel-item .f-name {
+    white-space: nowrap; /* Tek satırda kalmasını sağlar */
+    text-overflow: ellipsis; /* Gizlenen metnin sonuna '...' ekler */
+    width: 100%; /* Genişliği tam olmasını sağlar */
+    display: block; /* Blok düzeyinde bir eleman yapar */
+}
+
+/* "Shop Now" butonunu ve yazısını küçültmek için */
+.carousel-item .shop-now {
+  font-size: 0.75rem !important; /* Yazı boyutunu küçült */
+  padding: 0.5rem 1rem !important; /* Butonun iç dolgusunu küçült */
+  color: #fff; /* Butonun yazı rengini beyaz yap */
+
+}
+
+.carousel-item .shop-now:hover {
+  background-color: #333; /* Hover durumunda arka plan rengini koyulaştır */
+  color: #fff; /* Hover durumunda yazı rengini beyaz tut */
+}
+
+}
+
 }
 
 /* PC ekranları için medya sorgusu */
@@ -1079,7 +1157,7 @@ footer h6 {
 }
 }
 
-.list-item {
+.mobile-shopping-like-list .list-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1087,29 +1165,25 @@ footer h6 {
   border-bottom: 1px solid #ddd;
 }
 
-.list-item img {
-  max-width: 50px;
-  height: auto;
-  margin-right: 10px;
+.mobile-shopping-like-list .list-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px; /* Resim ile metin arasına boşluk ekleyin */
 }
 
-.list-item .title {
+.mobile-shopping-like-list .list-item .title {
   flex-grow: 1;
   padding-left: 10px;
   font-size: 14px;
   font-weight: bold;
 }
 
-.list-item .actions {
-  text-align: right;
-}
-
-.list-item .btn-delete {
+.mobile-shopping-like-list .list-item .btn-delete {
   background: none;
   border: none;
   color: red;
   cursor: pointer;
   font-size: 18px;
 }
-
 

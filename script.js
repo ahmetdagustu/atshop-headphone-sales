@@ -159,21 +159,32 @@ class UI {
             priceElem.textContent = `$${newPrice.toFixed(2)}`;
         } else {
             const listItem = document.createElement("div");
-            listItem.classList.add('list-item', 'd-flex', 'align-items-center', 'justify-content-between');
+            listItem.classList = "list-item";
     
             listItem.innerHTML = `
-                <img class="img-fluid" src="${shopping.image}" alt="" style="max-width: 50px; height: auto; margin-right: 10px;">
-                <div class="title" style="flex-grow: 1; padding-left: 10px; font-size: 14px; font-weight: bold;">${shopping.title}</div>
-                <div class="quantity" style="text-align: center;">x1</div>
-                <div class="price" style="font-size: 16px; font-weight: bold; text-align: right; margin-right: 10px;">$${price.toFixed(2)}</div>
-                <button class="btn btn-delete text-danger" style="background: none; border: none; color: red; cursor: pointer; font-size: 18px;">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+            <div class="row align-items-center text-black">
+                <div class="col-md-2">
+                    <img class="img-fluid" src="${shopping.image}" alt="">
+                </div>
+                <div class="col-md-4">
+                    <div class="title">${shopping.title}</div>
+                </div>
+                <div class="col-md-2">
+                    <div class="quantity">x1</div>
+                </div>
+                <div class="col-md-2">
+                    <div class="price">$${price.toFixed(2)}</div>
+                </div>
+                <div class="col-md-2 text-end">
+                    <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
             `;
     
             cardList.appendChild(listItem);
         }
     
+        // Güncellemeyi tekrar kontrol edelim
         this.updateTotalPrice();
         this.removeCard();
         this.cardCount();
@@ -181,12 +192,12 @@ class UI {
         // Mobil ve masaüstü sayı güncellemesi
         updateItemCounts();
     }
-  
+    
     updateTotalPrice() {
         let totalPrice = 0;
-    
-        const items = Array.from(cardList.getElementsByClassName('list-item'));
-        console.log('Items in cart:', items.length); // Sepetteki ürün sayısını kontrol et
+        const items = Array.from(document.querySelectorAll('.shopping-cart-list .list-item'));
+        
+        console.log('Items in cart:', items.length);
     
         items.forEach(item => {
             const quantityElem = item.querySelector('.quantity');
@@ -195,14 +206,17 @@ class UI {
             let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
             let price = parseFloat(priceElem.textContent.replace('$', ''));
     
-            console.log(`Calculating item - Price: $${price}, Quantity: ${quantity}`); // Fiyat ve miktarı kontrol et
+            console.log(`Item price: ${price}, Quantity: ${quantity}`);
     
             totalPrice += price;
         });
     
-        console.log('Total price calculated:', totalPrice); // Toplam fiyatı kontrol et
+        console.log('Total Price:', totalPrice);
+    
         document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
+    
+    
     
     
     
@@ -221,28 +235,29 @@ class UI {
             let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
             let price = parseFloat(priceElem.textContent.replace('$', ''));
     
-            console.log(`Calculating item - Price: $${price}, Quantity: ${quantity}`); // Fiyat ve miktarı kontrol et
     
             totalPrice += price;
         });
-    
-        console.log('Total price calculated:', totalPrice); // Toplam fiyatı kontrol et
         document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
        
 
     addToLike(like, btnLike) {
         const listItem = document.createElement("div");
-        listItem.classList.add('list-item', 'd-flex', 'align-items-center', 'justify-content-between', 'p-2', 'border-bottom');
+        listItem.classList = "list-item";
 
         listItem.innerHTML = `
-            <div class="d-flex align-items-center">
-                <img class="img-fluid" src="${like.image}" alt="" style="max-width: 50px; height: auto; margin-right: 15px;">
-                <div class="title" style="font-size: 14px; font-weight: bold;">${like.title}</div>
+        <div class="row align-items-center text-black">
+            <div class="col-md-3">
+                <img class="img-fluid" src="${like.image}" alt="">
             </div>
-            <button class="btn btn-delete text-danger" style="background: none; border: none; color: red; cursor: pointer; font-size: 18px;">
-                <i class="fa-solid fa-trash"></i>
-            </button>
+            <div class="col-md-7">
+                <div class="title">${like.title}</div>
+            </div>
+            <div class="col-md-2 text-end">
+                <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        </div>
         `;
 
         likeList.appendChild(listItem);
@@ -536,14 +551,18 @@ function createCarouselItems(products) {
     randomIndexes.forEach((index, i) => {
         const product = products[index];
 
-        // description metnini iki cümle ile sınırla
+        // Açıklamayı sadece mobilde ilk cümle ile sınırla
         let limitedDescription = product.description;
-        if (limitedDescription) {
+        if (window.innerWidth <= 767 && limitedDescription) {
+            const sentences = limitedDescription.match(/[^\.!\?]+[\.!\?]+/g);
+            if (sentences) {
+                limitedDescription = sentences[0]; // Sadece ilk cümleyi al
+            }
+        } else if (limitedDescription) {
+            // PC ve büyük ekranlar için ilk iki cümleyi al
             const sentences = limitedDescription.match(/[^\.!\?]+[\.!\?]+/g);
             if (sentences && sentences.length > 1) {
                 limitedDescription = sentences.slice(0, 2).join(" ");
-            } else if (sentences) {
-                limitedDescription = sentences[0]; // Sadece bir cümle varsa onu kullan
             }
         }
 
@@ -552,7 +571,6 @@ function createCarouselItems(products) {
         carouselItem.innerHTML = `
         <div class="col-6 align-content-center fw-bold">
             <h5 class="f-name">${product.name}</h5>
-            <h2 class="s-name">${product.brand}</h2>
             <p class="description">${limitedDescription}</p>
             <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
         </div>
@@ -570,6 +588,7 @@ function createCarouselItems(products) {
         });
     });
 }
+
 
 
 // Fonksiyon: Shop collection bölümlerini oluşturma
@@ -682,20 +701,29 @@ document.querySelector('.close-menu').addEventListener('click', function () {
 });
 
 // Heart ve Cart ikonlarının işlevselliğini mobil menüye bağlama
+// Fonksiyonu global olarak tanımla
+function updateItemCounts() {
+    const itemCountLike = document.getElementById('item-count-like');
+    const itemCountCart = document.getElementById('item-count');
+
+    const mobileItemCountLike = document.getElementById('item-count-like-mobile');
+    const mobileItemCountCart = document.getElementById('item-count-mobile');
+
+    // Masaüstü sayıları al
+    const likeCount = itemCountLike.textContent;
+    const cartCount = itemCountCart.textContent;
+
+    // Mobil sayıları güncelle
+    mobileItemCountLike.textContent = likeCount;
+    mobileItemCountCart.textContent = cartCount;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const itemCountLike = document.getElementById('item-count-like');
     const itemCountCart = document.getElementById('item-count');
     
     const mobileItemCountLike = document.getElementById('item-count-like-mobile');
     const mobileItemCountCart = document.getElementById('item-count-mobile');
-
-    function updateItemCounts() {
-        const likeCount = itemCountLike.textContent;
-        const cartCount = itemCountCart.textContent;
-    
-        mobileItemCountLike.textContent = likeCount;
-        mobileItemCountCart.textContent = cartCount;
-    }
 
     function updateMobileCartList() {
         const cartListItems = document.querySelector('.shopping-cart-list').innerHTML;
@@ -771,15 +799,54 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function updateTotalPrice() {
-        const prices = Array.from(document.querySelectorAll('.shopping-cart-list .price'))
-            .map(priceElem => parseFloat(priceElem.textContent.replace('$', '')));
-        
-        const totalPrice = prices.reduce((sum, price) => sum + price, 0);
-        document.querySelector('#total-price-mobile').textContent = `Total: $${totalPrice.toFixed(2)}`;
+        let totalPricePC = 0;
+        let totalPriceMobile = 0;
+    
+        // PC için fiyatları topla
+        document.querySelectorAll('.shopping-cart-list .list-item').forEach(item => {
+            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
+            const quantity = parseInt(item.querySelector('.quantity').textContent.replace('x', '')) || 1;
+            totalPricePC += price;
+        });
+    
+        console.log('PC için toplam fiyat hesaplandı:', totalPricePC);
+    
+        // Mobil için fiyatları topla
+        document.querySelectorAll('.mobile-shopping-cart-list .list-item').forEach(item => {
+            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
+            const quantity = parseInt(item.querySelector('.quantity').textContent.replace('x', '')) || 1;
+            totalPriceMobile += price;
+        });
+    
+        console.log('Mobil için toplam fiyat hesaplandı:', totalPriceMobile);
+    
+        // PC için toplam fiyatı güncelle
+        const totalPriceElemPC = document.getElementById('total-price');
+        if (totalPriceElemPC) {
+            totalPriceElemPC.textContent = `Total: $${totalPricePC.toFixed(2)}`;
+            console.log('PC toplam fiyatı güncellendi:', totalPriceElemPC.textContent);
+        } else {
+            console.error('PC için toplam fiyat elementi bulunamadı');
+        }
+    
+        // Mobil için toplam fiyatı güncelle
+        const totalPriceElemMobile = document.getElementById('total-price-mobile');
+        if (totalPriceElemMobile) {
+            totalPriceElemMobile.textContent = `Total: $${totalPriceMobile.toFixed(2)}`;
+            console.log('Mobil toplam fiyatı güncellendi:', totalPriceElemMobile.textContent);
+        } else {
+            console.error('Mobil için toplam fiyat elementi bulunamadı');
+        }
     }
+    
+    
+    // Bu fonksiyon her ürün eklendiğinde, silindiğinde veya güncellendiğinde çağrılmalı.
+    
+   
 
     setupDeleteButtons(); // İlk başta silme tuşlarını ayarla
 });
+
 
 
 
@@ -794,5 +861,4 @@ document.querySelector('.btn-card-mobile').addEventListener('click', function ()
 document.querySelector('.btn-card2-mobile').addEventListener('click', function () {
     document.querySelector('.shopping-like-list').classList.toggle('d-none');
 });
-
 

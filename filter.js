@@ -324,7 +324,12 @@ class UI {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    const productsPerPage = 12;
+    // Mobil ve PC için ürün sayısını belirleme
+    function getProductsPerPage() {
+        return window.innerWidth <= 768 ? 8 : 12;
+    }
+
+    let productsPerPage = getProductsPerPage(); // Ürün sayısını ekran boyutuna göre ayarlayın
     let currentPage = 1;
 
     const filterCheckboxes = document.querySelectorAll('.filter-checkbox');
@@ -463,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function () {
         productsToDisplay.forEach(product => {
             const productCard = document.createElement('div');
             productCard.className = 'col-md-4';
-            productCard.classList.add("col-3", "models", "models-img", "shop");
+            productCard.classList.add("col-12", "col-md-6", "col-lg-4", "models", "models-img", "shop");
 
             // Add special styling and button text change for onSale: false products
             if (!product.onSale) {
@@ -497,8 +502,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             productRow.appendChild(productCard);
 
-            // Apply button text change for onSale: false products
-            // Apply button text change for onSale: false products
             // Apply button text change and hide other buttons for onSale: false products
             if (!product.onSale) {
                 const shopNowBtn = productCard.querySelector('.shop-now');
@@ -574,7 +577,7 @@ document.addEventListener('DOMContentLoaded', function () {
         prevPageItem.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
-                filterProducts();
+                displayProducts(products, currentPage);
             }
         });
         pagination.appendChild(prevPageItem);
@@ -585,7 +588,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
             pageItem.addEventListener('click', () => {
                 currentPage = i;
-                filterProducts();
+                displayProducts(products, currentPage);
             });
             pagination.appendChild(pageItem);
         }
@@ -596,12 +599,19 @@ document.addEventListener('DOMContentLoaded', function () {
         nextPageItem.addEventListener('click', () => {
             if (currentPage < totalPages) {
                 currentPage++;
-                filterProducts();
+                displayProducts(products, currentPage);
             }
         });
         pagination.appendChild(nextPageItem);
     }
+
+    // Ekran boyutu değiştiğinde ürün sayısını güncelle
+    window.addEventListener('resize', () => {
+        productsPerPage = getProductsPerPage(); // Ürün sayısını ekran boyutuna göre yeniden ayarlar
+        displayProducts(products, currentPage);
+    });
 });
+
 
 window.goToProduct = function (productId) {
     window.location.href = `shop-page.html?id=${productId}`;
@@ -626,3 +636,27 @@ const showSubscribeMessage = () => {
 
     alert(`Subscribed successfully with email: ${emailInput}`);
 };
+document.getElementById('filter-toggle').addEventListener('click', function() {
+    const filterSection = document.getElementById('filter-section');
+    const applyFilterBtn = document.getElementById('apply-filter');
+    const filterToggleBtn = document.getElementById('filter-toggle');
+    
+    if (filterSection.style.display === 'none' || filterSection.style.display === '') {
+        filterSection.style.display = 'block';
+        applyFilterBtn.style.display = 'block';
+        filterToggleBtn.style.display = 'none'; // Üstteki "Filter" butonunu gizle
+    }
+});
+
+document.getElementById('apply-filter').addEventListener('click', function() {
+    const filterSection = document.getElementById('filter-section');
+    const applyFilterBtn = document.getElementById('apply-filter');
+    const filterToggleBtn = document.getElementById('filter-toggle');
+
+    // Burada filtreleme işlemlerinizi gerçekleştirin
+    
+    // Filtreleri kapat ve üstteki "Filter" butonunu tekrar göster
+    filterSection.style.display = 'none';
+    applyFilterBtn.style.display = 'none';
+    filterToggleBtn.style.display = 'block';
+});
