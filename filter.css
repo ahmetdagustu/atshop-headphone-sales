@@ -288,7 +288,7 @@ form.example::after {
 
 /* Filter Section */
 .container {
-  max-width: 75% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+  max-width: 80% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
   margin: 0 auto;
   margin-top: 0px !important;
   padding-left: 15px;
@@ -804,6 +804,36 @@ h4 + .price-range {
       background-color: #fff;
       color: #000;
   }
+
+  .breadcrumb {
+    display: flex;
+    align-items: flex-end; /* Elemanları alt hizaya getirir */
+    font-size: 14px; /* Yazı boyutunu küçültüyoruz */
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.breadcrumb-item {
+    display: inline-flex;
+    align-items: flex-end; /* Her bir breadcrumb item'ını alt hizaya getirir */
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: " / "; /* Ayırıcıyı sabit bir şekilde yerleştiriyoruz */
+    padding: 0 5px; /* Ayırıcı ile yazı arasında biraz boşluk ekliyoruz */
+    font-size: 14px; /* Ayırıcı karakter boyutunu ayarlıyoruz */
+    color: inherit; /* Ayırıcı rengini yazı rengi ile aynı yapıyoruz */
+}
+
+.breadcrumb-item a {
+    font-size: 14px; /* Link yazı boyutunu küçültüyoruz */
+}
+
+#sort-options {
+    font-size: 14px; /* Yazı boyutunu küçültüyoruz */
+    width: auto;
+    margin-left: auto;
+}
 }
 
 

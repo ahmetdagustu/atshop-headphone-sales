@@ -371,6 +371,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function filterProducts() {
+        currentPage = 1; // Filtreleme yapıldığında sayfa numarasını sıfırla
+
         const selectedCategories = category ? [category] : [];
         const selectedBrands = [];
         const selectedColors = [];
@@ -418,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Sıralama işlevi
-    document.getElementById('sort-options').addEventListener('change', function() {
+    document.getElementById('sort-options').addEventListener('change', function () {
         const sortBy = this.value;
         sortAndRenderProducts(sortBy);
     });
@@ -459,6 +461,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const start = (page - 1) * productsPerPage;
         const end = start + productsPerPage;
         const productsToDisplay = products.slice(start, end);
+
+        if (productsToDisplay.length === 0 && page > 1) {
+            currentPage--; // Eğer mevcut sayfa boşsa bir önceki sayfaya geri dön
+            return displayProducts(products, currentPage);
+        }
 
         if (productsToDisplay.length === 0) {
             productRow.innerHTML = '<div class="col-md-12"><p>No products match the selected criteria.</p></div>';
@@ -611,6 +618,7 @@ document.addEventListener('DOMContentLoaded', function () {
         displayProducts(products, currentPage);
     });
 });
+
 
 
 window.goToProduct = function (productId) {
