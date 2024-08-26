@@ -887,3 +887,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+
+
+document.getElementById("orderTrackingTrigger").addEventListener("click", function() {
+    var trackingModal = new bootstrap.Modal(document.getElementById('trackingModal'));
+    trackingModal.show();
+});

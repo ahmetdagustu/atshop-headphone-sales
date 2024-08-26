@@ -1260,3 +1260,67 @@ footer .footer-link:hover {
   font-size: 18px;
 }
 
+.order-tracking span {
+  font-size: 1.25rem;
+  color: #000;
+  cursor: pointer;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+  margin-bottom: 20px;
+}
+
+.timeline-step {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.timeline-date {
+  width: 80px;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.timeline-badge {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-right: 10px;
+}
+
+.timeline-badge i {
+  font-size: 1.5rem;
+  color: #007bff;
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  left: 45px;
+  top: 10px;
+  bottom: 0;
+  width: 2px;
+  background-color: #007bff;
+}
+
+.timeline-step.completed .timeline-badge {
+  background-color: #007bff;
+}
+
+.timeline-step.completed .timeline-badge i {
+  color: #fff;
+}
+
+.timeline-content {
+  font-size: 1rem;
+  color: #000;
+}
