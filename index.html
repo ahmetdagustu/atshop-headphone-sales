@@ -303,24 +303,29 @@
         </div>
       </div>
       <div class="my-5 text-center">
-        <h2>LATEST BLOG</h2>
+        <h2>PRODUCT HIGHLIGHTS</h2>
         <div class="row text-start align-items-center my-5">
-          <div class="col-6"><img class="img-fluid" src="/images/lifestyle1.webp" alt="Product"/></div>
-          <div class="col-6">
-            <h5>Perfect for Gamers</h5>
-            <p>Designed with gamers in mind, this product offers exceptional sound clarity and immersive audio experience. Whether you're strategizing with your team or enjoying a solo campaign, these headphones ensure you catch every detail, giving you the competitive edge.</p>
-            <button class="btn btn-dark">READ MORE</button>
-          </div>
-          <div class="col-6">
-            <h5>Ideal for Outdoor Use</h5>
-            <p>Built for outdoor enthusiasts, these headphones are both durable and comfortable, providing excellent sound quality on the go. Whether you're running in the park or hiking in the mountains, they stay secure and deliver powerful audio, no matter the environment.</p>
-            <button class="btn btn-dark">READ MORE</button>
-          </div>
-          <div class="col-6 my-5"><img class="img-fluid" src="/images/lifestyle3.webp" alt="Product"/></div>
+            <div class="col-6">
+                <img class="img-fluid" src="/images/lifestyle1.webp" alt="Gamers"/>
+            </div>
+            <div class="col-6">
+                <h5>Perfect for Gamers</h5>
+                <p class="text-content">Designed with gamers in mind, this product offers exceptional sound clarity and immersive audio experience. Whether you're strategizing with your team or enjoying a solo campaign, these headphones ensure you catch every detail, giving you the competitive edge.</p>
+                <a href="blog.html#gamers" class="btn btn-dark">READ MORE</a>
+            </div>
+            <div class="col-6">
+                <h5>Ideal for Outdoor Use</h5>
+                <p class="text-content">Built for outdoor enthusiasts, these headphones are both durable and comfortable, providing excellent sound quality on the go. Whether you're running in the park or hiking in the mountains, they stay secure and deliver powerful audio, no matter the environment.</p>
+                <a href="blog.html#outdoor" class="btn btn-dark">READ MORE</a>
+            </div>
+            <div class="col-6 my-5">
+                <img class="img-fluid" src="/images/lifestyle3.webp" alt="Outdoor"/>
+            </div>
         </div>
-      </div>
-      <div class="text-center"><button class="btn btn-dark">VIEW ALL</button></div>
     </div>
+    <div class="text-center">
+        <a href="blog.html" class="btn btn-dark">VIEW ALL</a>
+    </div>      
   </article>
 
   <!-- Footer -->
@@ -328,34 +333,94 @@
     <div class="container text-center">
       <div class="row">
         <div class="col-md-3">
-          <h6>PRODUCT</h6>
-          <ul class="list-unstyled">
-            <li><a href="#" class="footer-link">Help Center</a></li>
-            <li><a href="#" class="footer-link">Contact Us</a></li>
-            <li><a href="#" class="footer-link">Product Help</a></li>
-            <li><a href="#" class="footer-link">Warranty</a></li>
-            <li><a href="#" class="footer-link">Order Status</a></li>
-          </ul>
+          <div class="accordion d-md-none" id="productAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="productHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productCollapse" aria-expanded="false" aria-controls="productCollapse">
+                  PRODUCT
+                </button>
+              </h2>
+              <div id="productCollapse" class="accordion-collapse collapse" aria-labelledby="productHeading" data-bs-parent="#productAccordion">
+                <div class="accordion-body">
+                  <a href="#" class="footer-link">Help Center</a>
+                  <a href="#" class="footer-link">Contact Us</a>
+                  <a href="#" class="footer-link">Product Help</a>
+                  <a href="#" class="footer-link">Warranty</a>
+                  <a href="#" class="footer-link">Order Status</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-none d-md-block">
+            <h6>PRODUCT</h6>
+            <ul class="list-unstyled">
+              <li><a href="#" class="footer-link">Help Center</a></li>
+              <li><a href="#" class="footer-link">Contact Us</a></li>
+              <li><a href="#" class="footer-link">Product Help</a></li>
+              <li><a href="#" class="footer-link">Warranty</a></li>
+              <li><a href="#" class="footer-link">Order Status</a></li>
+            </ul>
+          </div>
         </div>
         <div class="col-md-2">
-          <h6>SERVICES</h6>
-          <ul class="list-unstyled">
-            <li><a href="#" class="footer-link">Help Center</a></li>
-            <li><a href="#" class="footer-link">Contact Us</a></li>
-            <li><a href="#" class="footer-link">Product Help</a></li>
-            <li><a href="#" class="footer-link">Warranty</a></li>
-            <li><a href="#" class="footer-link">Order Status</a></li>
-          </ul>
+          <div class="accordion d-md-none" id="servicesAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="servicesHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#servicesCollapse" aria-expanded="false" aria-controls="servicesCollapse">
+                  SERVICES
+                </button>
+              </h2>
+              <div id="servicesCollapse" class="accordion-collapse collapse" aria-labelledby="servicesHeading" data-bs-parent="#servicesAccordion">
+                <div class="accordion-body">
+                  <a href="#" class="footer-link">Help Center</a>
+                  <a href="#" class="footer-link">Contact Us</a>
+                  <a href="#" class="footer-link">Product Help</a>
+                  <a href="#" class="footer-link">Warranty</a>
+                  <a href="#" class="footer-link">Order Status</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-none d-md-block">
+            <h6>SERVICES</h6>
+            <ul class="list-unstyled">
+              <li><a href="#" class="footer-link">Help Center</a></li>
+              <li><a href="#" class="footer-link">Contact Us</a></li>
+              <li><a href="#" class="footer-link">Product Help</a></li>
+              <li><a href="#" class="footer-link">Warranty</a></li>
+              <li><a href="#" class="footer-link">Order Status</a></li>
+            </ul>
+          </div>
         </div>
         <div class="col-md-3">
-          <h6>SUPPORT</h6>
-          <ul class="list-unstyled">
-            <li><a href="#" class="footer-link">Help Center</a></li>
-            <li><a href="#" class="footer-link">Contact Us</a></li>
-            <li><a href="#" class="footer-link">Product Help</a></li>
-            <li><a href="#" class="footer-link">Warranty</a></li>
-            <li><a href="#" class="footer-link">Order Status</a></li>
-          </ul>
+          <div class="accordion d-md-none" id="supportAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="supportHeading">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supportCollapse" aria-expanded="false" aria-controls="supportCollapse">
+                  SUPPORT
+                </button>
+              </h2>
+              <div id="supportCollapse" class="accordion-collapse collapse" aria-labelledby="supportHeading" data-bs-parent="#supportAccordion">
+                <div class="accordion-body">
+                  <a href="#" class="footer-link">Help Center</a>
+                  <a href="#" class="footer-link">Contact Us</a>
+                  <a href="#" class="footer-link">Product Help</a>
+                  <a href="#" class="footer-link">Warranty</a>
+                  <a href="#" class="footer-link">Order Status</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-none d-md-block">
+            <h6>SUPPORT</h6>
+            <ul class="list-unstyled">
+              <li><a href="#" class="footer-link">Help Center</a></li>
+              <li><a href="#" class="footer-link">Contact Us</a></li>
+              <li><a href="#" class="footer-link">Product Help</a></li>
+              <li><a href="#" class="footer-link">Warranty</a></li>
+              <li><a href="#" class="footer-link">Order Status</a></li>
+            </ul>
+          </div>
         </div>
         <div class="col-md-3">
           <a href="#"><h3>ATShop</h3></a>
@@ -373,6 +438,7 @@
       </div>
     </div>
   </footer>
+  
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

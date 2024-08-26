@@ -15,7 +15,7 @@ html, body {
 }
 /* Container Adjustments */
 .container {
-  max-width: 75% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+  max-width: 80% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
   margin: 0 auto;
   padding-left: 15px;
   padding-right: 15px;
@@ -910,4 +910,47 @@ aside {
   max-width: 50% !important; /* Görsel genişliğini %30 olarak ayarladık */
   height: auto;
   margin: 0 auto; /* Ortalamak için */
+}
+/* Dropdown menu style */
+#review-sort-options {
+  margin-bottom: 20px;
+  font-size: 14px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+
+#review-sort-options {
+  min-width: 200px; /* Minimum genişlik ayarlandı */
+  padding-right: 10px; /* Sağ tarafında ok simgesi için yeterli boşluk bırakıldı */
+  padding-left: 10px; /* Sol tarafta da biraz boşluk */
+  background-position: right 10px center; /* Ok simgesini sağa hizala */
+}
+
+
+
+@media (max-width: 768px) {
+
+  .container {
+    max-width: 95% !important; 
+  }
+  .swiper-container {
+      width: 100%;
+      height: auto;
+  }
+
+  .swiper-slide img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+  }
+
+  .product-name {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      font-weight: bold;
+  }
+
+  /* Diğer mobil düzenlemeler */
 }

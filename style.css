@@ -902,6 +902,10 @@ footer h6 {
 
 
 @media (max-width: 767px) {
+  .container {
+    max-width: 95% !important; 
+  }
+  
   #header-container, #hstack, #dr-menu {
       display: none !important; /* PC ekranındaki öğeleri gizler */
   }
@@ -1064,7 +1068,6 @@ footer h6 {
         cursor: pointer;
         font-size: 18px;
     }
-    @media (max-width: 767px) {
     .carousel-item img {
         width: 100%; /* Resmi tam genişlikte yap */
         height: auto; /* Yüksekliği otomatik ayarla */
@@ -1126,24 +1129,77 @@ footer h6 {
     text-overflow: ellipsis; /* Gizlenen metnin sonuna '...' ekler */
     width: 100%; /* Genişliği tam olmasını sağlar */
     display: block; /* Blok düzeyinde bir eleman yapar */
-}
+  }
 
 /* "Shop Now" butonunu ve yazısını küçültmek için */
-.carousel-item .shop-now {
-  font-size: 0.75rem !important; /* Yazı boyutunu küçült */
-  padding: 0.5rem 1rem !important; /* Butonun iç dolgusunu küçült */
-  color: #fff; /* Butonun yazı rengini beyaz yap */
+  .carousel-item .shop-now {
+    font-size: 0.75rem !important; /* Yazı boyutunu küçült */
+    padding: 0.5rem 1rem !important; /* Butonun iç dolgusunu küçült */
+    color: #fff; /* Butonun yazı rengini beyaz yap */
 
+  }
+
+  .carousel-item .shop-now:hover {
+    background-color: #333; /* Hover durumunda arka plan rengini koyulaştır */
+    color: #fff; /* Hover durumunda yazı rengini beyaz tut */
+  }
+
+  #productRow .models,
+  #bestSellingProductRow .models {
+    width: 100%; /* Mobil cihazlarda her satırda bir ürün olacak şekilde genişliği ayarla */
+  }
+  .highlight-text p {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Genişliği sınırlamak için */
+}
+footer .accordion-item {
+  border: none;
+  background-color: transparent;
 }
 
-.carousel-item .shop-now:hover {
-  background-color: #333; /* Hover durumunda arka plan rengini koyulaştır */
-  color: #fff; /* Hover durumunda yazı rengini beyaz tut */
+footer .accordion-button {
+  background-color: #f5f5f5;
+  color: #000;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  padding: 10px;
 }
 
+footer .accordion-button:focus {
+  box-shadow: none;
 }
 
+footer .accordion-button:not(.collapsed) {
+  color: #000;
 }
+
+footer .accordion-collapse {
+  background-color: #f5f5f5;
+}
+
+footer .accordion-body {
+  padding: 0;
+  margin: 0;
+}
+
+footer .footer-link {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #333;
+}
+
+footer .footer-link:hover {
+  text-decoration: underline;
+}
+}
+
+
 
 /* PC ekranları için medya sorgusu */
 @media (min-width: 768px) {
@@ -1154,7 +1210,24 @@ footer h6 {
   }
   .navbar-pc .shopping-cart-header {
     display: none;
-}
+  }
+  #productRow .models,
+  #bestSellingProductRow .models {
+    width: 25%; /* Her satırda 4 ürün olacak şekilde genişliği ayarla */
+  }
+  .scrollable-images {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .scrollable-images img {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 100%;
+    height: auto;
+    margin-right: 10px; /* Resimler arasındaki boşluk */
+  }
 }
 
 .mobile-shopping-like-list .list-item {

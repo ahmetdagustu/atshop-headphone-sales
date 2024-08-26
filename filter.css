@@ -765,6 +765,11 @@ h4 + .price-range {
 
 /* Mobilde filtreyi gizle ve buton stili ekle */
 @media (max-width: 768px) {
+
+  .container {
+    max-width: 95% !important; 
+  }
+  
   #filter-section {
       display: none;
   }

@@ -388,7 +388,15 @@ function filterAndSortBestSellingProducts(products) {
 
 // Ürünleri belirli bir sırayla hedef bölüme ekleyen fonksiyon
 function renderProducts(products, targetRow) {
-    products.forEach((product) => {
+    const screenWidth = window.innerWidth;
+    let displayedProducts = products;
+
+    // Mobil cihazlar için sadece 4 ürünü göster
+    if (screenWidth <= 767) {
+        displayedProducts = products.slice(0, 4);
+    }
+
+    displayedProducts.forEach((product) => {
         const productDiv = document.createElement("div");
         productDiv.classList.add("col-12", "col-md-6", "col-lg-4", "models", "models-img", "shop");
         productDiv.innerHTML = `
@@ -458,6 +466,7 @@ function renderProducts(products, targetRow) {
         }
     });
 }
+
 
 // En yeni 8 ürünü gösteren fonksiyon
 function renderLatestProducts(products, targetRow) {
@@ -645,11 +654,24 @@ function getRandomIndex(arrayLength) {
     return Math.floor(Math.random() * arrayLength);
 }
 
+
+function truncateTextForMobile(text) {
+    if (window.innerWidth <= 767) { // Ekran genişliği 767 piksel veya daha küçükse
+        const sentences = text.match(/[^.!?]+[.!?]/g); // Metni cümlelere ayır
+        if (sentences && sentences.length > 0) {
+            return sentences[0]; // İlk cümleyi al
+        }
+    }
+    return text; // Eğer ekran genişliği büyükse, metni olduğu gibi döndür
+}
+
 function displayRandomProduct() {
     const randomIndex = getRandomIndex(products.length);
     const product = products[randomIndex];
 
     const productContainer = document.getElementById('dynamic-product');
+
+    const truncatedDescription = truncateTextForMobile(product.description); // Mobil için metni kısalt
 
     productContainer.innerHTML = `
         <div class="row align-content-center">
@@ -658,7 +680,7 @@ function displayRandomProduct() {
             </div>
             <div class="col-8">
                 <h2>${product.name}</h2>
-                <p>${product.description}</p>
+                <p>${truncatedDescription}</p> <!-- Kısaltılmış metni ekliyoruz -->
                 <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
             </div>
         </div>
@@ -674,6 +696,7 @@ function displayRandomProduct() {
 
 // Sayfa yüklendiğinde rastgele bir ürünü göster
 document.addEventListener('DOMContentLoaded', displayRandomProduct);
+
 
 // Ekran boyutuna göre işlemler
 window.addEventListener('resize', () => {
@@ -850,15 +873,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
-
-
-// Sepet ve favori kutularını gösterme
-document.querySelector('.btn-card-mobile').addEventListener('click', function () {
-    document.querySelector('.shopping-cart-list').classList.toggle('d-none');
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.innerWidth <= 767) { // Mobil ekran kontrolü
+        document.querySelectorAll('.text-content').forEach(function(paragraph) {
+            const sentences = paragraph.innerText.split('. '); // Cümleleri böl
+            if (sentences.length > 0) {
+                paragraph.innerText = sentences[0] + '...'; // İlk cümleyi al ve üç nokta ekle
+            }
+        });
+    }
 });
 
-document.querySelector('.btn-card2-mobile').addEventListener('click', function () {
-    document.querySelector('.shopping-like-list').classList.toggle('d-none');
-});
+
+
 

@@ -190,7 +190,7 @@ class UI {
         } else {
             const listItem = document.createElement("div");
             listItem.classList = "list-item";
-
+    
             listItem.innerHTML = `
             <div class="row align-items-center text-black">
                 <div class="col-md-2">
@@ -388,6 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const largeImageElement = document.getElementById("product-large-image");
         largeImageElement.src = product.image3;
 
+        // Masaüstü için tıklanabilir küçük resimler
         document.getElementById("thumbnail1").addEventListener("click", () => {
             document.getElementById("main-image").src = product.image;
         });
@@ -396,6 +397,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         document.getElementById("thumbnail3").addEventListener("click", () => {
             document.getElementById("main-image").src = product.image3;
+        });
+
+        // Mobil için Swiper.js ile kaydırılabilir resimler
+        const swiperWrapper = document.querySelector('.swiper-wrapper');
+        swiperWrapper.innerHTML = `
+            <div class="swiper-slide">
+                <img src="${product.image}" alt="Product Image 1" class="img-fluid">
+            </div>
+            <div class="swiper-slide">
+                <img src="${product.image2}" alt="Product Image 2" class="img-fluid">
+            </div>
+            <div class="swiper-slide">
+                <img src="${product.image3}" alt="Product Image 3" class="img-fluid">
+            </div>
+        `;
+
+        // Swiper.js'i başlatma (Mobil için)
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
         });
 
         if (review) {
@@ -493,14 +518,29 @@ document.addEventListener("DOMContentLoaded", () => {
         const relatedProductsContainer = document.getElementById("related-products");
 
         const scoredProducts = products
-            .filter(p => p.id !== productId)
-            .map(p => ({ ...p, score: calculateScore(p) }))
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 5);
+        .filter(p => p.id !== productId)
+        .map(p => ({ ...p, score: calculateScore(p) }))
+        .sort((a, b) => b.score - a.score);
 
-        scoredProducts.forEach((relatedProduct) => {
+        let slicedProducts;
+        if (window.innerWidth < 768) {
+            slicedProducts = scoredProducts.slice(0, 4); // Mobilde ilk 4 ürünü göster
+        } else {
+            slicedProducts = scoredProducts.slice(0, 5); // PC'de ilk 6 ürünü göster
+        }
+
+        // slicedProducts dizisi üzerinden döngü oluşturuyoruz
+        slicedProducts.forEach((relatedProduct) => {
             const productDiv = document.createElement("div");
-            productDiv.classList.add("col-2", "models", "models-img", "shop");
+
+            if (window.innerWidth < 768) {
+                // Mobil görünüm için
+                productDiv.classList.add("col-4", "col-md-6", "col-lg-4", "models", "models-img", "shop");
+            } else {
+                // PC görünümü için
+                productDiv.classList.add("col-2", "models", "models-img", "shop");
+            }
+
             productDiv.innerHTML = `
             <div class="product-image-container">
                 <img class="img-fluid show-image first-image" src="${relatedProduct.image}" alt="${relatedProduct.name}"/>
@@ -524,8 +564,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span id="price-${relatedProduct.id}" class="px-2 fw-bold price" style="color: red">$${relatedProduct.price}</span>
                 </p>
             </div>
-        `;
+            `;
+
             relatedProductsContainer.appendChild(productDiv);
+
 
             // SHOP NOW butonuna tıklama olayı
             const btnShopNow = productDiv.querySelector(".shop-now");
@@ -572,52 +614,131 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+
 window.goToProduct = function(productId) {
     window.location.href = `shop-page.html?id=${productId}`;
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'), 10);
 
-    const descriptionElement = document.getElementById("product-description");
-    const fullDescription = descriptionElement.innerText;
+    const product = products.find((p) => p.id === productId);
+    const review = reviews.find((r) => r.id === productId);
 
-    // Noktalama işaretleri ve cümle sonlarını dikkate alarak cümleleri bölme
-    const sentences = fullDescription.match(/[^\.!\?]+[\.!\?]+/g);
+    if (product) {
+        document.title = product.name;
+        document.getElementById("product-name-breadcrumb").innerText = product.name;
+        document.getElementById("main-image").src = product.image;
+        document.getElementById("thumbnail1").src = product.image;
+        document.getElementById("thumbnail2").src = product.image2;
+        document.getElementById("thumbnail3").src = product.image3;
+        document.getElementById("product-name").innerText = product.name;
+        document.getElementById("product-brand").innerText = `Brand: ${product.brand}`;
+        renderRating(product.rating, document.getElementById("product-rating"));
+        document.getElementById("product-description").innerText = product.description;
+        document.getElementById("product-price").innerText = `$${product.price}`;
+        document.getElementById("product-description-full").innerText = product.description;
 
-    if (sentences && sentences.length > 1) {
-        // İlk iki cümleyi birleştir
-        const firstTwoSentences = sentences.slice(0, 2).join(" ");
-        descriptionElement.innerText = firstTwoSentences;
-    } else if (sentences) {
-        // Sadece bir cümle varsa, onu kullan
-        descriptionElement.innerText = sentences[0];
-    }
+        // Mobil için Swiper.js ile kaydırılabilir resimler
+        const swiperWrapper = document.querySelector('.swiper-wrapper');
+        swiperWrapper.innerHTML = `
+            <div class="swiper-slide">
+                <img src="${product.image}" alt="Product Image 1" class="img-fluid">
+            </div>
+            <div class="swiper-slide">
+                <img src="${product.image2}" alt="Product Image 2" class="img-fluid">
+            </div>
+            <div class="swiper-slide">
+                <img src="${product.image3}" alt="Product Image 3" class="img-fluid">
+            </div>
+        `;
 
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 1,
+            spaceBetween: 10,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
 
-    const ratingValueElement = document.getElementById("rating-value");
-    const ratingDescriptionElement = document.getElementById("rating-description");
+        if (review) {
+            const reviewsContainer = document.getElementById("reviews-container");
+            const reviewSortOptions = document.getElementById("review-sort-options");
+            let currentSortOption = reviewSortOptions.value;
 
-    let rating = 1;
+            function sortReviews(reviews, sortBy) {
+                switch (sortBy) {
+                    case 'highestRated':
+                        return reviews.sort((a, b) => b.rated - a.rated);
+                    case 'lowestRated':
+                        return reviews.sort((a, b) => a.rated - b.rated);
+                    case 'mostRecent':
+                        return reviews.sort((a, b) => new Date(b.reviewDate) - new Date(a.reviewDate));
+                    case 'oldest':
+                        return reviews.sort((a, b) => new Date(a.reviewDate) - new Date(b.reviewDate));
+                    default:
+                        return reviews;
+                }
+            }
 
-    function updateRatingDisplay() {
-        ratingValueElement.textContent = rating;
-        ratingDescriptionElement.textContent = rating + '+ is the current rating';
-    }
+            function renderReviews(reviews, sortBy) {
+                const sortedReviews = sortReviews([...reviews], sortBy);
+                reviewsContainer.innerHTML = '';
 
-    document.getElementById("decrease-rating").addEventListener("click", () => {
-        if (rating > 1) {
-            rating--;
-            updateRatingDisplay();
+                sortedReviews.forEach(customer => {
+                    const reviewDiv = document.createElement("div");
+                    reviewDiv.classList.add("review", "border", "p-3", "mb-3");
+                    reviewDiv.innerHTML = `
+                        <div class="d-flex">
+                            <img src="${customer.profilerpic}" alt="${customer.idname}" width="50" height="50" style="margin-right: 15px;" class="rounded-circle">
+                            <div>
+                                <strong>${customer.idname}</strong>
+                                <p class="rating">
+                                    ${getStarRating(customer.rated)}
+                                </p>
+                                <p>${customer.review}</p>
+                                <p class="text-muted">${new Date(customer.reviewDate).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                    `;
+
+                    reviewsContainer.appendChild(reviewDiv);
+                });
+            }
+
+            reviewSortOptions.addEventListener("change", () => {
+                currentSortOption = reviewSortOptions.value;
+                renderReviews(review.customers, currentSortOption);
+            });
+
+            renderReviews(review.customers, currentSortOption);
+
+            function getStarRating(rating) {
+                const fullStars = Math.floor(rating);
+                const halfStar = rating % 1 !== 0;
+                let starsHTML = '';
+
+                for (let i = 0; i < fullStars; i++) {
+                    starsHTML += '<i class="fas fa-star star"></i>';
+                }
+                if (halfStar) {
+                    starsHTML += '<i class="fas fa-star-half-alt star-half-alt"></i>';
+                }
+                for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) {
+                    starsHTML += '<i class="far fa-star"></i>';
+                }
+                return starsHTML;
+            }
         }
-    });
 
-    document.getElementById("increase-rating").addEventListener("click", () => {
-        rating++;
-        updateRatingDisplay();
-    });
-
-    updateRatingDisplay();
+        // Related Products - Bu kısım daha önceki kodda olduğu gibi kalabilir
+    } else {
+        console.error('Product not found.');
+    }
 });
+
 
 function getStarRating(rating) {
     const fullStars = Math.floor(rating);
