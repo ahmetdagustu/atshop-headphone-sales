@@ -1260,8 +1260,9 @@ footer .footer-link:hover {
   font-size: 18px;
 }
 
+
 .order-tracking span {
-  font-size: 1.25rem;
+  font-size: 1rem; /* Navbar yazı boyutuna göre ayarlandı */
   color: #000;
   cursor: pointer;
 }
@@ -1276,14 +1277,7 @@ footer .footer-link:hover {
   position: relative;
   margin-bottom: 20px;
   display: flex;
-  align-items: center;
-}
-
-.timeline-date {
-  width: 80px;
-  font-weight: bold;
-  text-align: right;
-  margin-right: 10px;
+  align-items: flex-start;
 }
 
 .timeline-badge {
@@ -1293,34 +1287,61 @@ footer .footer-link:hover {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: #007bff;
+  color: #fff;
   margin-right: 10px;
+  margin-top: 5px;
 }
 
 .timeline-badge i {
-  font-size: 1.5rem;
-  color: #007bff;
+  font-size: 1rem; /* Tik işareti boyutu */
 }
 
 .timeline-step::before {
   content: '';
   position: absolute;
-  left: 45px;
-  top: 10px;
+  left: 14px;
+  top: 0;
   bottom: 0;
   width: 2px;
   background-color: #007bff;
+  z-index: -1;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.timeline-text {
+  font-size: 1rem;
+  color: #000;
+  font-weight: bold; /* Başlıklar kalın yapıldı */
+  margin-bottom: 5px;
+}
+
+.timeline-date {
+  font-weight: normal; /* Tarihler normal font ağırlığında */
+  color: #333;
+  margin-top: 5px;
 }
 
 .timeline-step.completed .timeline-badge {
   background-color: #007bff;
-}
-
-.timeline-step.completed .timeline-badge i {
   color: #fff;
 }
 
-.timeline-content {
-  font-size: 1rem;
-  color: #000;
+.timeline-step.completed .timeline-badge i {
+  font-family: "FontAwesome";
+  content: "\f00c"; /* FontAwesome tik işareti */
+}
+
+.timeline-step:not(.completed) .timeline-badge {
+  background-color: #ccc;
+  color: #fff;
+}
+
+.timeline-step:last-child::before {
+  background-color: #ccc; /* Son adım gri çizgi */
 }
