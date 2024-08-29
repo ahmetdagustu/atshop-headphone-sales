@@ -1,0 +1,51 @@
+/* PC Görünümü */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+  }
+  
+  .navbar .icons {
+    display: flex;
+  }
+  
+  .navbar .categories-container {
+    display: none;
+  }
+  
+  /* Mobil Görünüm */
+  @media (max-width: 768px) {
+    .navbar {
+      display: none;
+      flex-direction: column;
+    }
+  
+    .navbar.open {
+      display: flex;
+    }
+  
+    .navbar .icons {
+      justify-content: space-around;
+      width: 100%;
+    }
+  
+    .navbar .categories-container {
+      display: block;
+    }
+  
+    .hamburger-menu {
+      display: block;
+    }
+  
+    .close-menu {
+      display: block;
+    }
+  }
+  
+  /* Hamburger Menu Açıldığında */
+  .navbar.open {
+    display: flex;
+    flex-direction: column;
+  }
+  

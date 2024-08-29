@@ -1,45 +1,5 @@
 import { products } from './products.js';
 
-document.addEventListener("DOMContentLoaded", function() {
-    fetch('common.html') // common.html dosyasını getir
-      .then(response => response.text()) // Gelen yanıtı text olarak al
-      .then(data => {
-        const tempDiv = document.createElement('div'); // Geçici bir div oluştur
-        tempDiv.innerHTML = data; // Gelen HTML içeriğini bu div'e koy
-  
-        const footerElement = tempDiv.querySelector('#footer'); // common.html içindeki footer'ı seç
-        const footerTarget = document.getElementById('footer'); // index.html içindeki footer placeholder'ını bul
-  
-        if (footerElement && footerTarget) {
-          footerTarget.innerHTML = footerElement.innerHTML; // Footer içeriğini index.html'e ekle
-  
-          const link = document.createElement('link'); // Dinamik olarak CSS dosyası ekle
-          link.rel = 'stylesheet';
-          link.href = 'common.css'; // Footer stillerini içeren CSS dosyası
-          document.head.appendChild(link);
-        } else {
-          console.error('Footer bulunamadı veya hedef element yok.');
-        }
-      })
-      .catch(error => console.error('Hata:', error)); // Herhangi bir hata varsa yakala
-  });
-  
-
-
-
-
-//fetch('common.html')
-  //.then(response => response.text())
-  //.then(data => {
-    //document.getElementById('footer').innerHTML = data;
-    //const link = document.createElement('link');
-    //link.rel = 'stylesheet';
-    //link.href = 'common.css';
-    //document.head.appendChild(link);
-  //})
-    //.catch(error => console.error('Hata:', error));;
-
-
 // Döviz kuru alma fonksiyonu
 async function getExchangeRate(toCurrency) {
     const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);

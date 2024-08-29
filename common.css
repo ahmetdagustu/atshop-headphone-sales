@@ -1,0 +1,104 @@
+
+.container {
+    max-width: 80% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
+    margin: 0 auto;
+    margin-top: 0px !important;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+
+/* Footer Styles */
+footer {
+    background-color: #f5f5f5;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .footer-link,
+  .social-media i,
+  footer h6,
+  footer a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .footer-link,
+  footer button {
+    font-size: 14px;
+  }
+  
+  footer h6 {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  /* Sadece footer ile ilgili stiller */
+  
+  #footer {
+    background-color: #f5f5f5;
+    padding: 20px;
+  }
+  
+  #footer a {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  /* Diğer footer ile ilgili stil kurallarını buraya ekleyin */
+  
+  /* Custom Button */
+.custom-btn {
+    font-size: 10px;
+    background-color: #ff0000 !important;
+    border: none;
+  }
+  
+  .input-group input::placeholder {
+    font-size: 12px;
+  }
+  
+    @media (max-width: 767px) {
+      
+      footer .accordion-item {
+        border: none;
+        background-color: transparent;
+      }
+      
+      footer .accordion-button {
+        background-color: #f5f5f5;
+        color: #000;
+        border: none;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        padding: 10px;
+      }
+      
+      footer .accordion-button:focus {
+        box-shadow: none;
+      }
+      
+      footer .accordion-button:not(.collapsed) {
+        color: #000;
+      }
+      
+      footer .accordion-collapse {
+        background-color: #f5f5f5;
+      }
+      
+      footer .accordion-body {
+        padding: 0;
+        margin: 0;
+      }
+      
+      footer .footer-link {
+        display: block;
+        padding: 10px 15px;
+        text-decoration: none;
+        color: #333;
+      }
+      
+      footer .footer-link:hover {
+        text-decoration: underline;
+      }
+      }
