@@ -25,25 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
       .catch(error => console.error('Hata:', error)); // Herhangi bir hata varsa yakala
   });
 
-// Döviz kuru alma fonksiyonu
-async function getExchangeRate(toCurrency) {
-    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
-    const data = await response.json();
-    return data.rates[toCurrency];
-}
-async function convertCartPrices(currency) {
-    const rate = await getExchangeRate(currency);
-
-    const cartItems = document.querySelectorAll('.shopping-cart-list .list-item');
-    
-    cartItems.forEach(item => {
-        const priceElement = item.querySelector('.price');
-        const originalPriceText = priceElement.textContent.trim();
-        const originalPriceValue = parseFloat(originalPriceText.replace(/[^0-9.-]+/g,""));
-        const convertedPrice = Math.round(originalPriceValue * rate);
-        priceElement.textContent = `${getCurrencySymbol(currency)}${convertedPrice}`;
-    });
-}
 
 
 // Fiyatları çevirme ve HTML güncelleme fonksiyonu
@@ -80,18 +61,6 @@ async function convertPrices(currency) {
 
 
 
-// Para birimi sembolünü getiren fonksiyon
-function getCurrencySymbol(currency) {
-    switch (currency) {
-        case 'TRY':
-            return '₺';
-        case 'EUR':
-            return '€';
-        case 'USD':
-        default:
-            return '$';
-    }
-}
 
 // Para birimi değiştiğinde fiyatları güncelleme
 document.getElementById('flag').addEventListener('change', async function () {

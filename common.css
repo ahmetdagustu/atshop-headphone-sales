@@ -1,104 +1,396 @@
 
+
+header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.site-header {
+  margin-top: 0px;
+  padding: 0px;
+}
+
 .container {
-    max-width: 80% !important; /* İhtiyacınıza göre bu değeri azaltın, örneğin 900px yapın */
-    margin: 0 auto;
-    margin-top: 0px !important;
-    padding-left: 15px;
-    padding-right: 15px;
+  max-width: 80% !important;
+  margin: 0 auto;
+  margin-top: 0px !important;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.hstack {
+  margin-top: 0;
+  width: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.hstack-context {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 210px;
+  font-size: 1rem;
+  display: flex;
+  max-width: 75% !important;
+}
+
+.hstack-context .vr {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.hstack-context a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hstack-context a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.header-text .form-select {
+  font-size: 7rem;
+}
+
+.top-banner {
+  margin-top: 0 !important;
+}
+
+.top-banner a {
+  text-decoration: none;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.btn-i button {
+  float: right;
+  width: 10%;
+  padding: 10px;
+  background: none;
+  color: black;
+  font-size: 17px;
+  border: 0px solid grey;
+}
+
+.dr-menu {
+  background-color: #f1f1f1;
+  margin-top: 20px;
+  height: 50px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dr-menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.dropdown-content-2 {
+  display: none;
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  left: 0;
+  top: 50px;
+  padding: 10px;
+  border-radius: 5px;
+  flex-wrap: wrap;
+}
+
+.category-group {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.category {
+  flex: 1;
+  padding: 8px;
+  min-width: 120px !important;
+}
+
+.category h1 {
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.category ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.category ul li {
+  margin-bottom: 6px;
+}
+
+.category ul li a {
+  font-size: 13px;
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 4px 0;
+  transition: color 0.3s ease;
+}
+
+.dropdown-2:hover .dropdown-content-2 {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+form.example {
+  position: relative;
+  width: 100%;
+}
+
+form.example input[type="text"] {
+  padding: 10px 40px 10px 20px;
+  font-size: 17px;
+  border: 1px solid #ccc;
+  width: 100%;
+  background: #f1f1f1;
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: 40px;
+}
+
+form.example button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: black;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0;
+  height: 100%;
+}
+
+form.example button:hover {
+  color: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.shopping-cart {
+  position: relative;
+}
+
+.shopping-like-list,
+.shopping-cart-list {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 1050;
+  background-color: white;
+  width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 10px;
+}
+
+.shopping-cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.shopping-cart-list .list-item,
+.shopping-like-list .list-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  margin-top: 1rem;
+  font-size: 12px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shopping-cart-list .list-item img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.shopping-like-list .btn-delete,
+.shopping-cart-list .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.shopping-like-list .btn-delete i,
+.shopping-cart-list .btn-delete i {
+  font-size: 1rem;
+}
+
+.shopping-cart-list .price,
+.shopping-like-list .price {
+  font-size: 0.9rem;
+  color: #333;
+  text-align: right;
+  white-space: nowrap !important;
+}
+
+.shopping-cart-list b.fs-5.my-3 {
+  display: inline-block;
+  width: 50%;
+  text-align: left;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.shopping-cart-list .total-price {
+  display: inline-block;
+  width: 50%;
+  text-align: right;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-btn {
+  border: none;
+  background: transparent;
+  position: relative;
+}
+
+.cart-btn .cart-items {
+  position: absolute;
+  right: -1rem;
+  top: -0.875rem;
+  padding: 0 6px;
+  font-size: 0.875rem;
+  border-radius: 30%;
+  background-color: #FFB338;
+  font-weight: bold;
+}
+
+.cart-btn .fa-cart-shopping {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.custom-btn {
+  font-size: 10px;
+  background-color: #ff0000 !important;
+  border: none;
+}
+
+.input-group input::placeholder {
+  font-size: 12px;
+}
+
+@media (max-width: 767px) {
+  .container {
+    max-width: 95% !important;
   }
 
+  #header-container, #hstack, #dr-menu {
+    display: none !important;
+  }
 
-/* Footer Styles */
-footer {
+  .top-banner {
+    padding: 10px 15px;
     background-color: #f5f5f5;
-    padding-top: 20px;
-    padding-bottom: 20px;
+  }
+
+  footer .accordion-item {
+    border: none;
+    background-color: transparent;
   }
   
-  .footer-link,
-  .social-media i,
-  footer h6,
-  footer a {
-    color: black;
-    text-decoration: none;
-  }
-  
-  .footer-link,
-  footer button {
-    font-size: 14px;
-  }
-  
-  footer h6 {
+  footer .accordion-button {
+    background-color: #f5f5f5;
+    color: #000;
+    border: none;
+    font-size: 18px;
     font-weight: bold;
-    font-size: 16px;
-  }
-  /* Sadece footer ile ilgili stiller */
-  
-  #footer {
-    background-color: #f5f5f5;
-    padding: 20px;
+    text-align: left;
+    padding: 10px;
   }
   
-  #footer a {
-    text-decoration: none;
+  footer .accordion-button:focus {
+    box-shadow: none;
+  }
+  
+  footer .accordion-button:not(.collapsed) {
     color: #000;
   }
   
-  /* Diğer footer ile ilgili stil kurallarını buraya ekleyin */
-  
-  /* Custom Button */
-.custom-btn {
-    font-size: 10px;
-    background-color: #ff0000 !important;
-    border: none;
+  footer .accordion-collapse {
+    background-color: #f5f5f5;
   }
   
-  .input-group input::placeholder {
-    font-size: 12px;
+  footer .accordion-body {
+    padding: 0;
+    margin: 0;
   }
   
-    @media (max-width: 767px) {
-      
-      footer .accordion-item {
-        border: none;
-        background-color: transparent;
-      }
-      
-      footer .accordion-button {
-        background-color: #f5f5f5;
-        color: #000;
-        border: none;
-        font-size: 18px;
-        font-weight: bold;
-        text-align: left;
-        padding: 10px;
-      }
-      
-      footer .accordion-button:focus {
-        box-shadow: none;
-      }
-      
-      footer .accordion-button:not(.collapsed) {
-        color: #000;
-      }
-      
-      footer .accordion-collapse {
-        background-color: #f5f5f5;
-      }
-      
-      footer .accordion-body {
-        padding: 0;
-        margin: 0;
-      }
-      
-      footer .footer-link {
-        display: block;
-        padding: 10px 15px;
-        text-decoration: none;
-        color: #333;
-      }
-      
-      footer .footer-link:hover {
-        text-decoration: underline;
-      }
-      }
+  footer .footer-link {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  footer .footer-link:hover {
+    text-decoration: underline;
+  }
+}
+
+footer {
+  background-color: #f5f5f5;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.footer-link,
+.social-media i,
+footer h6,
+footer a {
+  color: black;
+  text-decoration: none;
+}
+
+.footer-link,
+footer button {
+  font-size: 14px;
+}
+
+footer h6 {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#footer {
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+#footer a {
+  text-decoration: none;
+  color: #000;
+}

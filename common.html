@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
 </head>
 <body>
-  <header id="header" class="site-header">
+  <header class="site-header">
     <div id="top-banner" class="top-banner row d-flex mt-3 align-items-center justify-content-between">
         <!-- ATShop Logo -->
         <div class="col-6 d-flex justify-content-center mobile-logo">
@@ -135,14 +135,6 @@
             </select>
         </div>
         <div class="vr"></div>
-        <!-- <div>
-            <select class="form-select">
-                <option value="1">English</option>
-                <option value="2">Turkish</option>
-                <option value="3">German</option>
-            </select>
-        </div> 
-        <div class="vr"></div> -->
         <div class="order-tracking">
           <span id="orderTrackingTrigger" style="cursor: pointer;">ORDER TRACKING</span>
         </div>  
@@ -174,13 +166,13 @@
                   <i class="fa-solid fa-cart-shopping"></i>
                   <span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
                 </button>
-                <div class="shopping-cart-list d-none">
+                <div class="shopping-cart-list">
                   <div class="shopping-cart-header d-flex align-items-center justify-content-center">
                       <b class="fs-5 my-3 flex-grow-1 text-start">Shopping Cart</b>
                       <span id="total-price" class="fs-5 my-3 text-end"></span>
                   </div>
-                  <!-- Diğer içerikler burada olacak -->
-                </div>  
+                  <!-- Sepete eklenen ürünler burada olacak -->
+              </div>                
               </div>
             </div>          
         </div>
@@ -246,6 +238,7 @@
         <a href="#">CONTACT</a>
     </div>  
   </header>
+  
  
 
   <!-- Footer -->

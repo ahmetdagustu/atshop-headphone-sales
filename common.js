@@ -1,21 +1,21 @@
 import { products } from './products.js';
 
-// Döviz kuru alma fonksiyonu
-async function getExchangeRate(toCurrency) {
+// common.js
+
+export async function getExchangeRate(toCurrency) {
     const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
     const data = await response.json();
     return data.rates[toCurrency];
 }
 
-// Fiyatları çevirme ve HTML güncelleme fonksiyonu
-async function convertPrices(currency) {
+export async function convertPrices(currency) {
     const rate = await getExchangeRate(currency);
 
     products.forEach(product => {
         const convertedPrice = Math.round(product.price * rate);
         const convertedOriginalPrice = Math.round(product.originalPrice * rate);
 
-        // Hem Latest hem de Best Selling bölümlerini güncelle
+        // Ürün kartları için fiyatları güncelle
         document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
             el.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
         });
@@ -23,11 +23,22 @@ async function convertPrices(currency) {
         document.querySelectorAll(`#originalPrice-${product.id}`).forEach((el) => {
             el.innerHTML = `<del>${getCurrencySymbol(currency)}${convertedOriginalPrice}</del>`;
         });
+
+        // Ürün detay sayfasındaki fiyatı güncelle
+        const productPagePrice = document.getElementById("product-price");
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = parseInt(urlParams.get('id'), 10);
+
+        if (productPagePrice && productId === product.id) {
+            productPagePrice.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
+        }
     });
+
+    // Alışveriş sepetindeki fiyatları güncelle
+    convertCartPrices(currency);
 }
 
-// Para birimi sembolünü getiren fonksiyon
-function getCurrencySymbol(currency) {
+export function getCurrencySymbol(currency) {
     switch (currency) {
         case 'TRY':
             return '₺';
@@ -39,11 +50,6 @@ function getCurrencySymbol(currency) {
     }
 }
 
-// Para birimi değiştiğinde fiyatları güncelleme
-document.getElementById('flag').addEventListener('change', async function () {
-    const selectedCurrency = this.value; // value doğrudan "USD", "TRY", "EUR" olur
-    await convertPrices(selectedCurrency);
-});
 
 const productRow = document.getElementById('productRow');
 const bestSellingProductRow = document.getElementById('bestSellingProductRow');
