@@ -2,32 +2,29 @@ import { products } from './products.js';
 import { reviews } from './reviews.js';
 
 document.addEventListener("DOMContentLoaded", function() {
-    fetch('common.html') // common.html dosyasını getir
-      .then(response => response.text()) // Gelen yanıtı text olarak al
+    fetch('common.html')
+      .then(response => response.text())
       .then(data => {
-        const tempDiv = document.createElement('div'); // Geçici bir div oluştur
-        tempDiv.innerHTML = data; // Gelen HTML içeriğini bu div'e koy
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = data;
   
-        const footerElement = tempDiv.querySelector('#footer'); // common.html içindeki footer'ı seç
-        const footerTarget = document.getElementById('footer'); // index.html içindeki footer placeholder'ını bul
+        const footerElement = tempDiv.querySelector('#footer');
+        const footerTarget = document.getElementById('footer');
   
         if (footerElement && footerTarget) {
-          footerTarget.innerHTML = footerElement.innerHTML; // Footer içeriğini index.html'e ekle
+          footerTarget.innerHTML = footerElement.innerHTML;
   
-          const link = document.createElement('link'); // Dinamik olarak CSS dosyası ekle
+          const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = 'common.css'; // Footer stillerini içeren CSS dosyası
+          link.href = 'common.css';
           document.head.appendChild(link);
         } else {
           console.error('Footer bulunamadı veya hedef element yok.');
         }
       })
-      .catch(error => console.error('Hata:', error)); // Herhangi bir hata varsa yakala
+      .catch(error => console.error('Hata:', error));
   });
 
-
-
-// Fiyatları çevirme ve HTML güncelleme fonksiyonu
 async function convertPrices(currency) {
     const rate = await getExchangeRate(currency);
 
@@ -35,7 +32,6 @@ async function convertPrices(currency) {
         const convertedPrice = Math.round(product.price * rate);
         const convertedOriginalPrice = Math.round(product.originalPrice * rate);
 
-        // Ürün kartları için fiyatları güncelle
         document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
             el.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
         });
@@ -44,7 +40,6 @@ async function convertPrices(currency) {
             el.innerHTML = `<del>${getCurrencySymbol(currency)}${convertedOriginalPrice}</del>`;
         });
 
-        // Ürün detay sayfasındaki fiyatı güncelle
         const productPagePrice = document.getElementById("product-price");
         const urlParams = new URLSearchParams(window.location.search);
         const productId = parseInt(urlParams.get('id'), 10);
@@ -54,17 +49,11 @@ async function convertPrices(currency) {
         }
     });
 
-    // Alışveriş sepetindeki fiyatları güncelle
     convertCartPrices(currency);
 }
 
-
-
-
-
-// Para birimi değiştiğinde fiyatları güncelleme
 document.getElementById('flag').addEventListener('change', async function () {
-    const selectedCurrency = this.value; // value doğrudan "USD", "TRY", "EUR" olur
+    const selectedCurrency = this.value;
     await convertPrices(selectedCurrency);
 });
 
@@ -77,7 +66,6 @@ const cardList = document.querySelector(".shopping-cart-list");
 const btnLike = document.querySelector(".btn-card2");
 const likeList = document.querySelector(".shopping-like-list");
 
-// Shopping and Like Functionality
 class Shopping {
     constructor(title, price, image) {
         this.image = image;
@@ -246,7 +234,6 @@ class UI {
         btnLike.textContent = "Added";
     }
 
-    // Show notification message
     showNotification(message) {
         const notification = document.createElement('div');
         notification.style.position = 'fixed';
@@ -265,10 +252,9 @@ class UI {
 
         setTimeout(() => {
             notification.remove();
-        }, 3000); // 3 saniye sonra bildirim kaldırılır
+        }, 3000);
     }
 
-    // Toggle favorite status
     toggleFavorite(product, btnFavorite) {
         const favoritedProducts = JSON.parse(localStorage.getItem('favoritedProducts')) || [];
         const index = favoritedProducts.findIndex(fav => fav.id === product.id);
@@ -276,19 +262,18 @@ class UI {
         if (index === -1) {
             favoritedProducts.push(product);
             btnFavorite.classList.add('active');
-            btnFavorite.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i>'; // Kalp kırmızıya dönsün
+            btnFavorite.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i>';
             this.showNotification('Added to Favorites');
         } else {
             favoritedProducts.splice(index, 1);
             btnFavorite.classList.remove('active');
-            btnFavorite.innerHTML = '<i class="fa-solid fa-heart"></i>'; // Kalp normale dönsün
+            btnFavorite.innerHTML = '<i class="fa-solid fa-heart"></i>';
             this.showNotification('Removed from Favorites');
         }
 
         localStorage.setItem('favoritedProducts', JSON.stringify(favoritedProducts));
         this.updateFavoriteCount();
 
-        // Navbar'daki favoriler listesini güncelle
         this.updateLikeList();
     }
 
@@ -301,7 +286,7 @@ class UI {
     updateLikeList() {
         const favoritedProducts = JSON.parse(localStorage.getItem('favoritedProducts')) || [];
         const likeList = document.querySelector(".shopping-like-list");
-        likeList.innerHTML = ''; // Mevcut favori listesi temizle
+        likeList.innerHTML = '';
 
         favoritedProducts.forEach(product => {
             const listItem = document.createElement("div");
@@ -323,7 +308,6 @@ class UI {
 
             likeList.appendChild(listItem);
 
-            // Silme butonuna tıklandığında ürünü favorilerden çıkar
             listItem.querySelector('.btn-delete').addEventListener('click', () => {
                 const index = favoritedProducts.findIndex(fav => fav.id === product.id);
                 if (index !== -1) {
@@ -332,7 +316,6 @@ class UI {
                     this.updateFavoriteCount();
                     this.updateLikeList();
 
-                    // Kart üzerindeki kalbin de güncellenmesini sağla
                     const btnFavoriteInCard = document.querySelector(`.like-btn-1[data-product-id="${product.id}"]`);
                     if (btnFavoriteInCard) {
                         btnFavoriteInCard.classList.remove('active');
@@ -377,11 +360,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("product-price").innerText = `$${product.price}`;
         document.getElementById("product-description-full").innerText = product.description;
 
-        // Description altına büyük resmi ekle
         const largeImageElement = document.getElementById("product-large-image");
         largeImageElement.src = product.image3;
 
-        // Masaüstü için tıklanabilir küçük resimler
         document.getElementById("thumbnail1").addEventListener("click", () => {
             document.getElementById("main-image").src = product.image;
         });
@@ -392,7 +373,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("main-image").src = product.image3;
         });
 
-        // Mobil için Swiper.js ile kaydırılabilir resimler
         const swiperWrapper = document.querySelector('.swiper-wrapper');
         swiperWrapper.innerHTML = `
             <div class="swiper-slide">
@@ -406,7 +386,6 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        // Swiper.js'i başlatma (Mobil için)
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 1,
             spaceBetween: 10,
@@ -517,20 +496,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let slicedProducts;
         if (window.innerWidth < 768) {
-            slicedProducts = scoredProducts.slice(0, 4); // Mobilde ilk 4 ürünü göster
+            slicedProducts = scoredProducts.slice(0, 4);
         } else {
-            slicedProducts = scoredProducts.slice(0, 5); // PC'de ilk 6 ürünü göster
+            slicedProducts = scoredProducts.slice(0, 5);
         }
 
-        // slicedProducts dizisi üzerinden döngü oluşturuyoruz
         slicedProducts.forEach((relatedProduct) => {
             const productDiv = document.createElement("div");
 
             if (window.innerWidth < 768) {
-                // Mobil görünüm için
                 productDiv.classList.add("col-4", "col-md-6", "col-lg-4", "models", "models-img", "shop");
             } else {
-                // PC görünümü için
                 productDiv.classList.add("col-2", "models", "models-img", "shop");
             }
 
@@ -561,15 +537,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
             relatedProductsContainer.appendChild(productDiv);
 
-
-            // SHOP NOW butonuna tıklama olayı
             const btnShopNow = productDiv.querySelector(".shop-now");
             btnShopNow.addEventListener("click", function () {
                 const productId = this.getAttribute("data-product-id");
                 goToProduct(productId);
             });
 
-            // Sepete ekle butonuna tıklama olayı
             const btnAdd = productDiv.querySelector(".cart-btn-1");
             btnAdd.addEventListener("click", function (e) {
                 let title = relatedProduct.name;
@@ -583,7 +556,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault();
             });
 
-            // Favorilere ekle butonuna tıklama olayı
             const btnFavorite = productDiv.querySelector(".like-btn-1");
             btnFavorite.addEventListener("click", function (e) {
                 let ui = new UI();
@@ -592,21 +564,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault();
             });
 
-            // Favori durumunu güncelleme
             const favoritedProducts = JSON.parse(localStorage.getItem('favoritedProducts')) || [];
             const isFavorited = favoritedProducts.some(fav => fav.id === relatedProduct.id);
 
             if (isFavorited) {
                 btnFavorite.classList.add('active');
-                btnFavorite.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i>'; // Kırmızıya döndür
+                btnFavorite.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i>';
             }
         });
     } else {
         console.error('Product not found.');
     }
 });
-
-
 
 window.goToProduct = function(productId) {
     window.location.href = `shop-page.html?id=${productId}`;
@@ -633,7 +602,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("product-price").innerText = `$${product.price}`;
         document.getElementById("product-description-full").innerText = product.description;
 
-        // Mobil için Swiper.js ile kaydırılabilir resimler
         const swiperWrapper = document.querySelector('.swiper-wrapper');
         swiperWrapper.innerHTML = `
             <div class="swiper-slide">
@@ -725,13 +693,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 return starsHTML;
             }
         }
-
-        // Related Products - Bu kısım daha önceki kodda olduğu gibi kalabilir
     } else {
         console.error('Product not found.');
     }
 });
-
 
 function getStarRating(rating) {
     const fullStars = Math.floor(rating);
@@ -753,7 +718,6 @@ function getStarRating(rating) {
 function renderRating(rating, element) {
     element.innerHTML = getStarRating(rating);
 }
-
 
 document.addEventListener('DOMContentLoaded', (event) => {
   document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
