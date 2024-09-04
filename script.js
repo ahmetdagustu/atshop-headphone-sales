@@ -1,28 +1,7 @@
 import { products } from './products.js';
+let totalPrice = 0;
+const cart =[];
 
-document.addEventListener("DOMContentLoaded", function() {
-    fetch('common.html')
-      .then(response => response.text())
-      .then(data => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = data;
-  
-        const footerElement = tempDiv.querySelector('#footer');
-        const footerTarget = document.getElementById('footer');
-  
-        if (footerElement && footerTarget) {
-          footerTarget.innerHTML = footerElement.innerHTML;
-  
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = 'common.css';
-          document.head.appendChild(link);
-        } else {
-          console.error('Footer bulunamadı veya hedef element yok.');
-        }
-      })
-      .catch(error => console.error('Hata:', error));
-  });
   
 
 async function getExchangeRate(toCurrency) {
@@ -138,7 +117,7 @@ class UI {
 
                 if (cardList.getElementsByClassName("list-item").length === 0) {
                     document.getElementById("item-count").innerHTML = 0;
-                    document.getElementById('total-price').textContent = '';
+                  
                 }
             });
         });
@@ -165,7 +144,7 @@ class UI {
             .find(item => item.querySelector('.title').textContent === shopping.title);
     
         let price = parseFloat(shopping.price.replace('$', ''));
-    
+
         if (existingItem) {
             const quantityElem = existingItem.querySelector('.quantity');
             const priceElem = existingItem.querySelector('.price');
@@ -211,7 +190,7 @@ class UI {
     }
     
     updateTotalPrice() {
-        let totalPrice = 0;
+        totalPrice = 0;
         const items = Array.from(document.querySelectorAll('.shopping-cart-list .list-item'));
         
         console.log('Items in cart:', items.length);
@@ -230,26 +209,9 @@ class UI {
     
         console.log('Total Price:', totalPrice);
     
-        document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
     }
     
-    updateTotalPrice() {
-        let totalPrice = 0;
-    
-        const items = Array.from(document.querySelectorAll('.shopping-cart-list .list-item'));
-        console.log('Items in cart:', items.length);
-    
-        items.forEach(item => {
-            const quantityElem = item.querySelector('.quantity');
-            const priceElem = item.querySelector('.price');
-    
-            let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
-            let price = parseFloat(priceElem.textContent.replace('$', ''));
-    
-            totalPrice += price;
-        });
-        document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
-    }
+
 
     addToLike(like, btnLike) {
         const listItem = document.createElement("div");
@@ -712,7 +674,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const mobileItemCountCart = document.getElementById('item-count-mobile');
 
     function updateMobileCartList() {
-        const cartListItems = document.querySelector('.shopping-cart-list').innerHTML;
+        const cartListItems = document.querySelector('#cart-list-items-desktop').innerHTML;
         document.querySelector('#cart-list-items-mobile').innerHTML = cartListItems;
         updateTotalPrice();
         setupDeleteButtons();
@@ -781,28 +743,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function updateTotalPrice() {
-        let totalPricePC = 0;
-        let totalPriceMobile = 0;
-    
-        document.querySelectorAll('.shopping-cart-list .list-item').forEach(item => {
-            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
-            const quantity = parseInt(item.querySelector('.quantity').textContent.replace('x', '')) || 1;
-            totalPricePC += price;
-        });
-    
-        console.log('PC için toplam fiyat hesaplandı:', totalPricePC);
-    
-        document.querySelectorAll('.mobile-shopping-cart-list .list-item').forEach(item => {
-            const price = parseFloat(item.querySelector('.price').textContent.replace('$', ''));
-            const quantity = parseInt(item.querySelector('.quantity').textContent.replace('x', '')) || 1;
-            totalPriceMobile += price;
-        });
-    
-        console.log('Mobil için toplam fiyat hesaplandı:', totalPriceMobile);
-    
-        const totalPriceElemPC = document.getElementById('total-price');
+        const totalPriceElemPC = document.getElementById('total-price');    
         if (totalPriceElemPC) {
-            totalPriceElemPC.textContent = `Total: $${totalPricePC.toFixed(2)}`;
+            totalPriceElemPC.textContent = `Total: $${totalPrice.toFixed(2)}`;
             console.log('PC toplam fiyatı güncellendi:', totalPriceElemPC.textContent);
         } else {
             console.error('PC için toplam fiyat elementi bulunamadı');
@@ -810,7 +753,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
         const totalPriceElemMobile = document.getElementById('total-price-mobile');
         if (totalPriceElemMobile) {
-            totalPriceElemMobile.textContent = `Total: $${totalPriceMobile.toFixed(2)}`;
+            totalPriceElemMobile.textContent = `Total: $${totalPrice.toFixed(2)}`;
             console.log('Mobil toplam fiyatı güncellendi:', totalPriceElemMobile.textContent);
         } else {
             console.error('Mobil için toplam fiyat elementi bulunamadı');
