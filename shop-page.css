@@ -482,149 +482,6 @@ body {
 }
 
 
-/* Shopping Cart and Like List Styles */
-.shopping-like-list,
-.shopping-cart-list {
-  position: absolute;
-  right: 0;
-  top: 100%; 
-  z-index: 1050; 
-  background-color: white; 
-  width: 400px;
-  border: 1px solid #ccc; 
-  border-radius: 4px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  overflow: hidden; 
-  padding: 10px;
-}
-.shopping-cart-list .row {
-    display: flex; /* Flexbox düzeni */
-    justify-content: space-between; /* Alanı eşit şekilde dağıt */
-    align-items: center; /* Tüm öğeleri dikeyde ortalar */
-    width: 100%; /* Satırı tam genişlikte yap */
-}
-
-.shopping-like-list .list-item,
-.shopping-cart-list .list-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  margin-top: 1rem;
-  font-size: 12px !important;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.shopping-cart-list .list-item img {
-  width: 40px; /* Resim boyutunu küçültün */
-  margin-right: 10px; /* Resim ile metin arasına boşluk ekleyin */
-}
-
-
-.shopping-like-list .list-item:last-child,
-.shopping-cart-list .list-item:last-child {
-  border-bottom: none; 
-}
-
-.shopping-like-list .btn-delete,
-.shopping-cart-list .btn-delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.shopping-like-list .btn-delete i,
-.shopping-cart-list .btn-delete i {
-  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
-}
-
-.shopping-like-list .row.align-items-center,
-.shopping-cart-list .row.align-items-center {
-  align-items: center;
-}
-
-.shopping-like-list .row .col-md-2,
-.shopping-cart-list .row .col-md-2 {
-  display: flex;
-  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
-}
-
-
-.shopping-cart-list .col-md-5,
-.shopping-like-list .col-md-7 {
-  max-width: 60%; /* Ürün ismi ve marka için genişlik ayarı */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Taşan metin için ellipsis kullanarak sonuna üç nokta ekler */
-  white-space: nowrap; /* Metni tek satırda tutar */
-}
-
-.shopping-cart-list .col-md-2,
-.shopping-like-list .col-md-2 {
-  max-width: 20%;
-  text-align: right; /* Fiyatları ve simgeleri sağa hizalar */
-}
-
-.shopping-cart-list .title,
-.shopping-like-list .title {
-  font-size: 12px;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  white-space: nowrap !important;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-  color: black;
-  flex-grow: 1;
-}
-
-.shopping-cart-list .price,
-.shopping-like-list .price {
-  font-size: 0.9rem;
-  color: #333;
-  text-align: right;
-  white-space: nowrap !important;
-}
-
-.shopping-cart-list b.fs-5.my-3 {
-  display: inline-block;
-  width: 50%; /* Yarı genişlik ayarlandı */
-  text-align: left; /* Sol hizalama */
-  font-size: 1.25rem; /* Font boyutu */
-  font-weight: bold; /* Kalın yazı */
-}
-
-.shopping-cart-list .total-price {
-  display: inline-block;
-  width: 50%; /* Yarı genişlik ayarlandı */
-  text-align: right; /* Sağ hizalama */
-  font-size: 1.2rem; /* Font boyutu */
-  font-weight: bold; /* Kalın yazı */
-  color: #333; /* Renk ayarı */
-}
-
-.shopping-cart-list .btn-delete,
-.shopping-like-list .btn-delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px; /* Silme butonu simgesini küçültün */
-  margin-left: 10px; /* Silme butonunu sağa yaslayın */
-  align-self: flex-end;
-}
-
-.shopping-cart-list .row.align-items-center,
-.shopping-like-list .row.align-items-center {
-  align-items: center;
-}
-
-.shopping-cart-list .price {
-  font-size: 0.9rem;
-  color: #333;
-  white-space: nowrap;
-  text-align: right;
-}
-
-
 .product-image-container {
   position: relative;
   width: 100%;
@@ -655,134 +512,8 @@ body {
 }
 
 
-.shopping-like-list .btn-delete,
-.shopping-cart-list .btn-delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
 
-.shopping-like-list .btn-delete i,
-.shopping-cart-list .btn-delete i {
-  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
-}
-
-.shopping-like-list .row.align-items-center,
-.shopping-cart-list .row.align-items-center {
-  align-items: center;
-}
-
-.shopping-like-list .row .col-md-2,
-.shopping-cart-list .row .col-md-2 {
-  display: flex;
-  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
-}
-
-.shopping-like-list .list-item,
-.shopping-cart-list .list-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.shopping-like-list .list-item:last-child,
-.shopping-cart-list .list-item:last-child {
-  border-bottom: none; 
-}
-
-.shopping-cart-list .col-md-5,
-.shopping-like-list .col-md-7 {
-  max-width: 60%; /* Ürün ismi ve marka için genişlik ayarı */
-  overflow: hidden;
-  text-overflow: ellipsis; /* Taşan metin için ellipsis kullanarak sonuna üç nokta ekler */
-  white-space: nowrap; /* Metni tek satırda tutar */
-}
-
-.shopping-cart-list .col-md-2,
-.shopping-like-list .col-md-2 {
-  max-width: 20%;
-  text-align: right; /* Fiyatları ve simgeleri sağa hizalar */
-}
-
-.shopping-cart-list .title,
-.shopping-like-list .title {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.shopping-cart-list .price,
-.shopping-like-list .price {
-  font-size: 0.9rem;
-  color: #333;
-  text-align: right;
-}
-
-.shopping-cart-list b.fs-5.my-3 {
-  display: inline-block;
-  width: 50%; /* Yarı genişlik ayarlandı */
-  text-align: left; /* Sol hizalama */
-  font-size: 1.25rem; /* Font boyutu */
-  font-weight: bold; /* Kalın yazı */
-}
-
-.shopping-cart-list .total-price {
-  display: inline-block;
-  width: 50%; /* Yarı genişlik ayarlandı */
-  text-align: right; /* Sağ hizalama */
-  font-size: 1.25rem; /* Font boyutu */
-  font-weight: bold; /* Kalın yazı */
-  color: #333; /* Renk ayarı */
-}
-
-.shopping-cart-list .btn-delete,
-.shopping-like-list .btn-delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.shopping-cart-list .btn-delete i,
-.shopping-like-list .btn-delete i {
-  font-size: 1rem; /* Çöp kutusu simgesinin boyutunu ayarlayın */
-}
-
-.shopping-cart-list .row.align-items-center,
-.shopping-like-list .row.align-items-center {
-  align-items: center;
-}
-
-.shopping-cart-list .row .col-md-2,
-.shopping-like-list .row .col-md-2 {
-  display: flex;
-  justify-content: flex-end; /* Çöp kutusu simgesini sağa hizalayın */
-}
-
-.shopping-cart-list .list-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.shopping-cart-list .list-item:last-child {
-  border-bottom: none;
-}
- 
-.shopping-cart-list .title {
-  font-size: 1rem;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.shopping-cart-list .price {
-  font-size: 0.9rem;
-  color: #333;
-  white-space: nowrap;
-  text-align: right;
-}.models {
+.models {
   margin: 0 auto;
 }
 
@@ -952,5 +683,285 @@ aside {
       font-weight: bold;
   }
 
-  /* Diğer mobil düzenlemeler */
+  #header-container, #hstack, #dr-menu {
+    display: none !important;
+  }
+  
+  .top-banner {
+    padding: 10px 15px;
+    background-color: #f5f5f5;
+  }
+
+  .navbar-mobile {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f8f8;
+    z-index: 1000;
+    display: none; /* Varsayılan olarak gizlenmiş */
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    overflow-y: auto;
+}
+
+  .navbar-mobile.active {
+    display: flex; /* Aktif olunca görünür hale gelir */
+  }
+
+  .menu-open {
+    overflow: hidden; /* Menü açıkken sayfanın kaydırmasını engeller */
+  }
+
+  .navbar-mobile .close-menu,
+  .navbar-mobile a:first-child {
+    font-size: 30px;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .navbar-mobile .icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #000;
+  }
+
+  .navbar-mobile .search-btn {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .navbar-mobile .search-btn form {
+    width: 100%;
+  }
+
+  .navbar-mobile .categories-container {
+    background-color: #f5f5f5;
+    width: 100%;
+    padding: 20px;
+    text-align: left;
+  }
+
+  .navbar-mobile .categories-container a {
+    color: #000;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .navbar-mobile .categories-container strong,
+  .navbar-mobile a:nth-child(2),
+  .navbar-mobile a:nth-child(3) {
+    font-weight: bold;
+    font-size: 20px;
+    display: block;
+    margin-bottom: 15px;
+  }
+
+  .navbar-mobile .categories-container ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+  }
+
+  .navbar-mobile .categories-container ul li {
+    margin-bottom: 10px;
+  }
+  
+  body.menu-open {
+    overflow: hidden;
+  }
+  
+  .navbar-mobile a:first-child,
+  .top-banner a {
+    text-decoration: none !important;
+  }
+
+  .search-btn {
+    margin-top: 15px;
+  }
+
+  .navbar-mobile .icons {
+    margin-bottom: 15px;
+  }
+
+  .navbar-mobile .icons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .navbar-mobile .icons .btn {
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 24px;
+    position: relative;
+  }
+
+  .navbar-mobile .icons .badge {
+    font-size: 14px;
+  }
+  .carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+   }
+
+  .carousel-item .f-name,
+  .carousel-item .s-name,
+  .carousel-item .description {
+    font-size: 0.875rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+   }
+
+  .carousel-item .description {
+    display: none;
+   }
+
+  .carousel-item {
+    padding: 0.5rem 1rem;
+   }
+
+  .carousel-inner {
+    max-height: 400px;
+    overflow: hidden;
+   }
+
+  .carousel-item img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+  }
+
+  .carousel-item .f-name,
+  .carousel-item .s-name {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+
+  .carousel-item .description {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    display: block;
+  }
+
+  .carousel-item {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .carousel-inner {
+    max-height: 500px;
+    overflow: hidden;
+  }
+
+  .carousel-item .f-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+  }
+
+/* "Shop Now" butonunu ve yazısını küçültmek için */
+  .carousel-item .shop-now {
+    font-size: 0.75rem !important;
+    padding: 0.5rem 1rem !important;
+    color: #fff;
+  }
+
+  .carousel-item .shop-now:hover {
+    background-color: #333;
+    color: #fff;
+  }
+
+  #productRow .models,
+  #bestSellingProductRow .models {
+    width: 100%;
+  }
+  .highlight-text p {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}  
+ /* Mobilde resimlerin her zaman görünmesi */
+ .product-image-container .first-image,
+ .product-image-container .second-image {
+   display: block;
+   opacity: 1; /* Her iki resim mobilde her zaman görünür olacak */
+ }
+
+ /* Hover etkisini devre dışı bırakıyoruz */
+ .product-image-container:hover .first-image,
+ .product-image-container:hover .second-image {
+   opacity: 1 !important; /* Hover olmadan görünür kalacak */
+ }
+
+ /* Butonların her zaman görünmesi */
+ .product-image-container .detaly span {
+   opacity: 1 !important;
+   visibility: visible !important;
+   display: block !important; /* Butonlar her zaman görünür olacak */
+ }
+
+ .detaly .btn {
+   display: inline-block !important; /* Butonlar inline görünecek */
+   opacity: 1 !important;
+   visibility: visible !important;
+ }
+
+ /* Hover etkisini tamamen kaldırıyoruz */
+ .product-image-container:hover .detaly span {
+   opacity: 1 !important;
+   visibility: visible !important;
+ }
+
+}
+
+
+
+/* PC ekranları için medya sorgusu */
+@media (min-width: 768px) {
+  .hamburger-menu,
+  .navbar-mobile,
+  .mobile-logo a {
+      display: none !important;
+  }
+  .navbar-pc .shopping-cart-header {
+    display: none;
+  }
+  #productRow .models,
+  #bestSellingProductRow .models {
+    width: 25%;
+  }
+  .scrollable-images {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .scrollable-images img {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 100%;
+    height: auto;
+    margin-right: 10px;
+  }
+  .swiper-container {
+    display: none; /* PC'de swiper-container gizlenir */
+  }
 }

@@ -778,3 +778,20 @@ document.getElementById("orderTrackingTrigger").addEventListener("click", functi
     var trackingModal = new bootstrap.Modal(document.getElementById('trackingModal'));
     trackingModal.show();
 });
+
+
+
+
+
+
+class UI {
+    cardToggle() {
+        // Kart aç/kapa işlevi
+    }
+
+    likeToggle() {
+        // Favori aç/kapa işlevi
+    }
+
+    // Kart ve favori sayımı yapan işlevler kaldırıldı
+}

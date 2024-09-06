@@ -1,29 +1,6 @@
 import { products } from './products.js';
 import { reviews } from './reviews.js';
 
-document.addEventListener("DOMContentLoaded", function() {
-    fetch('common.html')
-      .then(response => response.text())
-      .then(data => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = data;
-  
-        const footerElement = tempDiv.querySelector('#footer');
-        const footerTarget = document.getElementById('footer');
-  
-        if (footerElement && footerTarget) {
-          footerTarget.innerHTML = footerElement.innerHTML;
-  
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = 'common.css';
-          document.head.appendChild(link);
-        } else {
-          console.error('Footer bulunamadı veya hedef element yok.');
-        }
-      })
-      .catch(error => console.error('Hata:', error));
-  });
 
 async function convertPrices(currency) {
     const rate = await getExchangeRate(currency);
@@ -52,10 +29,16 @@ async function convertPrices(currency) {
     convertCartPrices(currency);
 }
 
-document.getElementById('flag').addEventListener('change', async function () {
-    const selectedCurrency = this.value;
-    await convertPrices(selectedCurrency);
+document.addEventListener('DOMContentLoaded', function () {
+    const currencySelect = document.getElementById('flag');
+    if (currencySelect) {
+        currencySelect.addEventListener('change', async function () {
+            const selectedCurrency = this.value;
+            await convertPrices(selectedCurrency);
+        });
+    }
 });
+
 
 const productRow = document.getElementById('productRow');
 const bestSellingProductRow = document.getElementById('bestSellingProductRow');
