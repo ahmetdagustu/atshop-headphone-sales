@@ -1,63 +1,28 @@
 import { products } from './products.js';
+import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
 
-// Döviz kuru alma fonksiyonu
-async function getExchangeRate(toCurrency) {
-    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
-    const data = await response.json();
-    return data.rates[toCurrency];
-}
-
-// Fiyatları çevirme ve HTML güncelleme fonksiyonu
-async function convertPrices(currency) {
-    const rate = await getExchangeRate(currency);
-
-    products.forEach(product => {
-        const convertedPrice = Math.round(product.price * rate);
-        const convertedOriginalPrice = Math.round(product.originalPrice * rate);
-
-        document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
-            el.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
-        });
-
-        document.querySelectorAll(`#originalPrice-${product.id}`).forEach((el) => {
-            el.innerHTML = `<del>${getCurrencySymbol(currency)}${convertedOriginalPrice}</del>`;
-        });
-    });
-}
-
-// Para birimi sembolünü getiren fonksiyon
-function getCurrencySymbol(currency) {
-    switch (currency) {
-        case 'TRY':
-            return '₺';
-        case 'EUR':
-            return '€';
-        case 'USD':
-        default:
-            return '$';
-    }
-}
-
-// Para birimi değiştiğinde fiyatları güncelleme
 document.addEventListener('DOMContentLoaded', function () {
+    // Döviz Kuru Seçimi
     const currencySelect = document.getElementById('flag');
     if (currencySelect) {
         currencySelect.addEventListener('change', async function () {
             const selectedCurrency = this.value;
-            await convertPrices(selectedCurrency);
+            await convertPrices(selectedCurrency, products);
         });
     }
-});
 
+    // Abonelik mesajı gösteren buton
+    const subscribeButton = document.getElementById('subscribeButton');
+    if (subscribeButton) {
+        subscribeButton.addEventListener('click', showSubscribeMessage);
+    }
 
-
-document.addEventListener('DOMContentLoaded', function () {
+    // Ürünlerin görüntülenmesi
     const productRow = document.getElementById('productRow');
     let currentPage = 1;
     const productsPerPage = window.innerWidth <= 768 ? 8 : 12;
     const pagination = document.getElementById('pagination');
 
-    // Ürünlerin görüntülenmesi
     function displayProducts(products, page) {
         productRow.innerHTML = '';
         const start = (page - 1) * productsPerPage;
@@ -71,69 +36,81 @@ document.addEventListener('DOMContentLoaded', function () {
 
         productsToDisplay.forEach(product => {
             const productCard = document.createElement('div');
-            productCard.className = 'col-md-4';
             productCard.classList.add("col-12", "col-md-6", "col-lg-4", "models", "models-img", "shop");
-
-            productCard.innerHTML = `
-           <div class="product-image-container">
-             <div class="swiper-container product-slider d-md-none">
-               <div class="swiper-wrapper">
-                 <div class="swiper-slide">
-                   <img class="img-fluid first-image" src="${product.image}" alt="${product.name}"/>
-                 </div>
-                 <div class="swiper-slide">
-                   <img class="img-fluid second-image" src="${product.image2}" alt="${product.name}"/>
-                 </div>
-               </div>
-               <div class="swiper-pagination"></div>
-             </div>
-             <img class="img-fluid first-image d-none d-md-block" src="${product.image}" alt="${product.name}"/>
-             <img class="img-fluid second-image d-none d-md-block" src="${product.image2}" alt="${product.name}"/>
-           </div>
-           
-           <div class="detaly d-inline">
-             <span class="head z-3">
-               <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
-               <button class="btn btn-dark btn-dark-1 cart-btn-1">
-                 <i class="fa-solid fa-cart-shopping"></i>
-               </button>
-               <button class="btn btn-dark like-btn-1" data-product-id="${product.id}">
-                 <i class="fa-solid fa-heart"></i>
-               </button>
-             </span>
-           </div>
-           
-           <div class="text-center">
-             <p class="card-title-1">${product.name}</p>
-             <p>
-               <del id="originalPrice-${product.id}" class="">$${product.originalPrice}</del>
-               <span id="price-${product.id}" class="px-2 fw-bold price" style="color: red">$${product.price}</span>
-             </p>
-           </div>
-        `;
-    
-        productRow.appendChild(productCard);
-    
-        // Sadece mobilde Swiper'ı başlat
-        if (window.innerWidth <= 767) {
-            const swiper = new Swiper(productCard.querySelector('.swiper-container'), {
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            loop: true, // Sonsuz kaydırma
-            // Otomatik kaydırmayı kaldırıyoruz, böylece kullanıcı manuel kaydırabilir
-            autoplay: false,
-            });
-        }
-
-
+        
+            productCard.innerHTML = createProductHTML(product);
+            productRow.appendChild(productCard);
+        
+            // Sadece mobilde Swiper'ı başlat
+            if (window.innerWidth <= 767) {
+                const swiper = new Swiper(productCard.querySelector('.swiper-container'), {
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    loop: true,
+                    autoplay: false,
+                });
+            }
+        
+            // onSale: false olan ürünlerde "Notify Me" butonu göster, diğer butonları gizle
+            if (!product.onSale) {
+                // on-sale-false class ekleyelim
+                productCard.classList.add('on-sale-false');
+        
+                const shopNowBtn = productCard.querySelector('.shop-now');
+                const cartBtn = productCard.querySelector('.cart-btn-1');
+                const likeBtn = productCard.querySelector('.like-btn-1');
+        
+                // Orijinal butonları gizle
+                shopNowBtn.style.display = 'none';
+                cartBtn.style.display = 'none';
+                likeBtn.style.display = 'none';
+        
+                // "Notify Me" butonunu oluştur
+                const notifyBtn = document.createElement('button');
+                notifyBtn.classList.add('btn', 'btn-dark', 'notify-btn');
+                notifyBtn.textContent = 'Notify Me';
+        
+                // "Notify Me" butonunu ekleyelim
+                productCard.querySelector('.detaly span').appendChild(notifyBtn);
+        
+                // "Notify Me" butonuna tıklama olayı ekleyelim
+                notifyBtn.addEventListener('click', function () {
+                    showNotification('You will be notified when the product is back in stock.');
+                });
+            }
+        
             // SHOP NOW butonuna basıldığında ürün sayfasına yönlendirme
             productCard.querySelector('.shop-now').addEventListener('click', function () {
                 const productId = this.getAttribute('data-product-id');
                 window.location.href = `shop-page.html?id=${productId}`;
             });
         });
+        
+        // Bildirim fonksiyonu
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.position = 'fixed';
+            notification.style.top = '50%';
+            notification.style.left = '50%';
+            notification.style.transform = 'translate(-50%, -50%)';
+            notification.style.backgroundColor = '#f5f5f5'; 
+            notification.style.color = '#000';
+            notification.style.padding = '15px 30px';
+            notification.style.borderRadius = '8px';
+            notification.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+            notification.style.zIndex = '1000';
+            notification.textContent = message;
+        
+            document.body.appendChild(notification);
+        
+            setTimeout(() => {
+                notification.remove();
+            }, 4000); // 4 saniye sonra mesajı kaldır
+        }
+        
+        
 
         setupPagination(products.length);
     }
@@ -177,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
         pagination.appendChild(nextPageItem);
     }
 
+    // Ürünleri ilk sayfada göster
     displayProducts(products, currentPage);
 
     // Filtreleme işlemi
@@ -277,48 +255,4 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', () => {
         displayProducts(products, currentPage);
     });
-});
-
-// Email abonelik işlemi
-document.addEventListener('DOMContentLoaded', (event) => {
-    document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
-});
-
-const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-};
-
-const showSubscribeMessage = () => {
-    const emailInput = document.getElementById('emailInput').value.trim();
-
-    if (!validateEmail(emailInput)) {
-        alert("Please enter a valid email address.");
-        return;
-    }
-
-    alert(`Subscribed successfully with email: ${emailInput}`);
-};
-
-// Filtre açma/kapama fonksiyonu
-document.getElementById('filter-toggle').addEventListener('click', function() {
-    const filterSection = document.getElementById('filter-section');
-    const applyFilterBtn = document.getElementById('apply-filter');
-    const filterToggleBtn = document.getElementById('filter-toggle');
-
-    if (filterSection.style.display === 'none' || filterSection.style.display === '') {
-        filterSection.style.display = 'block';
-        applyFilterBtn.style.display = 'block';
-        filterToggleBtn.style.display = 'none'; 
-    }
-});
-
-document.getElementById('apply-filter').addEventListener('click', function() {
-    const filterSection = document.getElementById('filter-section');
-    const applyFilterBtn = document.getElementById('apply-filter');
-    const filterToggleBtn = document.getElementById('filter-toggle');
-    
-    filterSection.style.display = 'none';
-    applyFilterBtn.style.display = 'none';
-    filterToggleBtn.style.display = 'block';
 });

@@ -333,45 +333,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-// Modal user dinamik olarak ekleniyor
-document.addEventListener("DOMContentLoaded", function () {
-    const modalHTML = `
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">User Login</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" />
-                </div>
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                  <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-
-    // Modal'ı modal-container id'li div'e ekle
-    document.getElementById("modal-container").innerHTML = modalHTML;
-});
-
-
-
 // Modal kargo dinamik olarak ekleniyor
 document.addEventListener("DOMContentLoaded", function () {
     // Modal HTML'sini dinamik olarak ekle
@@ -432,3 +393,132 @@ document.addEventListener("DOMContentLoaded", function () {
         trackingModal.show();
     });
 });
+
+
+// Ürün HTML'sini oluşturma fonksiyonu
+export function createProductHTML(product) {
+    const productHTML = `
+    <div class="product-image-container">
+        <!-- Mobilde kaydırma için swiper, PC'de sadece resim -->
+        <div class="swiper-container product-slider d-md-none">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img class="img-fluid first-image" src="${product.image}" alt="${product.name}"/>
+                </div>
+                <div class="swiper-slide">
+                    <img class="img-fluid second-image" src="${product.image2}" alt="${product.name}"/>
+                </div>
+            </div>
+            <!-- Pagination (kaydırma noktaları) -->
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- PC'de hover efekti için -->
+        <img class="img-fluid first-image d-none d-md-block" src="${product.image}" alt="${product.name}"/>
+        <img class="img-fluid second-image d-none d-md-block" src="${product.image2}" alt="${product.name}"/>
+    </div>
+
+    <div class="detaly d-inline">
+        <span class="head z-3">
+            <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
+            <button class="btn btn-dark btn-dark-1 cart-btn-1">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            <button class="btn btn-dark like-btn-1" data-product-id="${product.id}">
+                <i class="fa-solid fa-heart"></i>
+            </button>
+        </span>
+    </div>
+
+    <div class="text-center">
+        <p class="card-title-1">${product.name}</p>
+        <p>
+            <del id="originalPrice-${product.id}" class="">$${product.originalPrice}</del>
+            <span id="price-${product.id}" class="px-2 fw-bold price" style="color: red">$${product.price}</span>
+        </p>
+    </div>`;
+
+    // Oluşturulan HTML yapısını döndürüyoruz
+    return productHTML;
+}
+
+// Döviz kuru alma fonksiyonu
+export async function getExchangeRate(toCurrency) {
+    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
+    const data = await response.json();
+    return data.rates[toCurrency];
+}
+
+// Para birimi sembolünü getiren fonksiyon
+export function getCurrencySymbol(currency) {
+    switch (currency) {
+        case 'TRY':
+            return '₺';
+        case 'EUR':
+            return '€';
+        case 'USD':
+        default:
+            return '$';
+    }
+}
+
+// Fiyatları çevirme ve HTML güncelleme fonksiyonu
+export async function convertPrices(currency, products) {
+    const rate = await getExchangeRate(currency);
+
+    products.forEach(product => {
+        const convertedPrice = Math.round(product.price * rate);
+        const convertedOriginalPrice = Math.round(product.originalPrice * rate);
+
+        document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
+            el.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
+        });
+
+        document.querySelectorAll(`#originalPrice-${product.id}`).forEach((el) => {
+            el.innerHTML = `<del>${getCurrencySymbol(currency)}${convertedOriginalPrice}</del>`;
+        });
+    });
+}
+
+
+// E-posta doğrulama fonksiyonu
+export const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+  
+  // Bildirim mesajını gösteren fonksiyon
+  export const showNotification = (message, isError = false) => {
+    const notice = document.createElement('div');
+    notice.style.position = 'fixed';
+    notice.style.top = '50%';
+    notice.style.left = '50%';
+    notice.style.transform = 'translate(-50%, -50%)';
+    notice.style.backgroundColor = isError ? '#e57373' : '#66bb6a'; // Hata varsa kırmızı, başarı varsa yeşil yanacak
+    notice.style.color = '#fff';
+    notice.style.padding = '10px 20px';
+    notice.style.borderRadius = '5px';
+    notice.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+    notice.style.zIndex = '1000';
+    notice.textContent = message;
+    
+    document.body.appendChild(notice);
+    
+    setTimeout(() => {
+      notice.remove();
+    }, 3000); // 3 saniye sonra mesajı kaldırın
+  };
+  
+  // Abonelik mesajı gösteren fonksiyon
+  export const showSubscribeMessage = () => {
+    const emailInputElement = document.getElementById('emailInput');
+    const emailInput = emailInputElement.value.trim(); // E-posta değerini al
+  
+    if (!validateEmail(emailInput)) {
+      showNotification("Please enter a valid email address.", true); // Hata mesajı kırmızı zeminle
+      return;
+    }
+    
+    showNotification(`Subscribed successfully with email: ${emailInput}`, false); // Başarı mesajı yeşil zeminle
+  };
+  

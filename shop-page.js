@@ -1,5 +1,6 @@
 import { products } from './products.js';
 import { reviews } from './reviews.js';
+import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
 
 
 async function convertPrices(currency) {
@@ -40,287 +41,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-const productRow = document.getElementById('productRow');
-const bestSellingProductRow = document.getElementById('bestSellingProductRow');
 
-const btnCard = document.querySelector(".btn-card");
-const cardList = document.querySelector(".shopping-cart-list");
 
-const btnLike = document.querySelector(".btn-card2");
-const likeList = document.querySelector(".shopping-like-list");
 
-class Shopping {
-    constructor(title, price, image) {
-        this.image = image;
-        this.title = title;
-        this.price = price;
-    }
-}
 
-class Like {
-    constructor(title, image) {
-        this.image = image;
-        this.title = title;
-    }
-}
-
-class UI {
-    cardToggle() {
-        btnCard.addEventListener("click", function () {
-            cardList.classList.toggle("d-none");
-        });
-
-        document.addEventListener("click", function (event) {
-            if (!btnCard.contains(event.target) && !cardList.contains(event.target)) {
-                cardList.classList.add("d-none");
-            }
-        });
-    }
-
-    likeToggle() {
-        btnLike.addEventListener("click", function () {
-            likeList.classList.toggle("d-none");
-        });
-
-        document.addEventListener("click", function (event) {
-            if (!btnLike.contains(event.target) && !likeList.contains(event.target)) {
-                likeList.classList.add("d-none");
-            }
-        });
-    }
-
-    cardCount() {
-        let cardListItem = cardList.getElementsByClassName("list-item");
-        let itemCount = document.getElementById("item-count");
-        itemCount.innerHTML = cardListItem.length;
-    }
-
-    likeCount() {
-        let likeListItem = likeList.getElementsByClassName("list-item");
-        let itemCountLike = document.getElementById("item-count-like");
-        itemCountLike.innerHTML = likeListItem.length;
-    }
-
-    removeCard() {
-        let btnRemove = document.querySelectorAll(".shopping-cart-list .btn-delete");
-        let self = this;
-        btnRemove.forEach(function (button) {
-            button.addEventListener("click", function () {
-                const itemToRemove = button.closest(".list-item");
-                itemToRemove.remove();
-                self.updateTotalPrice();
-                self.cardCount();
-
-                if (cardList.getElementsByClassName("list-item").length === 0) {
-                    document.getElementById("item-count").innerHTML = 0;
-                    document.getElementById('total-price').textContent = '';
-                }
-            });
-        });
-    }
-
-    removeLike() {
-        let btnRemove = document.querySelectorAll(".shopping-like-list .btn-delete");
-        let self = this;
-        btnRemove.forEach(function (button) {
-            button.addEventListener("click", function () {
-                const itemToRemove = button.closest(".list-item");
-                itemToRemove.remove();
-                self.likeCount();
-
-                if (likeList.getElementsByClassName("list-item").length === 0) {
-                    document.getElementById("item-count-like").innerHTML = 0;
-                }
-            });
-        });
-    }
-
-    addToCard(shopping) {
-        const existingItem = Array.from(cardList.getElementsByClassName('list-item'))
-            .find(item => item.querySelector('.title').textContent === shopping.title);
-
-        let price = parseFloat(shopping.price.replace('$', ''));
-
-        if (existingItem) {
-            const quantityElem = existingItem.querySelector('.quantity');
-            const priceElem = existingItem.querySelector('.price');
-
-            let quantity = parseInt(quantityElem.textContent.replace('x', '')) || 1;
-            quantity++;
-            quantityElem.textContent = quantity > 1 ? `x${quantity}` : '';
-
-            const newPrice = price * quantity;
-            priceElem.textContent = `$${newPrice}`;
-        } else {
-            const listItem = document.createElement("div");
-            listItem.classList = "list-item";
-    
-            listItem.innerHTML = `
-            <div class="row align-items-center text-black">
-                <div class="col-md-2">
-                    <img class="img-fluid" src="${shopping.image}" alt="">
-                </div>
-                <div class="col-md-4">
-                    <div class="title">${shopping.title}</div>
-                </div>
-                <div class="col-md-2">
-                    <div class="quantity"></div>
-                </div>
-                <div class="col-md-2">
-                    <div class="price">$${price}</div>
-                </div>
-                <div class="col-md-2 text-end">
-                    <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
-            `;
-
-            cardList.appendChild(listItem);
-        }
-
-        this.updateTotalPrice();
-        this.removeCard();
-        this.cardCount();
-    }
-
-    updateTotalPrice() {
-        const prices = Array.from(cardList.getElementsByClassName('price'))
-            .map(priceElem => parseFloat(priceElem.textContent.replace('$', '')));
-        
-        const totalPrice = prices.reduce((sum, price) => sum + price, 0);
-        document.getElementById('total-price').textContent = `Total: $${totalPrice.toFixed(2)}`;
-    }
-
-    addToLike(like, btnLike) {
-        const listItem = document.createElement("div");
-        listItem.classList = "list-item";
-
-        listItem.innerHTML = `
-        <div class="row align-items-center text-black">
-            <div class="col-md-3">
-                <img class="img-fluid" src="${like.image}" alt="">
-            </div>
-            <div class="col-md-7">
-                <div class="title">${like.title}</div>
-            </div>
-            <div class="col-md-2 text-end">
-                <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
-            </div>
-        </div>
-        `;
-
-        likeList.appendChild(listItem);
-        this.removeLike();
-        this.likeCount();
-
-        btnLike.classList.add("disabled");
-        btnLike.textContent = "Added";
-    }
-
-    showNotification(message) {
-        const notification = document.createElement('div');
-        notification.style.position = 'fixed';
-        notification.style.top = '50%';
-        notification.style.left = '50%';
-        notification.style.transform = 'translate(-50%, -50%)';
-        notification.style.backgroundColor = '#333';
-        notification.style.color = '#fff';
-        notification.style.padding = '10px 20px';
-        notification.style.borderRadius = '5px';
-        notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-        notification.style.zIndex = '1000';
-        notification.textContent = message;
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
-
-    toggleFavorite(product, btnFavorite) {
-        const favoritedProducts = JSON.parse(localStorage.getItem('favoritedProducts')) || [];
-        const index = favoritedProducts.findIndex(fav => fav.id === product.id);
-
-        if (index === -1) {
-            favoritedProducts.push(product);
-            btnFavorite.classList.add('active');
-            btnFavorite.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i>';
-            this.showNotification('Added to Favorites');
-        } else {
-            favoritedProducts.splice(index, 1);
-            btnFavorite.classList.remove('active');
-            btnFavorite.innerHTML = '<i class="fa-solid fa-heart"></i>';
-            this.showNotification('Removed from Favorites');
-        }
-
-        localStorage.setItem('favoritedProducts', JSON.stringify(favoritedProducts));
-        this.updateFavoriteCount();
-
-        this.updateLikeList();
-    }
-
-    updateFavoriteCount() {
-        const favoritedProducts = JSON.parse(localStorage.getItem('favoritedProducts')) || [];
-        const itemCountLike = document.getElementById('item-count-like');
-        itemCountLike.innerHTML = favoritedProducts.length;
-    }
-
-    updateLikeList() {
-        const favoritedProducts = JSON.parse(localStorage.getItem('favoritedProducts')) || [];
-        const likeList = document.querySelector(".shopping-like-list");
-        likeList.innerHTML = '';
-
-        favoritedProducts.forEach(product => {
-            const listItem = document.createElement("div");
-            listItem.classList = "list-item";
-
-            listItem.innerHTML = `
-            <div class="row align-items-center text-black">
-                <div class="col-md-3">
-                    <img class="img-fluid" src="${product.image}" alt="">
-                </div>
-                <div class="col-md-7">
-                    <div class="title">${product.name}</div>
-                </div>
-                <div class="col-md-2 text-end">
-                    <button class="btn btn-delete text-danger"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            </div>
-            `;
-
-            likeList.appendChild(listItem);
-
-            listItem.querySelector('.btn-delete').addEventListener('click', () => {
-                const index = favoritedProducts.findIndex(fav => fav.id === product.id);
-                if (index !== -1) {
-                    favoritedProducts.splice(index, 1);
-                    localStorage.setItem('favoritedProducts', JSON.stringify(favoritedProducts));
-                    this.updateFavoriteCount();
-                    this.updateLikeList();
-
-                    const btnFavoriteInCard = document.querySelector(`.like-btn-1[data-product-id="${product.id}"]`);
-                    if (btnFavoriteInCard) {
-                        btnFavoriteInCard.classList.remove('active');
-                        btnFavoriteInCard.innerHTML = '<i class="fa-solid fa-heart"></i>';
-                    }
-                }
-            });
-        });
-    }
-
-    addToCardWithNotification(shopping) {
-        this.addToCard(shopping);
-        this.showNotification('Added to Cart');
-    }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    let ui = new UI();
-    ui.cardToggle();
-    ui.likeToggle();
-    ui.updateLikeList();
-});
 
 document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -485,48 +209,26 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         slicedProducts.forEach((relatedProduct) => {
-            const productDiv = document.createElement("div");
+            const productCard = document.createElement("div");
 
             if (window.innerWidth < 768) {
-                productDiv.classList.add("col-4", "col-md-6", "col-lg-4", "models", "models-img", "shop");
+                productCard.classList.add("col-4", "col-md-6", "col-lg-4", "models", "models-img", "shop");
             } else {
-                productDiv.classList.add("col-2", "models", "models-img", "shop");
+                productCard.classList.add("col-2", "models", "models-img", "shop");
             }
 
-            productDiv.innerHTML = `
-            <div class="product-image-container">
-                <img class="img-fluid show-image first-image" src="${relatedProduct.image}" alt="${relatedProduct.name}"/>
-                <img class="img-fluid second-image" src="${relatedProduct.image2}" alt="${relatedProduct.name}" />
-            </div>
-            <div class="detaly d-inline">
-                <span class="head z-3">
-                <button class="btn btn-dark shop-now" data-product-id="${relatedProduct.id}">SHOP NOW</button>
-                <button class="btn btn-dark btn-dark-1 cart-btn-1">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                </button>
-                <button class="btn btn-dark like-btn-1" data-product-id="${relatedProduct.id}">
-                    <i class="fa-solid fa-heart"></i>
-                </button>
-                </span>
-            </div>
-            <div class="text-center">
-                <p class="card-title-1">${relatedProduct.name}</p>
-                <p>
-                <del id="originalPrice-${relatedProduct.id}" class="">$${relatedProduct.originalPrice}</del>
-                <span id="price-${relatedProduct.id}" class="px-2 fw-bold price" style="color: red">$${relatedProduct.price}</span>
-                </p>
-            </div>
-            `;
+            productCard.innerHTML = createProductHTML(product);
 
-            relatedProductsContainer.appendChild(productDiv);
 
-            const btnShopNow = productDiv.querySelector(".shop-now");
+            relatedProductsContainer.appendChild(productCard);
+
+            const btnShopNow = productCard.querySelector(".shop-now");
             btnShopNow.addEventListener("click", function () {
                 const productId = this.getAttribute("data-product-id");
                 goToProduct(productId);
             });
 
-            const btnAdd = productDiv.querySelector(".cart-btn-1");
+            const btnAdd = productCard.querySelector(".cart-btn-1");
             btnAdd.addEventListener("click", function (e) {
                 let title = relatedProduct.name;
                 let price = `$${relatedProduct.price}`;
@@ -539,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault();
             });
 
-            const btnFavorite = productDiv.querySelector(".like-btn-1");
+            const btnFavorite = productCard.querySelector(".like-btn-1");
             btnFavorite.addEventListener("click", function (e) {
                 let ui = new UI();
                 ui.toggleFavorite(relatedProduct, btnFavorite);

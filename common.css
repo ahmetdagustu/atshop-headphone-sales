@@ -152,156 +152,7 @@ header {
   flex-wrap: nowrap;
 }
 
-form.example {
-  position: relative;
-  width: 100%;
-}
 
-form.example input[type="text"] {
-  padding: 10px 40px 10px 20px;
-  font-size: 17px;
-  border: 1px solid #ccc;
-  width: 100%;
-  background: #f1f1f1;
-  border-radius: 20px;
-  box-sizing: border-box;
-  height: 40px;
-}
-
-form.example button {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: black;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 0;
-  height: 100%;
-}
-
-form.example button:hover {
-  color: #0b7dda;
-}
-
-form.example::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.shopping-cart {
-  position: relative;
-}
-
-.shopping-like-list,
-.shopping-cart-list {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  z-index: 1050;
-  background-color: white;
-  width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 10px;
-}
-
-.shopping-cart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.shopping-cart-list .list-item,
-.shopping-like-list .list-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-  margin-top: 1rem;
-  font-size: 12px !important;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.shopping-cart-list .list-item img {
-  width: 40px;
-  margin-right: 10px;
-}
-
-.shopping-like-list .btn-delete,
-.shopping-cart-list .btn-delete {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.shopping-like-list .btn-delete i,
-.shopping-cart-list .btn-delete i {
-  font-size: 1rem;
-}
-
-.shopping-cart-list .price,
-.shopping-like-list .price {
-  font-size: 0.9rem;
-  color: #333;
-  text-align: right;
-  white-space: nowrap !important;
-}
-
-.shopping-cart-list b.fs-5.my-3 {
-  display: inline-block;
-  width: 50%;
-  text-align: left;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-.shopping-cart-list .total-price {
-  display: inline-block;
-  width: 50%;
-  text-align: right;
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-}
-
-.cart-btn {
-  border: none;
-  background: transparent;
-  position: relative;
-}
-
-.cart-btn .cart-items {
-  position: absolute;
-  right: -1rem;
-  top: -0.875rem;
-  padding: 0 6px;
-  font-size: 0.875rem;
-  border-radius: 30%;
-  background-color: #FFB338;
-  font-weight: bold;
-}
-
-.cart-btn .fa-cart-shopping {
-  font-size: 2rem;
-  color: #fff;
-}
-
-.custom-btn {
-  font-size: 10px;
-  background-color: #ff0000 !important;
-  border: none;
-}
-
-.input-group input::placeholder {
-  font-size: 12px;
-}
 
 @media (max-width: 767px) {
   .container {
@@ -393,4 +244,220 @@ footer h6 {
 #footer a {
   text-decoration: none;
   color: #000;
+}
+
+input,
+button {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/*=============== LOGIN ===============*/
+.modal-container {
+  background-color: hsla(0, 0%, 10%, 0.1);
+  border: 2px solid white;
+  margin-inline: 1.5rem;
+  padding: 0.5 !important;
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.modal-header-custom {
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.login__content,
+.login__box {
+  display: grid;
+}
+
+.login__content {
+  row-gap: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.login__box {
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  column-gap: 0.75rem;
+  border-bottom: 2px solid #000;
+}
+
+.login__icon,
+.login__eye {
+  font-size: 1.25rem;
+}
+
+.login__input {
+  width: 100%;
+  padding-block: 0.8rem;
+  background: none;
+  color: #000;
+  position: relative;
+  z-index: 1;
+}
+
+.login__box-input {
+  position: relative;
+}
+
+.login__label {
+  position: absolute;
+  left: 0;
+  top: 13px;
+  font-weight: 500;
+  transition: top 0.3s, font-size 0.3s;
+}
+
+.login__eye {
+  position: absolute;
+  right: 0;
+  top: 18px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.login__box:nth-child(2) input {
+  padding-right: 1rem;
+}
+
+.login__check,
+.login__check-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login__check {
+  margin-bottom: 1.5rem;
+}
+
+.login__check-label,
+.login__forgot,
+.login__register {
+  font-size: 0.813rem;
+}
+
+.login__check-group {
+  column-gap: 0.5rem;
+}
+
+.login__check-input {
+  width: 16px;
+  height: 16px;
+}
+
+.login__forgot {
+  color: #000;
+}
+
+.login__forgot:hover {
+  text-decoration: underline;
+}
+
+.login__button {
+  width: 100%;
+  padding: 1rem !important;
+  border-radius: 0.5rem;
+  background-color: #191c3b;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.login__register {
+  text-align: center;
+}
+
+.login__register a {
+  color: #000;
+  font-weight: 500;
+}
+
+.login__register a:hover {
+  text-decoration: underline;
+}
+
+/* Input focus move up label */
+.login__input:focus + .login__label {
+  top: -12px;
+  font-size: 0.813rem;
+}
+
+/* Input focus sticky top label */
+.login__input:not(:placeholder-shown).login__input:not(:focus) + .login__label {
+  top: -12px;
+  font-size: 0.813rem;
+}
+/*=============== CLOSE BUTTON (X) ===============*/
+.btn-close {
+  font-size: 1rem; /* Close butonunun boyutunu küçültüyoruz */
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.25rem; /* İç boşlukları azaltıyoruz */
+}
+
+/* Modal header için ek ayarlamalar */
+.modal-header-custom {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.modal-header-custom .btn-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
+.modal-body {
+  padding: 0 !important;
+}
+/*=============== BREAKPOINTS ===============*/
+/* For medium devices */
+@media screen and (min-width: 576px) {
+  .modal-container {
+    width: 400px;
+    padding: 1rem 1rem 1rem !important;
+    border-radius: 1.5rem;
+  }
+
+  .modal-header-custom {
+    font-size: 2rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  
+  .modal-dialog {
+    max-width: 90%;
+    margin: 0;
+    align-items: center; /* Dikey ortalamak için */
+    justify-content: center;
+  }
+
+  .modal-container {
+    padding: 1rem 1rem;
+    
+  }
+
+  .modal-header-custom {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .login__button {
+    padding: 0.8rem;
+  }
+
+  
 }

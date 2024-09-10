@@ -1,43 +1,16 @@
 import { products } from './products.js';
+import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
 let totalPrice = 0;
-
-async function getExchangeRate(toCurrency) {
-    const response = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
-    const data = await response.json();
-    return data.rates[toCurrency];
-}
-
-async function convertPrices(currency) {
-    const rate = await getExchangeRate(currency);
-
-    products.forEach(product => {
-        const convertedPrice = Math.round(product.price * rate);
-        const convertedOriginalPrice = Math.round(product.originalPrice * rate);
-
-        document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
-            el.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
+// Para birimi değiştiğinde fiyatları güncelleme
+document.addEventListener('DOMContentLoaded', function () {""
+    const currencySelect = document.getElementById('flag');
+    if (currencySelect) {
+        currencySelect.addEventListener('change', async function () {
+            const selectedCurrency = this.value;
+            await convertPrices(selectedCurrency, products);
         });
-
-        document.querySelectorAll(`#originalPrice-${product.id}`).forEach((el) => {
-            el.innerHTML = `<del>${getCurrencySymbol(currency)}${convertedOriginalPrice}</del>`;
-        });
-    });
-}
-
-function getCurrencySymbol(currency) {
-    switch (currency) {
-        case 'TRY':
-            return '₺';
-        case 'EUR':
-            return '€';
-        case 'USD':
-        default:
-            return '$';
     }
-}
-
-
-
+});
 const productRow = document.getElementById('productRow');
 const bestSellingProductRow = document.getElementById('bestSellingProductRow');
 
@@ -62,56 +35,17 @@ function renderProducts(products, targetRow) {
     }
 
     displayedProducts.forEach((product) => {
-        const productDiv = document.createElement("div");
-        productDiv.classList.add("col-12", "col-md-6", "col-lg-4", "models", "models-img", "shop");
+        const productCard = document.createElement("div");
+        productCard.classList.add("col-12", "col-md-6", "col-lg-4", "models", "models-img", "shop");
         
-        productDiv.innerHTML = `
-           <div class="product-image-container">
-             <!-- Mobilde kaydırma için swiper, PC'de sadece resim -->
-             <div class="swiper-container product-slider d-md-none">
-               <div class="swiper-wrapper">
-                 <div class="swiper-slide">
-                   <img class="img-fluid first-image" src="${product.image}" alt="${product.name}"/>
-                 </div>
-                 <div class="swiper-slide">
-                   <img class="img-fluid second-image" src="${product.image2}" alt="${product.name}"/>
-                 </div>
-               </div>
-               <!-- Pagination (kaydırma noktaları) -->
-               <div class="swiper-pagination"></div>
-             </div>
+       // createProductHTML fonksiyonunu çağırarak HTML'yi oluştur
+       productCard.innerHTML = createProductHTML(product);
     
-             <!-- PC'de hover efekti için -->
-             <img class="img-fluid first-image d-none d-md-block" src="${product.image}" alt="${product.name}"/>
-             <img class="img-fluid second-image d-none d-md-block" src="${product.image2}" alt="${product.name}"/>
-           </div>
-           
-           <div class="detaly d-inline">
-             <span class="head z-3">
-               <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
-               <button class="btn btn-dark btn-dark-1 cart-btn-1">
-                 <i class="fa-solid fa-cart-shopping"></i>
-               </button>
-               <button class="btn btn-dark like-btn-1" data-product-id="${product.id}">
-                 <i class="fa-solid fa-heart"></i>
-               </button>
-             </span>
-           </div>
-           
-           <div class="text-center">
-             <p class="card-title-1">${product.name}</p>
-             <p>
-               <del id="originalPrice-${product.id}" class="">$${product.originalPrice}</del>
-               <span id="price-${product.id}" class="px-2 fw-bold price" style="color: red">$${product.price}</span>
-             </p>
-           </div>
-        `;
-    
-        targetRow.appendChild(productDiv);
+        targetRow.appendChild(productCard);
     
        // Sadece mobilde Swiper'ı başlat
         if (window.innerWidth <= 767) {
-            const swiper = new Swiper(productDiv.querySelector('.swiper-container'), {
+            const swiper = new Swiper(productCard.querySelector('.swiper-container'), {
                 pagination: {
                     el: '.swiper-pagination',
                     clickable: true,
@@ -122,7 +56,7 @@ function renderProducts(products, targetRow) {
         }
 
     
-        const btnShopNow = productDiv.querySelector(".shop-now");
+        const btnShopNow = productCard.querySelector(".shop-now");
         btnShopNow.addEventListener("click", function () {
             const productId = this.getAttribute("data-product-id");
             goToProduct(productId);
@@ -318,4 +252,8 @@ document.addEventListener('DOMContentLoaded', function () {
     createShopCollections(products);
 
     displayRandomProduct();
+});
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
 });
