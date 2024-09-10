@@ -349,6 +349,9 @@ aside .container .shop-now {
 .carousel-item.active {
   opacity: 1;
 }
+.carousel-item .description {
+  font-weight: 400;
+ }
 
 .carousel-item .f-name,
 .carousel-item .s-name,

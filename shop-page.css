@@ -659,6 +659,9 @@ aside {
   background-position: right 10px center; /* Ok simgesini sağa hizala */
 }
 
+.breadcrumb a{
+  text-decoration: none;
+}
 
 
 @media (max-width: 768px) {

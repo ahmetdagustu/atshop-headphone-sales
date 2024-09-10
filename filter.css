@@ -592,6 +592,9 @@ h4 + .price-range {
   background-color: #ccc;
 }
 
+.breadcrumb a {
+  text-decoration: none;
+}
 /* Mobilde filtreyi gizle ve buton stili ekle */
 @media (max-width: 768px) {
 
@@ -646,7 +649,7 @@ h4 + .price-range {
     margin-bottom: 0;
     padding-left: 0;
   }
-
+  
   .breadcrumb-item {
       display: inline-flex;
       align-items: flex-end; 
@@ -949,4 +952,8 @@ h4 + .price-range {
   .swiper-container {
     display: none; /* PC'de swiper-container gizlenir */
   }
+}
+
+.modal {
+  overflow-y: auto !important;
 }

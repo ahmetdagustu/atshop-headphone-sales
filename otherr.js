@@ -2,15 +2,45 @@ import { products } from './products.js';
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
 let totalPrice = 0;
 // Para birimi değiştiğinde fiyatları güncelleme
-document.addEventListener('DOMContentLoaded', function () {""
+document.addEventListener('DOMContentLoaded', function () {
     const currencySelect = document.getElementById('flag');
     if (currencySelect) {
+        // Sayfa yüklendiğinde, localStorage'dan seçilen para birimini al
+        const savedCurrency = localStorage.getItem('selectedCurrency');
+        if (savedCurrency) {
+            currencySelect.value = savedCurrency;
+            convertPrices(savedCurrency, products);
+        }
+
         currencySelect.addEventListener('change', async function () {
             const selectedCurrency = this.value;
-            await convertPrices(selectedCurrency, products);
+
+            // Seçilen para birimini Local Storage'a kaydet
+            localStorage.setItem('selectedCurrency', selectedCurrency);
+
+            // URL'den ürün ID'sini al
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'), 10);
+
+            // Seçili ürünü bul
+            const selectedProduct = products.find((p) => p.id === productId);
+
+            // Fiyatları güncelle
+            await convertPrices(selectedCurrency, products, selectedProduct);
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', async function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'), 10);
+    const selectedProduct = products.find((p) => p.id === productId);
+
+    // Para birimi seçimini yönet
+    await handleCurrencySelection(products, selectedProduct);
+});
+
+
 const productRow = document.getElementById('productRow');
 const bestSellingProductRow = document.getElementById('bestSellingProductRow');
 

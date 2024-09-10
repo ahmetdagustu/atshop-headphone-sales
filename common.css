@@ -423,6 +423,11 @@ a {
 .modal-body {
   padding: 0 !important;
 }
+.modal {
+  overflow-y: auto !important;
+}
+
+
 /*=============== BREAKPOINTS ===============*/
 /* For medium devices */
 @media screen and (min-width: 576px) {

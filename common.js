@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
       <div id="top-banner" class="top-banner row d-flex mt-3 align-items-center justify-content-between">
           <!-- ATShop Logo -->
           <div class="col-6 d-flex justify-content-center mobile-logo">
-              <a href="#">ATShop</a>
+              <a href="index.html">ATShop</a>
           </div>
           <!-- Hamburger Menu Icon for Mobile -->
           <div class="col-6 d-flex justify-content-end">
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
       <!-- Mobile Navbar -->
       <div class="navbar-mobile">
         <div class="d-flex justify-content-between align-items-center w-100 px-3">
-            <a href="#">ATShop</a>
+            <a href="index.html">ATShop</a>
             <div class="close-menu">&times;</div>
         </div>
     
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
       <div id="header-container" class="container mt-1">
           <div class="top-banner row d-flex mt-3 align-items-center">
               <div class="col-lg-4">
-                  <a href="#">ATShop</a>
+                  <a href="index.html">ATShop</a>
               </div>
               <div class="col-lg-4 d-grid search-btn">
                   <form class="example" action="/action_page.php" style="max-width: 100%">
@@ -211,8 +211,6 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   
 
-
-
 // Dinamik footer ekleme
 document.addEventListener("DOMContentLoaded", function () {
     const footerHTML = `
@@ -310,7 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <a href="#"><h3>ATShop</h3></a>
+                    <a href="index.html"><h3>ATShop</h3></a>
                     <div class="d-flex justify-content-center mb-3">
                         <a href="http://www.facebook.com" class="social-media me-2"><i class="fab fa-facebook"></i></a>
                         <a href="http://www.instagram.com" class="social-media me-2"><i class="fab fa-instagram"></i></a>
@@ -326,12 +324,179 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
     </footer>
     `;
-
-    // Footer kısmını #footer-container id'li div içine ekle
-    document.getElementById("footer-container").innerHTML = footerHTML;
+    document.body.insertAdjacentHTML('beforeend', footerHTML);
 });
 
+// kullanıcı girişi modalı
+document.addEventListener("DOMContentLoaded", function() {
+    const modalHTML = `
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content modal-container">
+                <div class="modal-header modal-header-custom">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Login</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom">
+                    <!-- Login Form -->
+                    <form id="loginForm">
+                        <div class="login__content">
+                            <div class="login__box">
+                                <i class="ri-user-3-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="email" required class="login__input" id="login-email" placeholder=" ">
+                                    <label for="login-email" class="login__label">Email</label>
+                                </div>
+                            </div>
 
+                            <div class="login__box">
+                                <i class="ri-lock-2-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="password" required class="login__input" id="login-pass" placeholder=" ">
+                                    <label for="login-pass" class="login__label">Password</label>
+                                    <i class="ri-eye-off-line login__eye" id="login-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="login__check">
+                            <div class="login__check-group">
+                                <input type="checkbox" class="login__check-input" id="login-check">
+                                <label for="login-check" class="login__check-label">Remember me</label>
+                            </div>
+
+                            <a href="#" class="login__forgot" id="forgot-password">Forgot Password?</a>
+                        </div>
+
+                        <button type="submit" class="login__button">Login</button>
+
+                        <p class="login__register">
+                            Don't have an account? <a href="#" id="showRegister">Register</a>
+                        </p>
+                    </form>
+
+                    <!-- Register Form (Hidden Initially) -->
+                    <form id="registerForm" style="display:none;">
+                        <div class="login__content">
+                            <div class="login__box">
+                                <i class="ri-user-3-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="text" required class="login__input" id="register-name" placeholder=" ">
+                                    <label for="register-name" class="login__label">Full Name</label>
+                                </div>
+                            </div>
+
+                            <div class="login__box">
+                                <i class="ri-mail-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="email" required class="login__input" id="register-email" placeholder=" ">
+                                    <label for="register-email" class="login__label">Email</label>
+                                </div>
+                            </div>
+
+                            <div class="login__box">
+                                <i class="ri-lock-2-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="password" required class="login__input" id="register-pass" placeholder=" ">
+                                    <label for="register-pass" class="login__label">Password</label>
+                                    <i class="ri-eye-off-line login__eye" id="register-eye"></i>
+                                </div>
+                            </div>
+
+                            <div class="login__box">
+                                <i class="ri-lock-2-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="password" required class="login__input" id="confirm-pass" placeholder=" ">
+                                    <label for="confirm-pass" class="login__label">Confirm Password</label>
+                                    <i class="ri-eye-off-line login__eye" id="confirm-eye"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="login__button">Register</button>
+
+                        <p class="login__register">
+                            Already have an account? <a href="#" id="showLogin">Login</a>
+                        </p>
+                    </form>
+
+                    <!-- Forgot Password Form (Hidden Initially) -->
+                    <form id="forgotPasswordForm" style="display:none;">
+                        <div class="login__content">
+                            <div class="login__box">
+                                <i class="ri-mail-line login__icon"></i>
+                                <div class="login__box-input">
+                                    <input type="email" required class="login__input" id="forgot-email" placeholder=" ">
+                                    <label for="forgot-email" class="login__label">Email</label>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="login__button">Confirm Email</button>
+                        <p class="login__register">
+                            Remember your password? <a href="#" id="backToLogin">Login</a>
+                        </p>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Toggle between Login, Register, and Forgot Password forms
+    document.getElementById('showRegister').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+    });
+
+    document.getElementById('showLogin').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+    });
+
+    document.getElementById('forgot-password').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('forgotPasswordForm').style.display = 'block';
+    });
+
+    document.getElementById('backToLogin').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.getElementById('forgotPasswordForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'block';
+    });
+
+    // Toggle password visibility for login
+    document.getElementById('login-eye').addEventListener('click', function () {
+        const passwordInput = document.getElementById('login-pass');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('ri-eye-off-line');
+        this.classList.toggle('ri-eye-line');
+    });
+
+    // Toggle password visibility for register password
+    document.getElementById('register-eye').addEventListener('click', function () {
+        const passwordInput = document.getElementById('register-pass');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.classList.toggle('ri-eye-off-line');
+        this.classList.toggle('ri-eye-line');
+    });
+
+    // Toggle password visibility for confirm password
+    document.getElementById('confirm-eye').addEventListener('click', function () {
+        const confirmPasswordInput = document.getElementById('confirm-pass');
+        const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordInput.setAttribute('type', type);
+        this.classList.toggle('ri-eye-off-line');
+        this.classList.toggle('ri-eye-line');
+    });
+});
 
 // Modal kargo dinamik olarak ekleniyor
 document.addEventListener("DOMContentLoaded", function () {
@@ -383,9 +548,8 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       </div>
     `;
+    document.body.insertAdjacentHTML('beforeend', trackingModalHTML);
 
-    // Modal'ı sayfaya ekle
-    document.getElementById("tracking-modal-container").innerHTML = trackingModalHTML;
 
     // ORDER TRACKING span'ına tıklayınca modalı aç
     document.getElementById("orderTrackingTrigger").addEventListener("click", function () {
@@ -463,13 +627,16 @@ export function getCurrencySymbol(currency) {
 }
 
 // Fiyatları çevirme ve HTML güncelleme fonksiyonu
-export async function convertPrices(currency, products) {
+export async function convertPrices(currency, products, selectedProduct = null) {
     const rate = await getExchangeRate(currency);
 
     products.forEach(product => {
         const convertedPrice = Math.round(product.price * rate);
         const convertedOriginalPrice = Math.round(product.originalPrice * rate);
 
+        console.log(`Product: ${product.name}, Converted Price: ${convertedPrice}`);
+
+        // Ürün listeleme sayfası fiyatlarını güncelle
         document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
             el.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
         });
@@ -477,7 +644,38 @@ export async function convertPrices(currency, products) {
         document.querySelectorAll(`#originalPrice-${product.id}`).forEach((el) => {
             el.innerHTML = `<del>${getCurrencySymbol(currency)}${convertedOriginalPrice}</del>`;
         });
+
+        // Eğer bir tekil ürün sayfasındaysak ve seçili ürünün fiyatını güncellemek istiyorsak
+        if (selectedProduct && selectedProduct.id === product.id) {
+            const singleProductPrice = document.getElementById("product-price");
+            if (singleProductPrice) {
+                singleProductPrice.innerText = `${getCurrencySymbol(currency)}${convertedPrice}`;
+            }
+        }
     });
+}
+
+export async function handleCurrencySelection(products, selectedProduct = null) {
+    const currencySelect = document.getElementById('flag');
+    
+    // Sayfa yüklendiğinde kaydedilen para birimini Local Storage'dan al
+    const savedCurrency = localStorage.getItem('selectedCurrency');
+    if (savedCurrency) {
+        currencySelect.value = savedCurrency; // Önceki seçimi ayarla
+        await convertPrices(savedCurrency, products, selectedProduct); // Fiyatları güncelle
+    }
+
+    // Para birimi seçimi değiştiğinde çalışacak kod
+    if (currencySelect) {
+        currencySelect.addEventListener('change', async function () {
+            const selectedCurrency = this.value;
+            
+            // Seçilen para birimini Local Storage'a kaydet
+            localStorage.setItem('selectedCurrency', selectedCurrency);
+
+            await convertPrices(selectedCurrency, products, selectedProduct);
+        });
+    }
 }
 
 
