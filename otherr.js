@@ -84,7 +84,6 @@ function renderProducts(products, targetRow) {
                 autoplay: false,         
             });
         }
-
     
         const btnShopNow = productCard.querySelector(".shop-now");
         btnShopNow.addEventListener("click", function () {
@@ -177,23 +176,24 @@ function createShopCollections(products) {
         collectionItem.className = 'col-sm-4 mb-3 mb-sm-0';
 
         collectionItem.innerHTML = `
-        <div class="card" style="border: none; background-color: #f1f1f1">
-            <div class="row shop-clc-card">
-            <div class="col-8">
-                <div class="card-body d">
+        <div class="card h-100" style="border: none; background-color: #f1f1f1">
+          <div class="row shop-clc-card h-100">
+            <div class="col-8 d-flex flex-column justify-content-between">
+              <div class="card-body">
                 <h5 class="card-title">${category.name}</h5>
-                <a href="#" class="btn btn-dark shop-clc" data-category="${category.name}">SHOP COLLECTION</a>
-                </div>
+                <a href="#" class="btn btn-dark shop-clc mt-auto" data-category="${category.name}">SHOP COLLECTION</a>
+              </div>
             </div>
-            <div class="col-4">
-                <img src="${product.image}" class="img-fluid" alt="${product.name}"/>
+            <div class="col-4 d-flex align-items-center justify-content-center" id="hide-on-small">
+                <img src="${product.image}" class="img-fluid" alt="${product.name}" />
             </div>
-            </div>
+
+          </div>
         </div>
-        `;
-
-        shopCollectionContainer.appendChild(collectionItem);
-
+      `;
+      
+      shopCollectionContainer.appendChild(collectionItem);
+      
         document.querySelectorAll('.shop-clc').forEach(button => {
             button.addEventListener('click', function (event) {
                 event.preventDefault();
