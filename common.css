@@ -1039,3 +1039,62 @@ a {
   }
  
 }
+
+
+/* Sepet açılır pencere */
+#cart-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    display: none; /* Başlangıçta gizli */
+    z-index: 999;
+}
+
+#cart-dropdown .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#cart-dropdown .cart-items .cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#cart-dropdown .cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+#cart-dropdown .btn-danger {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#cart-dropdown .btn-danger i {
+    font-size: 12px;
+}
+
+#cart-dropdown .cart-item p {
+    margin: 0;
+    padding: 0 10px;
+    font-size: 14px;
+}
+
+/* Sepet açılır pencere açıkken */
+#cart-dropdown.show {
+    display: block;
+}

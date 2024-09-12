@@ -46,14 +46,17 @@ document.addEventListener("DOMContentLoaded", function() {
             </button>
         </div>
     
-      <div class="mobile-shopping-cart-list d-none">
-        <div class="shopping-cart-header d-flex align-items-center justify-content-between">
-            <b class="fs-5 my-3 text-start">Shopping Cart</b>
-            <span id="total-price-mobile" class="fs-5 my-3 text-end"></span>
+        <!-- Mobil Sepet açılır kutusu -->
+        <div id="mobile-cart-dropdown" class="cart-dropdown-mobile" style="display: none;">
+            <div class="cart-header">
+                <span>Shopping Cart (Mobil)</span>
+                <span id="mobile-total-price">Total: $0.00</span>
+            </div>
+            <div id="mobile-cart-list-items" class="cart-items">
+                <!-- Mobil için sepet ürünleri buraya eklenecek -->
+            </div>
         </div>
-        <div id="cart-list-items-mobile"></div>
-      </div>
-  
+
       <div class="mobile-shopping-like-list d-none">
         <div class="shopping-cart-header d-flex align-items-center justify-content-start">
             <b class="fs-5 my-3 text-start">Favorites</b>
@@ -157,13 +160,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     <i class="fa-solid fa-cart-shopping"></i>
                     <span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
                   </button>
-                  <div class="shopping-cart-list d-none">
-                    <div class="shopping-cart-header d-flex align-items-center justify-content-center">
-                        <b class="fs-5 my-3 flex-grow-1 text-start">Shopping Cart</b>
-                        <span id="total-price" class="fs-5 my-3 text-end"></span>
+                <!-- Sepet açılır kutusu -->
+                <div id="cart-dropdown" class="cart-dropdown" style="display: none;">
+                    <div class="cart-header">
+                        <span>Shopping Cart</span>
+                        <span id="total-price">Total: $0.00</span>
                     </div>
-                    <div id="cart-list-items-desktop"></div>
-                  </div>  
+                    <div id="cart-list-items" class="cart-items">
+                        <!-- Sepet ürünleri buraya eklenecek -->
+                    </div>
                 </div>
               </div>          
           </div>
@@ -620,9 +625,12 @@ export function createProductHTML(product) {
     <div class="detaly d-inline">
         <span class="head z-3">
             <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
-            <button class="btn btn-dark btn-dark-1 cart-btn-1">
+            
+            <!-- Sepet Butonuna Ürün Bilgilerini Ekleyelim -->
+            <button class="btn btn-dark btn-dark-1 cart-btn-1" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}" data-product-image="${product.image}">
                 <i class="fa-solid fa-cart-shopping"></i>
             </button>
+            
             <button class="btn btn-dark like-btn-1" data-product-id="${product.id}">
                 <i class="fa-solid fa-heart"></i>
             </button>
@@ -754,3 +762,195 @@ export const validateEmail = (email) => {
     showNotification(`Subscribed successfully with email: ${emailInput}`, false); // Başarı mesajı yeşil zeminle
   };
   
+  
+
+  
+// Sepet dizisini dışarıda tanımlıyoruz
+let cart = [];
+let totalPrice = 0; // Toplam fiyat için global bir değişken
+
+document.addEventListener("DOMContentLoaded", function () {
+    const cartDropdown = document.getElementById('cart-dropdown'); // Masaüstü sepet açılır kutusu
+    const cartButton = document.querySelector('.btn-card'); // Masaüstü sepet butonu
+    const cartListElement = document.getElementById('cart-list-items'); // Sepet ürünlerinin listeleneceği yer
+    const totalPriceElement = document.getElementById('total-price'); // Toplam fiyatı göstereceğimiz yer
+
+    // Mobil sepet öğeleri
+    const mobileCartDropdown = document.getElementById('mobile-cart-dropdown'); // Mobil sepet açılır kutusu
+    const mobileCartButton = document.querySelector('.btn-card-mobile'); // Mobil sepet butonu
+    const mobileCartListElement = document.getElementById('mobile-cart-list-items'); // Mobil sepet ürünlerinin listeleneceği yer
+    const mobileTotalPriceElement = document.getElementById('mobile-total-price'); // Mobil toplam fiyatı göstereceğimiz yer
+
+    // Sepet sayısı göstergeleri (PC ve Mobil)
+    const itemCountElementPC = document.getElementById('item-count'); // PC için sepet sayısı
+    const itemCountElementMobile = document.getElementById('item-count-mobile'); // Mobil için sepet sayısı
+
+    // Sayfa yüklendiğinde localStorage'dan sepeti yükle
+    function loadCartFromStorage() {
+        const storedCart = localStorage.getItem('cart');
+        const storedTotalPrice = localStorage.getItem('totalPrice');
+
+        if (storedCart) {
+            cart = JSON.parse(storedCart);
+        }
+
+        if (storedTotalPrice) {
+            totalPrice = parseFloat(storedTotalPrice);
+        }
+
+        // Sepeti ekrana yansıt
+        updateCartDisplay();
+        updateMobileCartDisplay();
+    }
+
+    // Sepeti localStorage'a kaydet
+    function saveCartToStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('totalPrice', totalPrice.toFixed(2));
+    }
+
+    // Sepete ürün ekleme fonksiyonu
+    function addToCart(productId, productName, productPrice, productImage) {
+        const product = {
+            id: productId,
+            name: productName,
+            price: productPrice,
+            quantity: 1,
+            image: productImage,
+        };
+
+        // Sepette aynı ürün var mı kontrol et
+        const existingProduct = cart.find(item => item.id === productId);
+
+        if (existingProduct) {
+            // Aynı ürün varsa miktarını artır
+            existingProduct.quantity += 1;
+        } else {
+            // Yeni ürünü sepete ekle
+            cart.push(product);
+        }
+
+        // Toplam fiyatı güncelle
+        totalPrice += productPrice;
+
+        // Sepet içeriğini güncelle (hem masaüstü hem de mobil için)
+        updateCartDisplay();
+        updateMobileCartDisplay();
+
+        // Sepeti kaydet
+        saveCartToStorage();
+    }
+
+    // Masaüstü için sepet içeriğini HTML'de güncelleme fonksiyonu
+    function updateCartDisplay() {
+        cartListElement.innerHTML = ''; // Önce sepeti temizle
+
+        cart.forEach(product => {
+            const listItem = document.createElement('div');
+            listItem.classList.add('cart-item');
+            listItem.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;">
+                <p>${product.name} <span class="item-quantity">x${product.quantity}</span></p>
+                <span class="item-price">$${(product.price * product.quantity).toFixed(2)}</span>
+                <button class="remove-btn" data-product-id="${product.id}">🗑</button>
+            `;
+            cartListElement.appendChild(listItem);
+        });
+
+        // Toplam fiyatı güncelle
+        totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+
+        // Sepetteki benzersiz ürün sayısını güncelle
+        updateItemCountDisplay();
+    }
+
+    // Mobil için sepet içeriğini HTML'de güncelleme fonksiyonu
+    function updateMobileCartDisplay() {
+        mobileCartListElement.innerHTML = ''; // Önce sepeti temizle
+
+        cart.forEach(product => {
+            const listItem = document.createElement('div');
+            listItem.classList.add('cart-item');
+            listItem.innerHTML = `
+                <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;">
+                <p>${product.name} <span class="item-quantity">x${product.quantity}</span></p>
+                <span class="item-price">$${(product.price * product.quantity).toFixed(2)}</span>
+                <button class="remove-btn" data-product-id="${product.id}">🗑</button>
+            `;
+            mobileCartListElement.appendChild(listItem);
+        });
+
+        // Toplam fiyatı güncelle
+        mobileTotalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
+
+        // Sepetteki benzersiz ürün sayısını güncelle
+        updateItemCountDisplay();
+    }
+
+    // Sepetteki benzersiz ürün sayısını güncelleme fonksiyonu
+    function updateItemCountDisplay() {
+        const itemCount = cart.length; // Benzersiz ürün sayısı
+        itemCountElementPC.textContent = itemCount; // PC sepet simgesinde güncelle
+        itemCountElementMobile.textContent = itemCount; // Mobil sepet simgesinde güncelle
+    }
+
+    // Ürünü sepetten çıkarma fonksiyonu
+    function removeFromCart(productId) {
+        const productIndex = cart.findIndex(item => item.id === productId);
+        if (productIndex > -1) {
+            totalPrice -= cart[productIndex].price * cart[productIndex].quantity;
+            cart.splice(productIndex, 1);
+        }
+        updateCartDisplay();
+        updateMobileCartDisplay();
+        saveCartToStorage(); // Sepeti kaydet
+    }
+
+    // Sepet butonuna tıklayınca açılır kutuyu göster (Masaüstü)
+    cartButton.addEventListener('click', function() {
+        cartDropdown.style.display = cartDropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Sepet butonuna tıklayınca açılır kutuyu göster (Mobil)
+    mobileCartButton.addEventListener('click', function() {
+        mobileCartDropdown.style.display = mobileCartDropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Sepet dışındaki alanlara tıklanınca sepeti kapat (Masaüstü ve Mobil)
+    document.addEventListener('click', function(event) {
+        if (!cartButton.contains(event.target) && !cartDropdown.contains(event.target)) {
+            cartDropdown.style.display = 'none'; // Boşluğa tıklayınca masaüstü sepeti kapat
+        }
+
+        if (!mobileCartButton.contains(event.target) && !mobileCartDropdown.contains(event.target)) {
+            mobileCartDropdown.style.display = 'none'; // Boşluğa tıklayınca mobil sepeti kapat
+        }
+    });
+
+    // Sayfa yüklendiğinde sepeti geri yükle
+    loadCartFromStorage();
+
+    // Sepet öğeleri üzerinde tıklama olayını dinle
+    document.body.addEventListener('click', function(event) {
+        // Ürün ekleme butonuna tıklama
+        if (event.target.closest('.cart-btn-1')) {
+            const button = event.target.closest('.cart-btn-1');
+            const productId = button.getAttribute('data-product-id');
+            const productName = button.getAttribute('data-product-name');
+            const productPrice = parseFloat(button.getAttribute('data-product-price'));
+            const productImage = button.getAttribute('data-product-image');
+
+            if (productId && productName && !isNaN(productPrice)) {
+                addToCart(productId, productName, productPrice, productImage);
+            } else {
+                console.error("Ürün bilgileri eksik veya hatalı!");
+            }
+        }
+
+        // Ürün silme butonuna tıklama
+        if (event.target.classList.contains('remove-btn')) {
+            const productId = event.target.getAttribute('data-product-id');
+            removeFromCart(productId); // Ürünü sepetten sil
+        }
+    });
+});
