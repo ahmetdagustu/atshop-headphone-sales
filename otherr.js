@@ -1,5 +1,7 @@
 import { products } from './products.js';
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
+import { handleCurrencySelection } from './common.js';
+
 let totalPrice = 0;
 // Para birimi değiştiğinde fiyatları güncelleme
 document.addEventListener('DOMContentLoaded', function () {

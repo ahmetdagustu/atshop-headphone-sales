@@ -198,29 +198,37 @@ header {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   left: 0;
-  top: 50px;
+  top: 140px;
   padding: 10px;
   border-radius: 5px;
   flex-wrap: wrap;
+  height: 320px;
 }
 
 .category-group {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: 5px;
+  display: flex; /* Flexbox kullanarak sütunları yatayda hizala */
+  flex-wrap: wrap; /* Eğer sütunlar sığmazsa alt satıra geçmesini sağlar */
+  justify-content: space-between; /* Sütunlar arasında eşit boşluk bırak */
+  align-items: flex-start; /* İçerikleri yukarı hizala */
+  width: 100%; /* Tam genişlik kullan */
+  gap: 10px; /* Sütunlar arasında boşluk */
 }
 
 .category {
+  flex: 1 1 30%; 
   flex: 1;
-  padding: 8px;
-  min-width: 120px !important;
+  padding: 0px;
+  min-height: 400px; /* Hepsine eşit yükseklik verebilirsiniz */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .category h1 {
   font-size: 14px;
   margin-bottom: 8px;
   font-weight: bold;
+  text-align: left;
 }
 
 .category ul {
@@ -230,7 +238,7 @@ header {
 }
 
 .category ul li {
-  margin-bottom: 6px;
+  margin-bottom: 0px;
 }
 
 .category ul li a {
@@ -240,6 +248,37 @@ header {
   display: block;
   padding: 4px 0;
   transition: color 0.3s ease;
+  font-weight: normal;
+  transition: all 0.3s ease; /* Animasyonu yumuşak hale getirir */
+  display: inline-block; /* İçerik genişliğini korur */
+}
+
+
+.category img {
+  max-height: 150px; 
+  max-width: none;
+  object-fit: contain;
+}
+
+/* Blog item'lar için temel stil */
+.blog-item {
+  display: block; /* Tam genişlikte olmasını sağlıyoruz */
+  position: relative; /* Hover sırasında hareketin öğeye özel olmasını sağlar */
+  transition: transform 0.3s ease; /* Hareketin akıcı olmasını sağlar */
+  padding-left: 0; /* Başlangıçta padding olmaması */
+  text-decoration: none; /* Link altındaki çizgiyi kaldırır */
+  color: inherit; /* Varsayılan yazı rengini korur */
+}
+
+/* Hover durumunda sadece ilgili link sağa kayacak */
+.blog-item:hover {
+  transform: translateX(10px); /* Sadece hover yapılan öğe sağa kayar */
+}
+
+/* Blog item hover stilini renklendirmek isterseniz */
+.blog-item:hover {
+  color: red; /* İsteğe bağlı olarak hover durumunda renk değişebilir */
+  border-bottom: 1px solid red; /* İsteğe bağlı alt çizgi efekti */
 }
 
 .dropdown-2:hover .dropdown-content-2 {

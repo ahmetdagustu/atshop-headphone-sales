@@ -1,23 +1,22 @@
+import { products } from './products.js';
+
 // Dinamik header ekleme
 document.addEventListener("DOMContentLoaded", function() {
     // Dinamik header ekle
     document.body.insertAdjacentHTML('afterbegin', `
     <header class="site-header">
-    <div id="top-banner" class="top-banner d-flex mt-3 align-items-center justify-content-between">
-        <div class="container d-flex justify-content-between align-items-center">
-            <!-- ATShop Logo -->
-            <div class="col-6 d-flex justify-content-center mobile-logo">
-                <a href="index.html">ATShop</a>
-            </div>
-            <!-- Hamburger Menu Icon for Mobile -->
-            <div class="col-6 d-flex justify-content-end">
-                <div class="hamburger-menu">
-                    <i class="fa fa-bars"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
+      <div id="top-banner" class="top-banner row d-flex mt-3 align-items-center justify-content-between">
+          <!-- ATShop Logo -->
+          <div class="col-6 d-flex justify-content-center mobile-logo">
+              <a href="index.html">ATShop</a>
+          </div>
+          <!-- Hamburger Menu Icon for Mobile -->
+          <div class="col-6 d-flex justify-content-end">
+              <div class="hamburger-menu">
+                  <i class="fa fa-bars"></i>
+              </div>
+          </div>
+      </div>
   
       <!-- Mobile Navbar -->
       <div class="navbar-mobile">
@@ -61,27 +60,12 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
         <div id="like-list-items-mobile"></div>
       </div>
-
-      <div class="row mobile-only">
-        <div class="col-6">
-            <select id="flag" class="form-select">
-                <option value="USD">USD</option>
-                <option value="TRY">TRY</option>
-                <option value="EUR">Euro</option>
-            </select>
-        </div>
-        <div class="col-6 text-end">
-            <div class="order-tracking">
-                <span id="orderTrackingTrigger" style="cursor: pointer;">ORDER TRACKING</span>
-            </div>
-        </div>
-    </div>
-
+  
         <div class="categories-container mt-4">
             <a href="#" class="bold">HOME</a>
-           <a href="#" class="bold toggle-btn">SHOP</a>
-            <div class="category-content">
-                <strong>JBL</strong>
+            <a href="#" class="bold">SHOP</a>
+            
+            <strong>JBL</strong>
                 <ul>
                     <li><a href="filter.html?brand=JBL&category=Wireless">Wireless</a></li>
                     <li><a href="filter.html?brand=JBL&category=Inear">Inear Headphone</a></li>
@@ -121,16 +105,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     <li><a href="filter.html?brand=SONY&category=Sport">Sport Headphone</a></li>
                 </ul>
 
-
-            </div>
-            <a href="blog.html">BLOG</a>
+    
+            <a href="#">BLOG</a>
             <a href="#">CONTACT</a>
         </div>
-
-        </div>
-    
+      </div>
+  
       <div class="hstack gap-3 d-flex fs-7 align-items-center" id="hstack">
-        <div class="hstack-context-inner">
           <div class="hstack-context">
               <p><a href="tel:+905555555555">0 555 555 55 55</a></p>
               <div class="vr"></div>
@@ -144,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function() {
               </select>
           </div>
           <div class="vr"></div>
+         
           <div class="order-tracking">
             <span id="orderTrackingTrigger" style="cursor: pointer;">ORDER TRACKING</span>
-          </div> 
-        </div>  
+          </div>  
       </div>
       <div id="header-container" class="container mt-1">
           <div class="top-banner row d-flex mt-3 align-items-center">
@@ -194,57 +175,59 @@ document.addEventListener("DOMContentLoaded", function() {
               <div class="dropdown-content-2 z-3">
                   <div class="category-group align-items-center">
                       <div class="category">
-                          <a href="#">
-                              <h1 class="mb-3">Categories</h1>
-                              <ul role="button">
-                                  <li><a role="button" href="">Wireless</a></li>
-                                  <li><a href="">Inear Headphone</a></li>
-                                  <li><a href="">Overear</a></li>
-                                  <li><a href="">Sport Headphone</a></li>
-                              </ul>
-                          </a>
-                          <img class="img-fluid" src="/images/image2.webp" alt="Product"/>
+                        <h1 class="mb-2">JBL</h1>
+                        <ul>
+                            <li><a class="blog-item" href="filter.html?brand=JBL&category=Wireless">Wireless</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=JBL&category=Inear">Inear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=JBL&category=Overear">Overear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=JBL&category=Sport">Sport Headphone</a></li>
+                        </ul>
+                        <img class="img-fluid" src="/images/image2.webp" alt="Product"/>
                       </div>
                       <div class="category">
-                          <a href="#">
-                              <h1 class="mb-3">Categories</h1>
-                              <ul>
-                                  <li><a href="">Wireless</a></li>
-                                  <li><a href="">Inear Headphone</a></li>
-                                  <li><a href="">Overear</a></li>
-                                  <li><a href="">Sport Headphone</a></li>
-                              </ul>
-                          </a>
-                          <img class="img-fluid" src="/images/image1.webp" alt="Product"/>
+                        <h1 class="mb-2">BEAT</h1>
+                        <ul>
+                            <li><a class="blog-item" href="filter.html?brand=BEAT&category=Wireless">Wireless</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=BEAT&category=Inear">Inear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=BEAT&category=Overear">Overear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=BEAT&category=Sport">Sport Headphone</a></li>
+                        </ul>
+                        <img class="img-fluid" src="/images/image8.webp" alt="Product"/>
                       </div>
                       <div class="category">
-                          <a href="#">
-                              <h1 class="mb-3">Categories</h1>
-                              <ul>
-                                  <li><a href="">Wireless</a></li>
-                                  <li><a href="">Inear Headphone</a></li>
-                                  <li><a href="">Overear</a></li>
-                                  <li><a href="">Sport Headphone</a></li>
-                              </ul>
-                          </a>
-                          <img class="img-fluid" src="/images/image4_2.webp" alt="Product"/>
+                        <h1 class="mb-2">LOGITECH</h1>
+                        <ul>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Wireless">Wireless</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Inear">Inear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Overear">Overear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Sport">Sport Headphone</a></li>
+                        </ul>
+                        <img class="img-fluid" src="/images/image9.webp" alt="Product"/>
                       </div>
                       <div class="category">
-                          <a href="#">
-                              <h1 class="mb-3">Categories</a>
-                              <ul>
-                                  <li><a href="">Wireless</a></li>
-                                  <li><a href="">Inear Headphone</a></li>
-                                  <li><a href="">Overear</a></li>
-                                  <li><a href="">Sport Headphone</a></li>
-                              </ul>
-                          </a>
-                          <img class="img-fluid" src="/images/image3_4.webp" alt="Product"/>
+                        <h1 class="mb-2">SAMSUNG</h1>
+                        <ul>
+                            <li><a class="blog-item" href="filter.html?brand=SAMSUNG&category=Wireless">Wireless</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=SAMSUNG&category=Inear">Inear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=SAMSUNG&category=Overear">Overear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=SAMSUNG&category=Sport">Sport Headphone</a></li>
+                        </ul>
+                        <img class="img-fluid" src="/images/image10.webp" alt="Product"/>
+                      </div>
+                          <div class="category">
+                        <h1 class="mb-2">LOGITECH</h1>
+                        <ul>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Wireless">Wireless</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Inear">Inear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Overear">Overear Headphone</a></li>
+                            <li><a class="blog-item" href="filter.html?brand=LOGITECH&category=Sport">Sport Headphone</a></li>
+                        </ul>
+                        <img class="img-fluid" src="/images/image11.webp" alt="Product"/>
                       </div>
                   </div>
               </div>
           </div>
-          <a href="blog.html">BLOG</a>
+          <a href="#">BLOG</a>
           <a href="#">CONTACT</a>
       </div>  
     </header>
@@ -686,7 +669,6 @@ export async function convertPrices(currency, products, selectedProduct = null) 
         const convertedPrice = Math.round(product.price * rate);
         const convertedOriginalPrice = Math.round(product.originalPrice * rate);
 
-        console.log(`Product: ${product.name}, Converted Price: ${convertedPrice}`);
 
         // Ürün listeleme sayfası fiyatlarını güncelle
         document.querySelectorAll(`#price-${product.id}`).forEach((el) => {
@@ -706,7 +688,7 @@ export async function convertPrices(currency, products, selectedProduct = null) 
         }
     });
 }
-//para birimini her sayfada aynı tutan fonksiyon
+
 export async function handleCurrencySelection(products, selectedProduct = null) {
     const currencySelect = document.getElementById('flag');
     
@@ -729,6 +711,7 @@ export async function handleCurrencySelection(products, selectedProduct = null) 
         });
     }
 }
+
 
 // E-posta doğrulama fonksiyonu
 export const validateEmail = (email) => {
@@ -771,61 +754,3 @@ export const validateEmail = (email) => {
     showNotification(`Subscribed successfully with email: ${emailInput}`, false); // Başarı mesajı yeşil zeminle
   };
   
-  document.addEventListener("DOMContentLoaded", function() {
-    const toggleBtn = document.querySelector('.toggle-btn');
-    const categoryContent = document.querySelector('.category-content');
-
-    toggleBtn.addEventListener('click', function(event) {
-        event.preventDefault(); // Link tıklamasını engelle
-
-        // Category içeriğini aç/kapat
-        if (categoryContent.classList.contains('open')) {
-            categoryContent.classList.remove('open');
-        } else {
-            categoryContent.classList.add('open');
-        }
-    });
-});
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    // URL'deki parametreleri al
-    const urlParams = new URLSearchParams(window.location.search);
-    const brand = urlParams.get('brand');
-    const category = urlParams.get('category');
-
-    // Eğer brand ve category parametreleri varsa
-    if (brand && category) {
-        filterProducts(brand, category);
-    }
-});
-
-// Filtreleme işlemi
-function filterProducts(brand, category) {
-    // Tüm ürünleri al (örneğin ürünler bir JSON dizisi olabilir)
-    const products = [
-        { name: 'JBL Wireless', brand: 'JBL', category: 'Wireless' },
-        { name: 'JBL Inear', brand: 'JBL', category: 'Inear' },
-        { name: 'BEAT Overear', brand: 'BEAT', category: 'Overear' },
-        { name: 'LOGITECH Wireless', brand: 'LOGITECH', category: 'Wireless' },
-        { name: 'SAMSUNG Sport', brand: 'SAMSUNG', category: 'Sport' }
-        // Diğer ürünler buraya eklenebilir
-    ];
-
-    // Brand ve category ile filtrele
-    const filteredProducts = products.filter(product => product.brand === brand && product.category === category);
-
-    // Ürünleri sayfada göster
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = ''; // Önce mevcut ürünleri temizle
-
-    if (filteredProducts.length > 0) {
-        filteredProducts.forEach(product => {
-            const productItem = document.createElement('li');
-            productItem.textContent = product.name;
-            productList.appendChild(productItem);
-        });
-    } else {
-        productList.textContent = 'No products found';
-    }
-}

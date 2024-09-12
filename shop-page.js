@@ -1,6 +1,8 @@
 import { products } from './products.js';
 import { reviews } from './reviews.js';
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
+import { handleCurrencySelection } from './common.js';
+
 
 // Para birimi değiştiğinde fiyatları güncelleme
 document.addEventListener('DOMContentLoaded', async function () {
@@ -257,4 +259,13 @@ function renderRating(rating, element) {
 }
 document.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
+});
+
+document.addEventListener('DOMContentLoaded', async function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'), 10);
+    const selectedProduct = products.find((p) => p.id === productId);
+
+    // Para birimi seçimini yönet
+    await handleCurrencySelection(products, selectedProduct);
 });

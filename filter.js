@@ -1,5 +1,7 @@
 import { products } from './products.js';
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
+import { handleCurrencySelection } from './common.js';
+
 // Para birimi değiştiğinde fiyatları güncelleme
 document.addEventListener('DOMContentLoaded', function () {
     const currencySelect = document.getElementById('flag');
@@ -294,4 +296,29 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('resize', () => {
         displayProducts(products, currentPage);
     });
+});
+
+document.getElementById('filter-toggle').addEventListener('click', function() {
+    const filterSection = document.getElementById('filter-section');
+    const applyFilterBtn = document.getElementById('apply-filter');
+    const filterToggleBtn = document.getElementById('filter-toggle');
+    
+    if (filterSection.style.display === 'none' || filterSection.style.display === '') {
+        filterSection.style.display = 'block';
+        applyFilterBtn.style.display = 'block';
+        filterToggleBtn.style.display = 'none'; // Üstteki "Filter" butonunu gizle
+    }
+});
+
+document.getElementById('apply-filter').addEventListener('click', function() {
+    const filterSection = document.getElementById('filter-section');
+    const applyFilterBtn = document.getElementById('apply-filter');
+    const filterToggleBtn = document.getElementById('filter-toggle');
+
+    // Burada filtreleme işlemlerinizi gerçekleştirin
+    
+    // Filtreleri kapat ve üstteki "Filter" butonunu tekrar göster
+    filterSection.style.display = 'none';
+    applyFilterBtn.style.display = 'none';
+    filterToggleBtn.style.display = 'block';
 });
