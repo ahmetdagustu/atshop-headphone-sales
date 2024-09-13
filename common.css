@@ -690,6 +690,50 @@ a {
 .mobile-only {
   display: none; /* Varsayılan olarak gizli */
 }
+
+
+
+
+/*=============== BREAKPOINTS ===============*/
+/* For medium devices */
+@media screen and (min-width: 768px) {
+  .modal-container {
+    width: 400px;
+    padding: 1rem 1rem 1rem !important;
+    border-radius: 1.5rem;
+  }
+
+  .modal-header-custom {
+    font-size: 2rem;
+  }
+  .hamburger-menu,
+  .navbar-mobile,
+  .mobile-logo a {
+      display: none !important;
+  }
+  .navbar-pc .shopping-cart-header {
+    display: none;
+  }
+  .scrollable-images {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .scrollable-images img {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    width: 100%;
+    height: auto;
+    margin-right: 10px;
+  }
+  .swiper-container {
+    display: none; /* PC'de swiper-container gizlenir */
+  }
+
+}
+
+
+
 @media (max-width: 768px) {
   .container {
     max-width: 95% !important;
@@ -991,7 +1035,7 @@ a {
 
   .order-tracking {
     text-align: right; /* Order tracking sağda hizalanacak */
-}
+  }
 
   #flag {
     border: none;
@@ -1000,101 +1044,170 @@ a {
   #flag option {
     font-size: 0.7rem !important;
   }
- 
-}
-/*=============== BREAKPOINTS ===============*/
-/* For medium devices */
-@media screen and (min-width: 768px) {
-  .modal-container {
-    width: 400px;
-    padding: 1rem 1rem 1rem !important;
-    border-radius: 1.5rem;
-  }
-
-  .modal-header-custom {
-    font-size: 2rem;
-  }
-  .hamburger-menu,
-  .navbar-mobile,
-  .mobile-logo a {
-      display: none !important;
-  }
-  .navbar-pc .shopping-cart-header {
-    display: none;
-  }
-  .scrollable-images {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-  .scrollable-images img {
-    flex: 0 0 auto;
-    scroll-snap-align: start;
-    width: 100%;
-    height: auto;
-    margin-right: 10px;
-  }
-  .swiper-container {
-    display: none; /* PC'de swiper-container gizlenir */
-  }
- 
+  
+  
+  /* Mobil Sepet Açılır Pencere */
+/* Mobil Sepet Açılır Pencere */
+#mobile-cart-dropdown {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%; /* Mobilde ekranın %90'ını kaplasın */
+  max-width: 500px; /* Geniş ekranlar için maksimum genişlik */
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: none; /* Başlangıçta gizli */
+  z-index: 1002;
+  overflow-y: auto; /* İçerik sığmazsa kaydır */
+  max-height: 80vh; /* Yükseklik %80'i geçmesin */
 }
 
+#mobile-cart-dropdown .cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+  padding: 0 10px;
+}
 
+#mobile-cart-dropdown .cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+#mobile-cart-dropdown .cart-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+#mobile-cart-dropdown .cart-item-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#mobile-cart-dropdown .cart-item-details p {
+  margin: 0;
+  font-size: 0.8rem;
+  text-align: left; /* Ürün adı solda hizalı */
+}
+
+#mobile-cart-dropdown .item-quantity {
+  font-weight: bold;
+  color: #ff0000;
+  font-size: 0.9em;
+}
+
+#mobile-cart-dropdown .item-price {
+  font-weight: 600;
+  text-align: right; /* Fiyat sağda hizalı */
+  white-space: nowrap; /* Fiyatın tek satırda kalması için */
+  margin-left: auto; /* Fiyatı sağa çek */
+}
+
+#mobile-cart-dropdown .remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.remove-btn i.fa-trash {
+  color: red;
+  font-size: 14px;
+}
+
+
+}
 /* Sepet açılır pencere */
 #cart-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: 300px;
-    background-color: white;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    display: none; /* Başlangıçta gizli */
-    z-index: 999;
+  position: absolute;
+  top: 100% !important;
+  right: 0;
+  width: 400px; 
+  margin-top: 40px; 
+  background-color: white;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  display: none; /* Başlangıçta gizli */
+  z-index: 999;
+  font-size: 0.8rem;
 }
 
 #cart-dropdown .cart-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  padding: 0 10px;
 }
 
-#cart-dropdown .cart-items .cart-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+#cart-dropdown .cart-item {
+  display: flex; /* Resim ve metni yan yana hizalamak için */
+  align-items: center; /* Dikey olarak ortalayalım */
+  padding: 5px 0;
+  border-bottom: 1px solid #ddd;
 }
 
 #cart-dropdown .cart-item img {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-right: 10px;
 }
 
-#cart-dropdown .btn-danger {
-    background-color: red;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    cursor: pointer;
+#cart-dropdown .cart-item-details {
+  flex-grow: 1;
+  padding-right: 10px;
+  text-align: left; /* Ürün ismi solda hizalı */
 }
 
-#cart-dropdown .btn-danger i {
-    font-size: 12px;
+#cart-dropdown .cart-item-details p {
+  margin: 0;
+  font-size: 0.8rem;
 }
 
-#cart-dropdown .cart-item p {
-    margin: 0;
-    padding: 0 10px;
-    font-size: 14px;
+#cart-dropdown .item-price {
+  font-weight: 600;
+  text-align: right; /* Fiyat sağda hizalı */
+  white-space: nowrap; /* Fiyatın tek satırda kalması için */
+  margin-left: auto;
+}
+
+#cart-dropdown .remove-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.remove-btn i.fa-trash {
+  color: red;
+  font-size: 14px;
 }
 
 /* Sepet açılır pencere açıkken */
 #cart-dropdown.show {
-    display: block;
+  display: block;
+}
+
+#cart-dropdown .item-quantity {
+  font-weight: bold;
+  color: #ff0000;
+  font-size: 0.9em;
 }

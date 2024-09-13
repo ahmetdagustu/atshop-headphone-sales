@@ -764,8 +764,7 @@ export const validateEmail = (email) => {
   
   
 
-  
-// Sepet dizisini dışarıda tanımlıyoruz
+ // Sepet dizisini dışarıda tanımlıyoruz
 let cart = [];
 let totalPrice = 0; // Toplam fiyat için global bir değişken
 
@@ -831,7 +830,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Toplam fiyatı güncelle
-        totalPrice += productPrice;
+        calculateTotalPrice();
 
         // Sepet içeriğini güncelle (hem masaüstü hem de mobil için)
         updateCartDisplay();
@@ -839,6 +838,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Sepeti kaydet
         saveCartToStorage();
+    }
+
+    // Sepetin toplam fiyatını hesaplama fonksiyonu
+    function calculateTotalPrice() {
+        totalPrice = cart.reduce((total, product) => total + product.price * product.quantity, 0);
     }
 
     // Masaüstü için sepet içeriğini HTML'de güncelleme fonksiyonu
@@ -852,7 +856,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;">
                 <p>${product.name} <span class="item-quantity">x${product.quantity}</span></p>
                 <span class="item-price">$${(product.price * product.quantity).toFixed(2)}</span>
-                <button class="remove-btn" data-product-id="${product.id}">🗑</button>
+                <button class="remove-btn" data-product-id="${product.id}">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             `;
             cartListElement.appendChild(listItem);
         });
@@ -889,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Sepetteki benzersiz ürün sayısını güncelleme fonksiyonu
     function updateItemCountDisplay() {
-        const itemCount = cart.length; // Benzersiz ürün sayısı
+        const itemCount = cart.reduce((total, product) => total + product.quantity, 0); // Toplam ürün miktarı
         itemCountElementPC.textContent = itemCount; // PC sepet simgesinde güncelle
         itemCountElementMobile.textContent = itemCount; // Mobil sepet simgesinde güncelle
     }
@@ -898,9 +904,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function removeFromCart(productId) {
         const productIndex = cart.findIndex(item => item.id === productId);
         if (productIndex > -1) {
-            totalPrice -= cart[productIndex].price * cart[productIndex].quantity;
             cart.splice(productIndex, 1);
         }
+
+        // Toplam fiyatı güncelle
+        calculateTotalPrice();
+
+        // Sepet içeriğini güncelle
         updateCartDisplay();
         updateMobileCartDisplay();
         saveCartToStorage(); // Sepeti kaydet
@@ -948,8 +958,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Ürün silme butonuna tıklama
-        if (event.target.classList.contains('remove-btn')) {
-            const productId = event.target.getAttribute('data-product-id');
+        if (event.target.closest('.remove-btn')) {
+            const productId = event.target.closest('.remove-btn').getAttribute('data-product-id');
             removeFromCart(productId); // Ürünü sepetten sil
         }
     });
