@@ -1130,6 +1130,8 @@ a {
 
 
 }
+
+
 /* Sepet açılır pencere */
 #cart-dropdown {
   position: absolute;
@@ -1213,10 +1215,10 @@ a {
 }
 
 
-/* Favoriler açılır pencere */
-#favorites-dropdown {
+/* Sepet ve favoriler açılır pencere */
+#favorites-dropdown, #mobile-favorites-dropdown {
   position: absolute;
-  top: 100% !important;
+  top: 100%;
   right: 0;
   width: 400px; 
   margin-top: 40px; 
@@ -1229,7 +1231,9 @@ a {
   font-size: 0.8rem;
 }
 
-#favorites-dropdown .favorites-header {
+
+#favorites-dropdown .favorites-header, 
+#mobile-favorites-dropdown .favorites-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1239,32 +1243,45 @@ a {
   padding: 0 10px;
 }
 
-#favorites-dropdown .favorite-item {
+#favorites-dropdown .favorite-item, 
+#mobile-favorites-dropdown .favorite-item {
   display: flex; /* Resim ve metni yan yana hizalamak için */
   align-items: center; /* Dikey olarak ortalayalım */
   padding: 5px 0;
   border-bottom: 1px solid #ddd;
 }
 
-#favorites-dropdown .favorite-item img {
+#favorites-dropdown .favorite-item img, 
+#mobile-favorites-dropdown .favorite-item img {
   width: 50px;
   height: 50px;
   object-fit: cover;
   margin-right: 10px;
 }
 
-#favorites-dropdown .favorite-item-details {
+#favorites-dropdown .favorite-item-details, 
+#mobile-favorites-dropdown .favorite-item-details {
   flex-grow: 1;
   padding-right: 10px;
   text-align: left; /* Ürün ismi solda hizalı */
 }
 
-#favorites-dropdown .favorite-item-details p {
+#favorites-dropdown .favorite-item-details p, 
+#mobile-favorites-dropdown .favorite-item-details p {
   margin: 0;
   font-size: 0.8rem;
 }
 
-#favorites-dropdown .remove-btn {
+#favorites-dropdown .item-price, 
+#mobile-favorites-dropdown .item-price {
+  font-weight: 600;
+  text-align: right; /* Fiyat sağda hizalı */
+  white-space: nowrap; /* Fiyatın tek satırda kalması için */
+  margin-left: auto;
+}
+
+#favorites-dropdown .remove-btn, 
+#mobile-favorites-dropdown .remove-btn {
   background: none;
   border: none;
   cursor: pointer;
@@ -1278,12 +1295,48 @@ a {
 }
 
 /* Favoriler açılır pencere açıkken */
-#favorites-dropdown.show {
+#favorites-dropdown.show, 
+#mobile-favorites-dropdown.show {
   display: block;
 }
 
-#favorites-dropdown .item-quantity {
+#favorites-dropdown .item-quantity, 
+#mobile-favorites-dropdown .item-quantity {
   font-weight: bold;
   color: #ff0000;
   font-size: 0.9em;
+}
+/* Favorilerdeki her ürün için çöp kutusu simgesi */
+.favorite-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Resim, isim ve çöp kutusunu yatayda ayır */
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.favorite-item img {
+  margin-right: 10px;
+}
+
+.favorite-item button.remove-favorite-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.favorite-item button.remove-favorite-btn i.fa-trash {
+  color: red;
+  font-size: 14px;
+}
+
+/* Mobil favori açılır penceresi daha küçük ekranlar için uyarlama */
+@media screen and (max-width: 768px) {
+  #mobile-favorites-dropdown {
+    width: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 20px;
+    padding: 10px;
+  }
 }

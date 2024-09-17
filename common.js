@@ -1,5 +1,3 @@
-import { products } from './products.js';
-
 // Dinamik header ekleme
 document.addEventListener("DOMContentLoaded", function() {
     // Dinamik header ekle
@@ -45,8 +43,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 <span id="item-count-mobile" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
             </button>
         </div>
-    
-        <!-- Mobil Sepet açılır kutusu -->
+
+        <!-- Mobil Sepet Açılır Kutusu -->
         <div id="mobile-cart-dropdown" class="cart-dropdown-mobile" style="display: none;">
             <div class="cart-header">
                 <span>Shopping Cart (Mobil)</span>
@@ -56,13 +54,22 @@ document.addEventListener("DOMContentLoaded", function() {
                 <!-- Mobil için sepet ürünleri buraya eklenecek -->
             </div>
         </div>
-
-      <div class="mobile-shopping-like-list d-none">
-        <div class="shopping-cart-header d-flex align-items-center justify-content-start">
-            <b class="fs-5 my-3 text-start">Favorites</b>
+       <!-- Mobil Favoriler Açılır Kutusu -->
+        <div id="mobile-favorites-dropdown" class="mobile-shopping-like-list d-none">
+            <div class="shopping-cart-header d-flex align-items-center justify-content-between">
+                <b class="fs-5 my-3 text-start">Favorites</b>
+                <!-- Tümünü Temizle Butonu -->
+                <button id="clear-all-favorites-mobile" class="btn btn-light">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+            <div id="favorites-list-items-mobile" class="cart-items">
+                <!-- Mobil için favori ürünler buraya eklenecek -->
+            </div>
         </div>
-        <div id="like-list-items-mobile"></div>
-      </div>
+
+    
+
   
         <div class="categories-container mt-4">
             <a href="#" class="bold">HOME</a>
@@ -146,31 +153,48 @@ document.addEventListener("DOMContentLoaded", function() {
               </div>                 
               <div class="col-lg-4 text-end btn-i">
                 <div class="shopping-cart position-relative">
+                  <!-- Favoriler Butonu (Masaüstü) -->
                   <button class="btn btn-dark btn-card2">
                     <i class="fa-solid fa-heart position-relative"></i>
                     <span id="item-count-like" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
-                  </button>
-                  <div class="shopping-like-list d-none">
-                    <b class="fs-5 my-3">Favorite</b>
-                  </div>
-                  <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-                    <i class="fa-solid fa-user"></i>
-                  </button>
-                  <button type="button" class="btn btn-dark position-relative btn-card">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
-                  </button>
-                <!-- Sepet açılır kutusu -->
-                <div id="cart-dropdown" class="cart-dropdown" style="display: none;">
-                    <div class="cart-header">
-                        <span>Shopping Cart</span>
-                        <span id="total-price">Total: $0.00</span>
+                 </button>
+
+                    <!-- Masaüstü Favoriler Açılır Kutusu -->
+                    <div id="favorites-dropdown" class="favorites-dropdown" style="display: none;">
+                        <div class="favorites-header d-flex justify-content-between align-items-center">
+                            <span>Your Favorites</span>
+                            <!-- Tümünü Temizle Butonu -->
+                            <button id="clear-all-favorites" class="btn btn-light">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                        <div id="favorites-list-items" class="favorites-items">
+                            <!-- Masaüstü için favori ürünler buraya eklenecek -->
+                        </div>
                     </div>
-                    <div id="cart-list-items" class="cart-items">
-                        <!-- Sepet ürünleri buraya eklenecek -->
+
+                    <!-- Diğer elemanlar (Sepet Butonu ve Kullanıcı Girişi Butonu) -->
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                    <button type="button" class="btn btn-dark position-relative btn-card">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span id="item-count" class="position-absolute top-0 start-100 translate-middle-x badge rounded-pill bg-danger">0</span>
+                    </button>
+
+                    <!-- Sepet açılır kutusu -->
+                    <div id="cart-dropdown" class="cart-dropdown" style="display: none;">
+                        <div class="cart-header">
+                            <span>Shopping Cart</span>
+                            <span id="total-price">Total: $0.00</span>
+                        </div>
+                        <div id="cart-list-items" class="cart-items">
+                            <!-- Sepet ürünleri buraya eklenecek -->
+                        </div>
                     </div>
                 </div>
-              </div>          
+            </div>
+
           </div>
       </div>
       <div id="dr-menu" class="d-flex justify-content-center grid gap-5 dr-menu">
@@ -250,7 +274,8 @@ document.addEventListener("DOMContentLoaded", function() {
         document.querySelector('.navbar-mobile').classList.remove('active');
         document.body.classList.remove('menu-open');
     });
-  });
+});
+
   
 // Dinamik footer ekleme
 document.addEventListener("DOMContentLoaded", function () {
@@ -631,7 +656,8 @@ export function createProductHTML(product) {
                 <i class="fa-solid fa-cart-shopping"></i>
             </button>
             
-            <button class="btn btn-dark like-btn-1" data-product-id="${product.id}">
+             <!-- Favori Butonu -->
+            <button class="btn btn-dark like-btn-1" data-product-id="${product.id}" data-product-name="${product.name}" data-product-image="${product.image}">
                 <i class="fa-solid fa-heart"></i>
             </button>
         </span>
@@ -763,27 +789,24 @@ export const validateEmail = (email) => {
   };
   
   
-// Sepet dizisini dışarıda tanımlıyoruz
-let cart = [];
-let totalPrice = 0; // Toplam fiyat için global bir değişken
+  document.addEventListener("DOMContentLoaded", function () {
+    let cart = [];
+    let totalPrice = 0; // Toplam fiyat için global bir değişken
 
-document.addEventListener("DOMContentLoaded", function () {
-    const cartDropdown = document.getElementById('cart-dropdown'); // Masaüstü sepet açılır kutusu
-    const cartButton = document.querySelector('.btn-card'); // Masaüstü sepet butonu
-    const cartListElement = document.getElementById('cart-list-items'); // Sepet ürünlerinin listeleneceği yer
-    const totalPriceElement = document.getElementById('total-price'); // Toplam fiyatı göstereceğimiz yer
+    // HTML elementlerini seçiyoruz
+    const cartDropdown = document.getElementById('cart-dropdown'); 
+    const cartButton = document.querySelector('.btn-card'); 
+    const cartListElement = document.getElementById('cart-list-items');
+    const totalPriceElement = document.getElementById('total-price');
 
-    // Mobil sepet öğeleri
-    const mobileCartDropdown = document.getElementById('mobile-cart-dropdown'); // Mobil sepet açılır kutusu
-    const mobileCartButton = document.querySelector('.btn-card-mobile'); // Mobil sepet butonu
-    const mobileCartListElement = document.getElementById('mobile-cart-list-items'); // Mobil sepet ürünlerinin listeleneceği yer
-    const mobileTotalPriceElement = document.getElementById('mobile-total-price'); // Mobil toplam fiyatı göstereceğimiz yer
+    const mobileCartDropdown = document.getElementById('mobile-cart-dropdown');
+    const mobileCartButton = document.querySelector('.btn-card-mobile');
+    const mobileCartListElement = document.getElementById('mobile-cart-list-items');
+    const mobileTotalPriceElement = document.getElementById('mobile-total-price');
 
-    // Sepet sayısı göstergeleri (PC ve Mobil)
-    const itemCountElementPC = document.getElementById('item-count'); // PC için sepet sayısı
-    const itemCountElementMobile = document.getElementById('item-count-mobile'); // Mobil için sepet sayısı
+    const itemCountElementPC = document.getElementById('item-count');
+    const itemCountElementMobile = document.getElementById('item-count-mobile');
 
-    
     // Bildirim gösterme fonksiyonu
     function showNotification(message) {
         const notice = document.createElement('div');
@@ -791,7 +814,7 @@ document.addEventListener("DOMContentLoaded", function () {
         notice.style.top = '50%';
         notice.style.left = '50%';
         notice.style.transform = 'translate(-50%, -50%)';
-        notice.style.backgroundColor = '#66bb6a'; // Her zaman yeşil arka plan
+        notice.style.backgroundColor = '#66bb6a';
         notice.style.color = '#fff';
         notice.style.padding = '10px 20px';
         notice.style.borderRadius = '5px';
@@ -820,7 +843,6 @@ document.addEventListener("DOMContentLoaded", function () {
             totalPrice = parseFloat(storedTotalPrice);
         }
 
-        // Sepeti ekrana yansıt
         updateCartDisplay();
         updateMobileCartDisplay();
     }
@@ -841,27 +863,19 @@ document.addEventListener("DOMContentLoaded", function () {
             image: productImage,
         };
 
-        // Sepette aynı ürün var mı kontrol et
         const existingProduct = cart.find(item => item.id === productId);
 
         if (existingProduct) {
-            // Aynı ürün varsa miktarını artır
             existingProduct.quantity += 1;
-            showNotification('Ürün sepete eklendi, miktar artırıldı.');
+            showNotification('Ürün sepete tekrar eklendi, miktar artırıldı.');
         } else {
-            // Yeni ürünü sepete ekle
             cart.push(product);
             showNotification('Ürün sepete eklendi.');
         }
 
-        // Toplam fiyatı güncelle
         calculateTotalPrice();
-
-        // Sepet içeriğini güncelle (hem masaüstü hem de mobil için)
         updateCartDisplay();
         updateMobileCartDisplay();
-
-        // Sepeti kaydet
         saveCartToStorage();
     }
 
@@ -870,9 +884,9 @@ document.addEventListener("DOMContentLoaded", function () {
         totalPrice = cart.reduce((total, product) => total + product.price * product.quantity, 0);
     }
 
-    // Masaüstü için sepet içeriğini HTML'de güncelleme fonksiyonu
+    // Sepet içeriğini güncelleme fonksiyonu
     function updateCartDisplay() {
-        cartListElement.innerHTML = ''; // Önce sepeti temizle
+        cartListElement.innerHTML = '';
 
         cart.forEach(product => {
             const listItem = document.createElement('div');
@@ -888,16 +902,13 @@ document.addEventListener("DOMContentLoaded", function () {
             cartListElement.appendChild(listItem);
         });
 
-        // Toplam fiyatı güncelle
         totalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
-
-        // Sepetteki benzersiz ürün sayısını güncelle
         updateItemCountDisplay();
     }
 
-    // Mobil için sepet içeriğini HTML'de güncelleme fonksiyonu
+    // Mobil için sepet içeriğini güncelleme fonksiyonu
     function updateMobileCartDisplay() {
-        mobileCartListElement.innerHTML = ''; // Önce sepeti temizle
+        mobileCartListElement.innerHTML = '';
 
         cart.forEach(product => {
             const listItem = document.createElement('div');
@@ -911,18 +922,15 @@ document.addEventListener("DOMContentLoaded", function () {
             mobileCartListElement.appendChild(listItem);
         });
 
-        // Toplam fiyatı güncelle
         mobileTotalPriceElement.textContent = `Total: $${totalPrice.toFixed(2)}`;
-
-        // Sepetteki benzersiz ürün sayısını güncelle
         updateItemCountDisplay();
     }
 
     // Sepetteki benzersiz ürün sayısını güncelleme fonksiyonu
     function updateItemCountDisplay() {
-        const itemCount = cart.reduce((total, product) => total + product.quantity, 0); // Toplam ürün miktarı
-        itemCountElementPC.textContent = itemCount; // PC sepet simgesinde güncelle
-        itemCountElementMobile.textContent = itemCount; // Mobil sepet simgesinde güncelle
+        const itemCount = cart.reduce((total, product) => total + product.quantity, 0);
+        itemCountElementPC.textContent = itemCount;
+        itemCountElementMobile.textContent = itemCount;
     }
 
     // Ürünü sepetten çıkarma fonksiyonu
@@ -933,13 +941,10 @@ document.addEventListener("DOMContentLoaded", function () {
             showNotification('Ürün sepetten çıkarıldı.');
         }
 
-        // Toplam fiyatı güncelle
         calculateTotalPrice();
-
-        // Sepet içeriğini güncelle
         updateCartDisplay();
         updateMobileCartDisplay();
-        saveCartToStorage(); // Sepeti kaydet
+        saveCartToStorage();
     }
 
     // Sepet butonuna tıklayınca açılır kutuyu göster (Masaüstü)
@@ -952,14 +957,13 @@ document.addEventListener("DOMContentLoaded", function () {
         mobileCartDropdown.style.display = mobileCartDropdown.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Sepet dışındaki alanlara tıklanınca sepeti kapat (Masaüstü ve Mobil)
+    // Boş alana tıklayınca sepeti kapatma
     document.addEventListener('click', function(event) {
         if (!cartButton.contains(event.target) && !cartDropdown.contains(event.target)) {
-            cartDropdown.style.display = 'none'; // Boşluğa tıklayınca masaüstü sepeti kapat
+            cartDropdown.style.display = 'none';
         }
-
         if (!mobileCartButton.contains(event.target) && !mobileCartDropdown.contains(event.target)) {
-            mobileCartDropdown.style.display = 'none'; // Boşluğa tıklayınca mobil sepeti kapat
+            mobileCartDropdown.style.display = 'none';
         }
     });
 
@@ -968,7 +972,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Sepet öğeleri üzerinde tıklama olayını dinle
     document.body.addEventListener('click', function(event) {
-        // Ürün ekleme butonuna tıklama
         if (event.target.closest('.cart-btn-1')) {
             const button = event.target.closest('.cart-btn-1');
             const productId = button.getAttribute('data-product-id');
@@ -986,7 +989,185 @@ document.addEventListener("DOMContentLoaded", function () {
         // Ürün silme butonuna tıklama
         if (event.target.closest('.remove-btn')) {
             const productId = event.target.closest('.remove-btn').getAttribute('data-product-id');
-            removeFromCart(productId); // Ürünü sepetten sil
+            removeFromCart(productId);
         }
+    });
+});
+
+// favorite ekleme
+document.addEventListener("DOMContentLoaded", function() {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || []; // Favorileri localStorage'dan al
+
+    // Favori butonları
+    const favoritesButton = document.querySelector('.btn-card2'); // Masaüstü favori butonu
+    const mobileFavoritesButton = document.querySelector('.btn-card2-mobile'); // Mobil favori butonu
+    const clearAllButton = document.getElementById('clear-all-favorites'); // Masaüstü Tümünü Temizle Butonu
+    const clearAllButtonMobile = document.getElementById('clear-all-favorites-mobile'); // Mobil Tümünü Temizle Butonu
+
+    // Favori açılır kutuları
+    const favoritesDropdown = document.getElementById('favorites-dropdown'); // Masaüstü favoriler açılır kutusu
+    const mobileFavoritesDropdown = document.getElementById('mobile-favorites-dropdown'); // Mobil favoriler açılır kutusu
+
+    // Favori ürünlerin listeleneceği alanlar
+    const favoritesListElementDesktop = document.getElementById('favorites-list-items'); // Masaüstü favori ürün listesi
+    const favoritesListElementMobile = document.getElementById('favorites-list-items-mobile'); // Mobil favori ürün listesi
+
+    // Favori sayacı
+    const itemCountLikeDesktop = document.getElementById('item-count-like');
+    const itemCountLikeMobile = document.getElementById('item-count-like-mobile');
+
+    // Favorilere ürün ekleme/kaldırma fonksiyonu
+    function toggleFavorite(product) {
+        const existingProduct = favorites.find(item => item.id === product.id);
+        if (existingProduct) {
+            removeFromFavorites(product.id); // Favoriden çıkar
+            showNotification(`${product.name} has been removed from favorites.`);
+        } else {
+            favorites.push(product);
+            saveFavoritesToStorage(); // Favori listesini kaydet
+            updateFavoritesDisplay(); // Favori listesini güncelle
+            showNotification(`${product.name} has been added to favorites!`); // Bildirim göster
+        }
+        updateHeartButton(product.id); // Kalp rengini güncelle
+    }
+
+    // Favorilerden ürün kaldırma fonksiyonu
+    function removeFromFavorites(productId) {
+        favorites = favorites.filter(item => item.id !== productId); // Ürünü favorilerden çıkar
+        saveFavoritesToStorage(); // Favori listesini güncelle ve kaydet
+        updateFavoritesDisplay(); // Favori listesini güncelle
+        updateHeartButton(productId); // Kalp rengini beyaza döndür
+    }
+
+    // Favori ürün listesini güncelleme fonksiyonu
+    function updateFavoritesDisplay() {
+        // Favori ürünleri temizle
+        favoritesListElementDesktop.innerHTML = '';
+        favoritesListElementMobile.innerHTML = '';
+
+        // Favori ürünlerini hem masaüstü hem de mobilde göster
+        favorites.forEach(product => {
+            const productHTML = `
+                <div class="favorite-item" data-product-id="${product.id}">
+                    <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;">
+                    <p>${product.name}</p>
+                    <button class="remove-favorite-btn" data-product-id="${product.id}">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            favoritesListElementDesktop.insertAdjacentHTML('beforeend', productHTML);
+            favoritesListElementMobile.insertAdjacentHTML('beforeend', productHTML);
+        });
+
+        // Favori sayacını güncelle
+        itemCountLikeDesktop.textContent = favorites.length;
+        itemCountLikeMobile.textContent = favorites.length;
+
+        // Favori silme butonlarına olay dinleyici ekleyelim
+        document.querySelectorAll('.remove-favorite-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = button.getAttribute('data-product-id');
+                removeFromFavorites(productId); // Ürünü favorilerden kaldır
+            });
+        });
+    }
+
+    // Favorileri localStorage'a kaydetme
+    function saveFavoritesToStorage() {
+        localStorage.setItem('favorites', JSON.stringify(favorites)); // Favorileri localStorage'a kaydet
+    }
+
+    // Kalp butonunu güncelleme fonksiyonu (Kırmızı/Beyaz)
+    function updateHeartButton(productId) {
+        const heartButton = document.querySelector(`.like-btn-1[data-product-id="${productId}"]`);
+        const isFavorite = favorites.some(item => item.id === productId);
+
+        if (heartButton) {
+            const heartIcon = heartButton.querySelector('i');
+            if (isFavorite) {
+                heartIcon.style.color = 'red'; // Favoriye eklendiyse sadece kalp kırmızı olur
+            } else {
+                heartIcon.style.color = ''; // Favoriden çıkarıldıysa normal duruma dön
+            }
+        }
+    }
+
+    // Tüm favorileri temizleme fonksiyonu
+    function clearAllFavorites() {
+        favorites = []; // Favorileri temizle
+        saveFavoritesToStorage(); // localStorage'ı güncelle
+        updateFavoritesDisplay(); // Favori listesini temizle
+        updateAllHeartButtons(); // Tüm kalp butonlarını beyaz yap
+        showNotification('All favorites have been cleared!'); // Bildirim göster
+    }
+
+    // Sayfa yüklendiğinde tüm kalp butonlarını favorilere göre güncelle
+    function updateAllHeartButtons() {
+        // Tüm ürünleri kontrol eder, favorilerde olanları kırmızı yapar
+        document.querySelectorAll('.like-btn-1').forEach(button => {
+            const productId = button.getAttribute('data-product-id');
+            updateHeartButton(productId); // Her ürünün kalp rengini güncelle
+        });
+    }
+
+    // Sayfa yüklendiğinde favorileri geri yükle
+    updateFavoritesDisplay();
+
+    // Sayfa yüklendiğinde mevcut favoriler için kalp butonlarını güncelle
+    updateAllHeartButtons(); // Tüm kalp butonlarını kontrol edip renklerini güncelle
+
+    // Masaüstü favori butonuna tıklayınca açılır kutuyu aç/kapat
+    favoritesButton.addEventListener('click', function(event) {
+        favoritesDropdown.style.display = (favoritesDropdown.style.display === 'none' || !favoritesDropdown.style.display) ? 'block' : 'none';
+        event.stopPropagation(); // Diğer tıklama olaylarını engelle
+    });
+
+    // Mobil favori butonuna tıklayınca açılır kutuyu aç/kapat
+    mobileFavoritesButton.addEventListener('click', function(event) {
+        mobileFavoritesDropdown.style.display = (mobileFavoritesDropdown.style.display === 'none' || !mobileFavoritesDropdown.style.display) ? 'block' : 'none';
+        event.stopPropagation(); // Diğer tıklama olaylarını engelle
+    });
+
+    // Boş alana tıklayınca açılır kutuyu kapatma (masaüstü ve mobil için)
+    document.addEventListener('click', function(event) {
+        if (!favoritesDropdown.contains(event.target) && !favoritesButton.contains(event.target)) {
+            favoritesDropdown.style.display = 'none';
+        }
+
+        if (!mobileFavoritesDropdown.contains(event.target) && !mobileFavoritesButton.contains(event.target)) {
+            mobileFavoritesDropdown.style.display = 'none';
+        }
+    });
+
+    // Favori butonuna tıklama olayını dinle
+    document.body.addEventListener('click', function(event) {
+        if (event.target.closest('.like-btn-1')) {
+            const button = event.target.closest('.like-btn-1');
+            const productId = button.getAttribute('data-product-id');
+            const productName = button.getAttribute('data-product-name');
+            const productImage = button.getAttribute('data-product-image');
+
+            if (productId && productName && productImage) {
+                const product = {
+                    id: productId,
+                    name: productName,
+                    image: productImage,
+                };
+                toggleFavorite(product); // Ürünü favorilere ekle veya çıkar
+            } else {
+                console.error("Ürün bilgileri eksik!");
+            }
+        }
+    });
+
+    // "Tümünü Temizle" butonuna tıklama
+    clearAllButton.addEventListener('click', function() {
+        clearAllFavorites(); // Favorileri temizle
+    });
+
+    // Mobil "Tümünü Temizle" butonuna tıklama
+    clearAllButtonMobile.addEventListener('click', function() {
+        clearAllFavorites(); // Favorileri temizle
     });
 });
