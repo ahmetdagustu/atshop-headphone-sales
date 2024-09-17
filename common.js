@@ -763,8 +763,7 @@ export const validateEmail = (email) => {
   };
   
   
-
- // Sepet dizisini dışarıda tanımlıyoruz
+// Sepet dizisini dışarıda tanımlıyoruz
 let cart = [];
 let totalPrice = 0; // Toplam fiyat için global bir değişken
 
@@ -783,6 +782,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Sepet sayısı göstergeleri (PC ve Mobil)
     const itemCountElementPC = document.getElementById('item-count'); // PC için sepet sayısı
     const itemCountElementMobile = document.getElementById('item-count-mobile'); // Mobil için sepet sayısı
+
+    
+    // Bildirim gösterme fonksiyonu
+    function showNotification(message) {
+        const notice = document.createElement('div');
+        notice.style.position = 'fixed';
+        notice.style.top = '50%';
+        notice.style.left = '50%';
+        notice.style.transform = 'translate(-50%, -50%)';
+        notice.style.backgroundColor = '#66bb6a'; // Her zaman yeşil arka plan
+        notice.style.color = '#fff';
+        notice.style.padding = '10px 20px';
+        notice.style.borderRadius = '5px';
+        notice.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+        notice.style.zIndex = '1000';
+        notice.textContent = message;
+
+        document.body.appendChild(notice);
+
+        // 3 saniye sonra bildirimi kaldır
+        setTimeout(() => {
+            notice.remove();
+        }, 3000);
+    }
 
     // Sayfa yüklendiğinde localStorage'dan sepeti yükle
     function loadCartFromStorage() {
@@ -824,9 +847,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (existingProduct) {
             // Aynı ürün varsa miktarını artır
             existingProduct.quantity += 1;
+            showNotification('Ürün sepete eklendi, miktar artırıldı.');
         } else {
             // Yeni ürünü sepete ekle
             cart.push(product);
+            showNotification('Ürün sepete eklendi.');
         }
 
         // Toplam fiyatı güncelle
@@ -905,6 +930,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const productIndex = cart.findIndex(item => item.id === productId);
         if (productIndex > -1) {
             cart.splice(productIndex, 1);
+            showNotification('Ürün sepetten çıkarıldı.');
         }
 
         // Toplam fiyatı güncelle

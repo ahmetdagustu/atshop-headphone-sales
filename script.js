@@ -795,3 +795,23 @@ class UI {
 
     // Kart ve favori sayımı yapan işlevler kaldırıldı
 }
+
+
+
+
+
+
+
+
+
+
+
+function updateFavoriteDisplay() {
+    const favoriteElement = document.getElementById('your-favorite-element-id');
+    
+    if (favoriteElement) {
+        favoriteElement.innerHTML = 'Favori Ürünler Güncellendi'; 
+    } else {
+        console.error("Favorite element not found in the DOM.");
+    }
+}
