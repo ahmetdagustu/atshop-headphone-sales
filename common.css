@@ -13,6 +13,8 @@ html, body {
   font-family: Arial, sans-serif;
   background-color: #fff !important;
 }
+
+
 header {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -272,7 +274,7 @@ header {
 
 /* Blog item hover stilini renklendirmek isterseniz */
 .blog-item:hover {
-  color: yellow; /* İsteğe bağlı olarak hover durumunda renk değişebilir */
+  color: red; /* İsteğe bağlı olarak hover durumunda renk değişebilir */
   border-bottom: 1px solid red; /* İsteğe bağlı alt çizgi efekti */
   transform: translateX(10px);
 }
@@ -679,10 +681,6 @@ a {
 }
 
 
-.shopping-cart .btn {
-  margin-right: 15px; /* İkon butonları arasında boşluk yaratır */
-}
-
 .mobile-only {
   display: none; /* Varsayılan olarak gizli */
 }
@@ -742,7 +740,9 @@ a {
   .top-banner {
     padding: 0px !important;
   }
-  
+  .hamburger-menu{
+    margin-right: 20px;
+  }
   .navbar-mobile {
     position: fixed;
     top: 0;
@@ -925,17 +925,16 @@ a {
    opacity: 1 !important; /* Hover olmadan görünür kalacak */
  }
 
- /* Butonların her zaman görünmesi */
- .product-image-container .detaly span {
-   opacity: 1 !important;
-   visibility: visible !important;
-   display: block !important; /* Butonlar her zaman görünür olacak */
- }
- /* Hover etkisini tamamen kaldırıyoruz */
- .product-image-container:hover .detaly span {
+ .detaly span {
+  top: 0 !important; /* Butonlar yukarı kaydırılacak */
+  opacity: 1 !important; /* Butonlar her zaman görünür olacak */
+}
+
+/* Mobilde hover etkisini tamamen kaldırıyoruz */
+.product-image-container:hover .detaly span {
+  top: 0 !important;
   opacity: 1 !important;
-  visibility: visible !important;
-  }
+}
   .modal-dialog {
     max-width: 90%;
     margin: 0;
@@ -1042,23 +1041,20 @@ a {
   }
   
   
-  /* Mobil Sepet Açılır Pencere */
+
   /* Mobil Sepet Açılır Pencere */
   #mobile-cart-dropdown {
-    position: fixed;
-    top: 33%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%; /* Mobilde ekranın %90'ını kaplasın */
-    max-width: 500px; /* Geniş ekranlar için maksimum genişlik */
+    position: fixed; /* Ekranda sabit tut */
+    top: 20%; /* Sayfanın üstünden biraz boşluk bırak */
+    right: 5%; /* Sağdan 5% boşluk bırak */
+    left: 5%; /* Soldan 5% boşluk bırak */
+    width: 90%; /* Mobilde genişliği ekranın %90'ı olarak ayarla */
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 15px;
-    display: none; /* Başlangıçta gizli */
-    z-index: 1002;
-    overflow-y: auto; /* İçerik sığmazsa kaydır */
-    max-height: 80vh; /* Yükseklik %80'i geçmesin */
+    z-index: 999; /* Diğer elemanların üzerinde kalmasını sağla */
+    display: none; 
   }
 
   #mobile-cart-dropdown .cart-header {
@@ -1359,10 +1355,13 @@ a {
 }
 
 #item-count-like {
-  transform: translate(-100%, 10%) !important; /* X ekseninde biraz sola kaydırma, Y ekseninde yukarı */
+  transform: translate(-40%, 10%) !important; /* X ekseninde biraz sola kaydırma, Y ekseninde yukarı */
 }
 
 #item-count-like-mobile {
-  transform: translate(-50%, 10%) !important; /* X ekseninde biraz sola kaydırma, Y ekseninde yukarı */
+  transform: translate(-25%, 10%) !important; /* X ekseninde biraz sola kaydırma, Y ekseninde yukarı */
 }
 
+#item-count, #item-count-mobile {
+  transform: translate(-25%, -50%); /* Sepet üzerindeki sayılar için de aynı düzenleme */
+}

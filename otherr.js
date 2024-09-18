@@ -92,9 +92,7 @@ function renderProducts(products, targetRow) {
             const productId = this.getAttribute("data-product-id");
             goToProduct(productId);
         });
-    });
-    
-       
+    });      
 }
 
 function renderLatestProducts(products, targetRow) {
@@ -221,6 +219,17 @@ function displayRandomProduct() {
 
     const productContainer = document.getElementById('dynamic-product');
 
+    // Ekran genişliğine göre açıklamayı ayarlayan fonksiyon
+    function getDescriptionText() {
+        if (window.innerWidth <= 768) {
+            // Mobilde sadece ilk cümleyi göster
+            return product.description.split(".")[0] + "...";
+        } else {
+            // PC'de tam açıklamayı göster
+            return product.description;
+        }
+    }
+
     productContainer.innerHTML = `
         <div class="row align-content-center">
             <div class="col-4">
@@ -228,7 +237,7 @@ function displayRandomProduct() {
             </div>
             <div class="col-8">
                 <h2>${product.name}</h2>
-                <p>${product.description.substring(0, 100)}...</p>
+                <p>${getDescriptionText()}</p>
                 <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
             </div>
         </div>
@@ -240,6 +249,11 @@ function displayRandomProduct() {
         window.location.href = `shop-page.html?id=${productId}`;
     });
 }
+
+// Sayfa yüklendiğinde ve pencere boyutu değiştiğinde açıklamayı güncelle
+window.addEventListener('resize', displayRandomProduct);
+displayRandomProduct();
+
 
 
 

@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <!-- Masaüstü Favoriler Açılır Kutusu -->
                     <div id="favorites-dropdown" class="favorites-dropdown" style="display: none;">
                         <div class="favorites-header d-flex justify-content-between align-items-center">
-                            <span>Your Favorites</span>
+                            <span>Favorites</span>
                             <!-- Tümünü Temizle Butonu -->
                             <button id="clear-all-favorites" class="btn btn-light">
                                 <i class="fa-solid fa-trash"></i>
@@ -940,8 +940,8 @@ export const validateEmail = (email) => {
         const productIndex = cart.findIndex(item => item.id === productId);
         if (productIndex > -1) {
             cart.splice(productIndex, 1);
-            showNotification('Ürün sepetten çıkarıldı.');
-        }
+            showNotification('Product removed from the cart.');
+        }        
 
         calculateTotalPrice();
         updateCartDisplay();
@@ -983,8 +983,6 @@ export const validateEmail = (email) => {
 
             if (productId && productName && !isNaN(productPrice)) {
                 addToCart(productId, productName, productPrice, productImage);
-            } else {
-                console.error("Ürün bilgileri eksik veya hatalı!");
             }
         }
 
@@ -1127,7 +1125,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Mobil favori butonuna tıklayınca açılır kutuyu aç/kapat
     mobileFavoritesButton.addEventListener('click', function(event) {
-        console.log("Mobil favoriler butonuna tıklandı");
     
         // d-none sınıfını kaldırarak menüyü açmayı zorla
         if (mobileFavoritesDropdown.classList.contains('d-none')) {
@@ -1143,8 +1140,6 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
             mobileFavoritesDropdown.style.display = 'none'; // Menüyü kapat
         }
-    
-        console.log("Yeni display durumu:", mobileFavoritesDropdown.style.display);
         event.stopPropagation();
     });
     
@@ -1175,8 +1170,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     image: productImage,
                 };
                 toggleFavorite(product); // Ürünü favorilere ekle veya çıkar
-            } else {
-                console.error("Ürün bilgileri eksik!");
             }
         }
     });
@@ -1193,3 +1186,27 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
+
+
+//aside kısmını mobilde tek cümle al.
+document.addEventListener("DOMContentLoaded", function () {
+    // Metin içeriği
+    const descriptionElement = document.querySelector(".product-description");
+    const fullText = descriptionElement.textContent;
+    const firstSentence = fullText.split(".")[0] + "."; // İlk cümleyi alır
+
+    // Ekran genişliğine göre değişim
+    function updateDescription() {
+        if (window.innerWidth <= 768) {
+            // Mobilde sadece ilk cümleyi göster
+            descriptionElement.textContent = firstSentence;
+        } else {
+            // PC'de tam metni göster
+            descriptionElement.textContent = fullText;
+        }
+    }
+
+    // Sayfa yüklendiğinde ve ekran boyutu değiştiğinde çalıştır
+    updateDescription();
+    window.addEventListener("resize", updateDescription);
+});
