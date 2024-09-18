@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Mobil Sepet Açılır Kutusu -->
         <div id="mobile-cart-dropdown" class="cart-dropdown-mobile" style="display: none;">
             <div class="cart-header">
-                <span>Shopping Cart (Mobil)</span>
+                <span>Shopping Cart</span>
                 <span id="mobile-total-price">Total: $0.00</span>
             </div>
             <div id="mobile-cart-list-items" class="cart-items">
@@ -55,16 +55,16 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         </div>
        <!-- Mobil Favoriler Açılır Kutusu -->
-        <div id="mobile-favorites-dropdown" class="mobile-shopping-like-list d-none">
+      <div id="mobile-favorites-dropdown" class="mobile-shopping-like-list d-none">
+            <!-- Favoriler açılır kutusu -->
             <div class="shopping-cart-header d-flex align-items-center justify-content-between">
                 <b class="fs-5 my-3 text-start">Favorites</b>
-                <!-- Tümünü Temizle Butonu -->
                 <button id="clear-all-favorites-mobile" class="btn btn-light">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
             <div id="favorites-list-items-mobile" class="cart-items">
-                <!-- Mobil için favori ürünler buraya eklenecek -->
+                <!-- Favori ürünler buraya eklenecek -->
             </div>
         </div>
 
@@ -867,11 +867,11 @@ export const validateEmail = (email) => {
 
         if (existingProduct) {
             existingProduct.quantity += 1;
-            showNotification('Ürün sepete tekrar eklendi, miktar artırıldı.');
+            showNotification('Product has been added to the cart again, quantity increased.');
         } else {
             cart.push(product);
-            showNotification('Ürün sepete eklendi.');
-        }
+            showNotification('Product added to the cart.');
+        }        
 
         calculateTotalPrice();
         updateCartDisplay();
@@ -917,7 +917,9 @@ export const validateEmail = (email) => {
                 <img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px;">
                 <p>${product.name} <span class="item-quantity">x${product.quantity}</span></p>
                 <span class="item-price">$${(product.price * product.quantity).toFixed(2)}</span>
-                <button class="remove-btn" data-product-id="${product.id}">🗑</button>
+                <button class="remove-btn" data-product-id="${product.id}">
+                 <i class="fa-solid fa-trash"></i>
+                 </button>
             `;
             mobileCartListElement.appendChild(listItem);
         });
@@ -1125,9 +1127,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Mobil favori butonuna tıklayınca açılır kutuyu aç/kapat
     mobileFavoritesButton.addEventListener('click', function(event) {
-        mobileFavoritesDropdown.style.display = (mobileFavoritesDropdown.style.display === 'none' || !mobileFavoritesDropdown.style.display) ? 'block' : 'none';
-        event.stopPropagation(); // Diğer tıklama olaylarını engelle
+        console.log("Mobil favoriler butonuna tıklandı");
+    
+        // d-none sınıfını kaldırarak menüyü açmayı zorla
+        if (mobileFavoritesDropdown.classList.contains('d-none')) {
+            mobileFavoritesDropdown.classList.remove('d-none');
+        }
+    
+        // Display durumunu kontrol et ve aç/kapat
+        if (mobileFavoritesDropdown.style.display === 'none' || !mobileFavoritesDropdown.style.display) {
+            mobileFavoritesDropdown.style.display = 'block'; // Menüyü aç
+            mobileFavoritesDropdown.style.visibility = 'visible'; // Görünür yap
+            mobileFavoritesDropdown.style.opacity = '1'; // Tam görünür yap
+            mobileFavoritesDropdown.style.zIndex = '999'; // Diğer elemanların üstüne getir
+        } else {
+            mobileFavoritesDropdown.style.display = 'none'; // Menüyü kapat
+        }
+    
+        console.log("Yeni display durumu:", mobileFavoritesDropdown.style.display);
+        event.stopPropagation();
     });
+    
 
     // Boş alana tıklayınca açılır kutuyu kapatma (masaüstü ve mobil için)
     document.addEventListener('click', function(event) {
@@ -1171,3 +1191,5 @@ document.addEventListener("DOMContentLoaded", function() {
         clearAllFavorites(); // Favorileri temizle
     });
 });
+
+
