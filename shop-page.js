@@ -4,37 +4,6 @@ import { convertPrices, createProductHTML, showSubscribeMessage } from './common
 import { handleCurrencySelection } from './common.js';
 
 
-// Para birimi değiştiğinde fiyatları güncelleme
-document.addEventListener('DOMContentLoaded', async function () {
-    const currencySelect = document.getElementById('flag');
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'), 10);
-    const selectedProduct = products.find((p) => p.id === productId);
-
-    // Sayfa yüklendiğinde localStorage'dan seçilen para birimini al
-    const savedCurrency = localStorage.getItem('selectedCurrency');
-    if (savedCurrency) {
-        // Para birimi selectbox'ını kaydedilen değere ayarla
-        currencySelect.value = savedCurrency;
-        // Fiyatları kaydedilen para birimine göre güncelle
-        await convertPrices(savedCurrency, products, selectedProduct);
-    }
-
-    if (currencySelect) {
-        // Para birimi değiştirildiğinde
-        currencySelect.addEventListener('change', async function () {
-            const selectedCurrency = this.value;
-
-            // Seçilen para birimini localStorage'a kaydet
-            localStorage.setItem('selectedCurrency', selectedCurrency);
-
-            // Fiyatları yeni seçilen para birimine göre güncelle
-            await convertPrices(selectedCurrency, products, selectedProduct);
-        });
-    }
-});
-
-
 
 // DOM yüklendiğinde çalışacak fonksiyon
 document.addEventListener("DOMContentLoaded", () => {
@@ -214,14 +183,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.innerWidth < 768) {
             slicedProducts = scoredProducts.slice(0, 4);
         } else {
-            slicedProducts = scoredProducts.slice(0, 5);
+            slicedProducts = scoredProducts.slice(0, 4);
         }
 
         // İlgili ürünlerin gösterimi
         slicedProducts.forEach((relatedProduct) => {
             const productDiv = document.createElement("div");
             if (window.innerWidth < 768) {
-                productDiv.classList.add("col-4", "col-md-6", "col-lg-4", "models", "models-img", "shop");
+                productDiv.classList.add("col-3", "col-md-6", "col-lg-4", "models", "models-img", "shop");
             } else {
                 productDiv.classList.add("col-2", "models", "models-img", "shop");
             }
@@ -268,4 +237,33 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Para birimi seçimini yönet
     await handleCurrencySelection(products, selectedProduct);
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Ürün açıklamasını ve tam açıklamayı alıyoruz
+    const productDescription = document.getElementById("product-description");
+    const fullDescriptionElement = document.getElementById("product-description-full");
+
+    if (product) {
+        // Tam açıklamayı alın
+        const fullDescription = product.description;
+
+        // İlk iki cümleyi ayır
+        const firstTwoSentences = fullDescription.match(/[^\.!\?]+[\.!\?]+/g).slice(0, 2).join(' ');
+
+        // İlk iki cümleyi product-description'a yerleştir
+        productDescription.innerHTML = `${firstTwoSentences} <a href="#" id="read-more-link">Devamını oku...</a>`;
+
+        // Devamını oku linkine tıklama olayını ekle
+        document.getElementById("read-more-link").addEventListener("click", (event) => {
+            event.preventDefault();
+
+            // Tam açıklamayı product-description-full alanına yerleştir
+            fullDescriptionElement.innerText = fullDescription;
+
+            // Tam açıklamayı gösteren bölüme git (scroll)
+            fullDescriptionElement.scrollIntoView({ behavior: "smooth" });
+        });
+    }
 });

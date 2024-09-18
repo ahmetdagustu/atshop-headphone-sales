@@ -10,7 +10,7 @@ export const products = [
     category: "Wireless",
     color: "Black",
     rating: 3.2,
-    image: "images/image1.webp",
+    image: "images/image10.webp",
     image2: "images/image1_2.webp",
     image3: "images/image1_3.webp",
     description: "The JBL E55BT KEY BLACK offers powerful bass and long battery life, making it perfect for those who want to enjoy their music on the go without worrying about constant recharging. Its comfortable over-ear design ensures that you can listen for hours without discomfort. With Bluetooth connectivity, you can easily pair it with your devices and enjoy a seamless wireless experience. The sound quality is exceptional, delivering deep bass and crisp highs, ideal for all music genres. Whether you're commuting, working out, or just relaxing at home, the JBL E55BT KEY BLACK is your go-to headphone.",
