@@ -169,7 +169,7 @@ header {
 
 .btn-i button {
   float: right;
-  width: 10%;
+  /* width: 10%; */
   padding: 10px;
   background: none;
   color: black;
@@ -1364,4 +1364,107 @@ a {
 
 #item-count, #item-count-mobile {
   transform: translate(-25%, -50%); /* Sepet üzerindeki sayılar için de aynı düzenleme */
+}
+
+
+
+/* Sepet Açılır Kutusu Stili */
+.cart-dropdown, .cart-dropdown-mobile {
+  max-width: 400px; /* Maksimum genişliği ayarla */
+  border: 1px solid #ddd; /* Dış kenarlık */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Hafif gölge */
+  border-radius: 8px; /* Köşeleri yuvarla */
+}
+
+/* Cart Header Stili */
+.cart-header {
+  padding: 10px 15px; /* İç boşluk */
+  border-bottom: 1px solid #ddd; /* Alt kenarlık */
+  border-top-left-radius: 8px; /* Üst sol köşe yuvarla */
+  border-top-right-radius: 8px; /* Üst sağ köşe yuvarla */
+}
+
+/* Sepeti Temizle Butonu */
+.cart-header .btn-outline-danger {
+  color: #dc3545; /* Kırmızı renk */
+  cursor: pointer; /* El işareti yap */
+}
+
+.cart-header .btn-outline-danger:hover {
+  color: #a71d2a; /* Hover durumunda koyu kırmızı */
+}
+
+/* Cart Footer Stili */
+.cart-footer {
+  padding: 10px 15px; /* İç boşluk */
+  border-top: 1px solid #ddd; /* Üst kenarlık */
+  border-bottom-left-radius: 8px; /* Alt sol köşe yuvarla */
+  border-bottom-right-radius: 8px; /* Alt sağ köşe yuvarla */
+}
+
+/* Checkout Butonuna Özel Stiller */
+.checkout-btn {
+  border: 1px solid #ddd; /* İnce kenarlık */
+  padding: 10px 20px; /* Buton iç boşluk */
+  color: #333; /* Koyu gri yazı rengi */
+  border-radius: 5px; /* Köşe yuvarla */
+  font-weight: 500; /* Yazı kalınlığı */
+  white-space: nowrap; /* Metni tek satırda tut */
+}
+
+.checkout-btn:hover {
+  color: #000; /* Siyah yazı rengi */
+  border-color: #bbb; /* Hover durumunda kenarlık rengi */
+}
+
+/* Sepet Toplam Fiyat */
+.cart-footer .fw-bold {
+  font-size: 1.1rem; /* Yazı boyutu */
+  color: #333; /* Koyu yazı rengi */
+}
+
+/* Mobil Görünüm Ayarları */
+@media (max-width: 768px) {
+  .cart-dropdown, .cart-dropdown-mobile {
+      width: 100%; /* Mobilde tam genişlik */
+  }
+
+  .cart-footer .checkout-btn {
+      margin-top: 10px; /* Üstten boşluk ekle */
+      width: 100%; /* Mobilde tam genişlik */
+  }
+}
+
+
+/* Masaüstü Checkout Butonu */
+#checkout-button {
+  background: #f5f5f5; /* Arka plan rengi */
+  border: 0px solid #ddd; /* İnce kenarlık */
+  padding: 10px 20px; /* Buton iç boşluk */
+  color: #333; /* Koyu gri yazı rengi */
+  font-weight: 500; /* Yazı kalınlığı */
+  border-radius: 5px; /* Köşeleri yuvarla */
+}
+
+#checkout-button:hover {
+  background: #e0e0e0; /* Hover durumu için daha koyu gri */
+  color: #000; /* Siyah yazı rengi */
+  border-color: #bbb; /* Hover durumunda kenarlık rengi */
+}
+
+/* Mobil Checkout Butonu */
+#mobile-checkout-button {
+  background: #f5f5f5; /* Açık gri arka plan */
+  border: 0px solid #ddd; /* Kenarlık */
+  padding: 10px 20px; /* Buton iç boşluk */
+  color: #333; /* Yazı rengi */
+  font-weight: 500; /* Yazı kalınlığı */
+  border-radius: 5px; /* Köşeleri yuvarla */
+  margin-top: 10px; /* Mobilde üstten boşluk */
+}
+
+#mobile-checkout-button:hover {
+  background: #e0e0e0; /* Hover durumu için daha koyu gri */
+  color: #000; /* Siyah yazı rengi */
+  border-color: #bbb; /* Hover durumunda kenarlık rengi */
 }

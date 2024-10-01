@@ -45,15 +45,24 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
 
         <!-- Mobil Sepet Açılır Kutusu -->
-        <div id="mobile-cart-dropdown" class="cart-dropdown-mobile" style="display: none;">
-            <div class="cart-header">
+       <div id="mobile-cart-dropdown" class="cart-dropdown-mobile" style="display: none;">
+            <div class="cart-header d-flex justify-content-between align-items-center">
                 <span>Shopping Cart</span>
-                <span id="mobile-total-price">Total: $0.00</span>
+                <!-- Sepeti Temizle Butonu -->
+                <button id="clear-mobile-cart" class="btn btn-outline-danger">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             </div>
             <div id="mobile-cart-list-items" class="cart-items">
                 <!-- Mobil için sepet ürünleri buraya eklenecek -->
             </div>
+            <!-- Alt Kısımda Toplam Fiyat ve Checkout Butonu -->
+            <div class="cart-footer d-flex justify-content-between align-items-center mt-3 p-2 border-top">
+                <span id="mobile-total-price" class="fw-bold">Total: $0.00</span>
+                <button id="mobile-checkout-button" class="btn btn-primary">Confirm Cart</button>
+            </div>
         </div>
+
        <!-- Mobil Favoriler Açılır Kutusu -->
       <div id="mobile-favorites-dropdown" class="mobile-shopping-like-list d-none">
             <!-- Favoriler açılır kutusu -->
@@ -184,12 +193,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
                     <!-- Sepet açılır kutusu -->
                     <div id="cart-dropdown" class="cart-dropdown" style="display: none;">
-                        <div class="cart-header">
+                        <div class="cart-header d-flex justify-content-between align-items-center">
                             <span>Shopping Cart</span>
-                            <span id="total-price">Total: $0.00</span>
+                            <!-- Sepeti Temizle Butonu -->
+                            <button id="clear-cart" class="btn btn-outline-danger">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </div>
                         <div id="cart-list-items" class="cart-items">
                             <!-- Sepet ürünleri buraya eklenecek -->
+                        </div>
+                        <!-- Alt Kısımda Toplam Fiyat ve Checkout Butonu -->
+                        <div class="cart-footer d-flex justify-content-between align-items-center mt-3 p-2 border-top">
+                            <span id="total-price" class="fw-bold">Total: $0.00</span>
+                            <button id="checkout-button" class="btn btn-primary">Confirm Cart</button>
                         </div>
                     </div>
                 </div>
@@ -788,7 +805,7 @@ export const validateEmail = (email) => {
     showNotification(`Subscribed successfully with email: ${emailInput}`, false); // Başarı mesajı yeşil zeminle
   };
   
-  
+  // sepet ekleme kodu
   document.addEventListener("DOMContentLoaded", function () {
     let cart = [];
     let totalPrice = 0; // Toplam fiyat için global bir değişken
