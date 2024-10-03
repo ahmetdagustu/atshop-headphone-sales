@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="cart-header d-flex justify-content-between align-items-center">
                 <span>Shopping Cart</span>
                 <!-- Sepeti Temizle Butonu -->
-                <button id="clear-mobile-cart" class="btn btn-outline-danger">
+                <button id="clear-mobile-cart" class="btn btn-light">
                     <i class="fa-solid fa-trash"></i>
                 </button>
             </div>
@@ -196,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <div class="cart-header d-flex justify-content-between align-items-center">
                             <span>Shopping Cart</span>
                             <!-- Sepeti Temizle Butonu -->
-                            <button id="clear-cart" class="btn btn-outline-danger">
+                            <button id="clear-cart" class="btn btn-light">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
@@ -805,7 +805,7 @@ export const validateEmail = (email) => {
     showNotification(`Subscribed successfully with email: ${emailInput}`, false); // Başarı mesajı yeşil zeminle
   };
   
-  // sepet ekleme kodu
+// alışveriş sepet ekleme kodu
   document.addEventListener("DOMContentLoaded", function () {
     let cart = [];
     let totalPrice = 0; // Toplam fiyat için global bir değişken
@@ -862,6 +862,33 @@ export const validateEmail = (email) => {
 
         updateCartDisplay();
         updateMobileCartDisplay();
+    }
+
+         // Sepeti temizlemek için "Tümünü Temizle" fonksiyonu
+    function clearAllCartItems() {
+        cart = []; // Sepeti temizle
+        totalPrice = 0; // Toplam fiyatı sıfırla
+        saveCartToStorage(); // localStorage'ı güncelle
+        updateCartDisplay(); // Sepet içeriğini güncelle
+        updateMobileCartDisplay(); // Mobil sepet içeriğini güncelle
+        updateItemCountDisplay(); // Ürün sayısını güncelle
+        showNotification('All products have been cleared from the cart!'); // Bildirim göster
+    }
+
+    // "Tümünü Temizle" butonlarına tıklama olayları
+    const clearAllButton = document.getElementById('clear-cart'); // Masaüstü "Tümünü Temizle" butonu
+    const clearAllButtonMobile = document.getElementById('clear-mobile-cart'); // Mobil "Tümünü Temizle" butonu
+
+    if (clearAllButton) {
+        clearAllButton.addEventListener('click', function() {
+            clearAllCartItems(); // Masaüstü sepeti temizle
+        });
+    }
+
+    if (clearAllButtonMobile) {
+        clearAllButtonMobile.addEventListener('click', function() {
+            clearAllCartItems(); // Mobil sepeti temizle
+        });
     }
 
     // Sepeti localStorage'a kaydet
@@ -1201,8 +1228,6 @@ document.addEventListener("DOMContentLoaded", function() {
         clearAllFavorites(); // Favorileri temizle
     });
 });
-
-
 
 
 //aside kısmını mobilde tek cümle al.

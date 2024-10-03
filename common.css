@@ -275,7 +275,7 @@ header {
 /* Blog item hover stilini renklendirmek isterseniz */
 .blog-item:hover {
   color: red; /* İsteğe bağlı olarak hover durumunda renk değişebilir */
-  border-bottom: 1px solid red; /* İsteğe bağlı alt çizgi efekti */
+  border-bottom: 1px solid red;
   transform: translateX(10px);
 }
 
@@ -1045,16 +1045,18 @@ a {
   /* Mobil Sepet Açılır Pencere */
   #mobile-cart-dropdown {
     position: fixed; /* Ekranda sabit tut */
-    top: 20%; /* Sayfanın üstünden biraz boşluk bırak */
+    top: 15%; /* Sayfanın üstünden biraz boşluk bırak */
     right: 5%; /* Sağdan 5% boşluk bırak */
     left: 5%; /* Soldan 5% boşluk bırak */
-    width: 90%; /* Mobilde genişliği ekranın %90'ı olarak ayarla */
+    width: 90% !important; /* Mobilde genişliği ekranın %90'ı olarak ayarla */
+    max-width: 600px;
+    margin: 0 auto;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 15px;
     z-index: 999; /* Diğer elemanların üzerinde kalmasını sağla */
-    display: none; 
+    display: none; /* Başlangıçta gizli */
   }
 
   #mobile-cart-dropdown .cart-header {
@@ -1122,7 +1124,7 @@ a {
   
   #favorites-dropdown, #mobile-favorites-dropdown {
     position: fixed; /* Ekranda sabit tut */
-    top: 20%; /* Sayfanın üstünden biraz boşluk bırak */
+    top: 15%; /* Sayfanın üstünden biraz boşluk bırak */
     right: 5%; /* Sağdan 5% boşluk bırak */
     left: 5%; /* Soldan 5% boşluk bırak */
     width: 90%; /* Mobilde genişliği ekranın %90'ı olarak ayarla */
@@ -1386,12 +1388,12 @@ a {
 
 /* Sepeti Temizle Butonu */
 .cart-header .btn-outline-danger {
-  color: #dc3545; /* Kırmızı renk */
+  color: #000; /* Kırmızı renk */
   cursor: pointer; /* El işareti yap */
 }
 
 .cart-header .btn-outline-danger:hover {
-  color: #a71d2a; /* Hover durumunda koyu kırmızı */
+  color: #fff; /* Hover durumunda koyu kırmızı */
 }
 
 /* Cart Footer Stili */
