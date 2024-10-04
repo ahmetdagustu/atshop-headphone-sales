@@ -293,7 +293,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-  
 // Dinamik footer ekleme
 document.addEventListener("DOMContentLoaded", function () {
     const footerHTML = `
@@ -643,8 +642,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Ürün HTML'sini oluşturma fonksiyonu
 export function createProductHTML(product) {
+    // Eğer todayShipment true ise kargo etiketi ekliyoruz
+    const shipmentBadgeHTML = product.todayShipment ? `
+        <div class="shipment-badge">
+            <i class="fa-solid fa-truck"></i> Today Shipping
+        </div>
+    ` : '';
+
     const productHTML = `
-    <div class="product-image-container">
+    <div class="product-image-container position-relative">
         <!-- Mobilde kaydırma için swiper, PC'de sadece resim -->
         <div class="swiper-container product-slider d-md-none">
             <div class="swiper-wrapper">
@@ -662,6 +668,9 @@ export function createProductHTML(product) {
         <!-- PC'de hover efekti için -->
         <img class="img-fluid first-image d-none d-md-block" src="${product.image}" alt="${product.name}"/>
         <img class="img-fluid second-image d-none d-md-block" src="${product.image2}" alt="${product.name}"/>
+
+        <!-- Kargo Durumu -->
+        ${shipmentBadgeHTML}
     </div>
 
     <div class="detaly d-inline">
@@ -688,9 +697,9 @@ export function createProductHTML(product) {
         </p>
     </div>`;
 
-    // Oluşturulan HTML yapısını döndürüyoruz
     return productHTML;
 }
+
 
 // Döviz kuru alma fonksiyonu
 export async function getExchangeRate(toCurrency) {
@@ -762,7 +771,6 @@ export async function handleCurrencySelection(products, selectedProduct = null) 
         });
     }
 }
-
 
 // E-posta doğrulama fonksiyonu
 export const validateEmail = (email) => {
@@ -1252,3 +1260,4 @@ document.addEventListener("DOMContentLoaded", function () {
     updateDescription();
     window.addEventListener("resize", updateDescription);
 });
+

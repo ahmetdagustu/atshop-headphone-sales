@@ -4,7 +4,6 @@ import { convertPrices, createProductHTML, showSubscribeMessage } from './common
 import { handleCurrencySelection } from './common.js';
 
 
-
 // DOM yüklendiğinde çalışacak fonksiyon
 document.addEventListener("DOMContentLoaded", () => {
     // Döviz kuru seçimi ve ürün fiyatlarını güncelleme
@@ -183,14 +182,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.innerWidth < 768) {
             slicedProducts = scoredProducts.slice(0, 4);
         } else {
-            slicedProducts = scoredProducts.slice(0, 4);
+            slicedProducts = scoredProducts.slice(0, 5);
         }
 
         // İlgili ürünlerin gösterimi
         slicedProducts.forEach((relatedProduct) => {
             const productDiv = document.createElement("div");
             if (window.innerWidth < 768) {
-                productDiv.classList.add("col-3", "col-md-6", "col-lg-4", "models", "models-img", "shop");
+                productDiv.classList.add("col-4", "col-md-6", "col-lg-4", "models", "models-img", "shop");
             } else {
                 productDiv.classList.add("col-2", "models", "models-img", "shop");
             }
@@ -199,6 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
             relatedProductsContainer.appendChild(productDiv);
         });
     }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const descriptionElement = document.getElementById("product-description");
+    const fullDescription = descriptionElement.innerText; // Tüm açıklamayı al
+    const firstSentence = fullDescription.split('. ')[0] + '.'; // İlk cümleyi al
+    
+    // İlk cümleyi öğeye ayarla
+    descriptionElement.innerText = firstSentence;
 });
 
 
@@ -240,30 +248,22 @@ document.addEventListener('DOMContentLoaded', async function () {
 });
 
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Ürün açıklamasını ve tam açıklamayı alıyoruz
-    const productDescription = document.getElementById("product-description");
-    const fullDescriptionElement = document.getElementById("product-description-full");
+// Butonları ve rating değerini seçme
+const decreaseButton = document.getElementById("decrease-rating");
+const increaseButton = document.getElementById("increase-rating");
+const ratingValue = document.getElementById("rating-value");
 
-    if (product) {
-        // Tam açıklamayı alın
-        const fullDescription = product.description;
+// Artırma ve azaltma fonksiyonu
+const updateRating = (change) => {
+    let currentValue = parseInt(ratingValue.textContent); // Şu anki değeri al
+    let newValue = currentValue + change; // Değeri güncelle
 
-        // İlk iki cümleyi ayır
-        const firstTwoSentences = fullDescription.match(/[^\.!\?]+[\.!\?]+/g).slice(0, 2).join(' ');
-
-        // İlk iki cümleyi product-description'a yerleştir
-        productDescription.innerHTML = `${firstTwoSentences} <a href="#" id="read-more-link">Devamını oku...</a>`;
-
-        // Devamını oku linkine tıklama olayını ekle
-        document.getElementById("read-more-link").addEventListener("click", (event) => {
-            event.preventDefault();
-
-            // Tam açıklamayı product-description-full alanına yerleştir
-            fullDescriptionElement.innerText = fullDescription;
-
-            // Tam açıklamayı gösteren bölüme git (scroll)
-            fullDescriptionElement.scrollIntoView({ behavior: "smooth" });
-        });
+    // Değerin 1 ile 5 arasında kalmasını sağla
+    if (newValue >= 1 && newValue <= 10) {
+        ratingValue.textContent = newValue; // Yeni değeri göster
     }
-});
+};
+
+// Artırma ve azaltma butonlarına tıklama olay dinleyicisi ekleme
+decreaseButton.addEventListener("click", () => updateRating(-1)); // Azalt
+increaseButton.addEventListener("click", () => updateRating(1));  // Artır

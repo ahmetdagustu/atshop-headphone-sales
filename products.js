@@ -20,6 +20,7 @@ export const products = [
     favorited: 14652,
     uploadDate: "2022-10-05",
     reviewCount: reviews.find(review => review.id === 1)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 2,
@@ -40,6 +41,7 @@ export const products = [
     favorited: 15966,
     uploadDate: "2022-12-22",
     reviewCount: reviews.find(review => review.id === 2)?.customers.length || 0,
+    todayShipment: false
   },
   {
     id: 3,
@@ -60,6 +62,7 @@ export const products = [
     favorited: 58376,
     uploadDate: "2023-05-02",
     reviewCount: reviews.find(review => review.id === 3)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 4,
@@ -80,6 +83,7 @@ export const products = [
     favorited: 98976,
     uploadDate: "2023-08-12",
     reviewCount: reviews.find(review => review.id === 4)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 5,
@@ -100,6 +104,7 @@ export const products = [
     favorited: 89158,
     uploadDate: "2023-04-06",
     reviewCount: reviews.find(review => review.id === 5)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 6,
@@ -120,6 +125,7 @@ export const products = [
     favorited: 31032,
     uploadDate: "2024-07-21",
     reviewCount: reviews.find(review => review.id === 6)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 7,
@@ -140,6 +146,7 @@ export const products = [
     favorited: 27972,
     uploadDate: "2023-01-13",
     reviewCount: reviews.find(review => review.id === 7)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 8,
@@ -160,6 +167,7 @@ export const products = [
     favorited: 71807,
     uploadDate: "2024-02-03",
     reviewCount: reviews.find(review => review.id === 8)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 9,
@@ -180,6 +188,7 @@ export const products = [
     favorited: 34836,
     uploadDate: "2024-05-30",
     reviewCount: reviews.find(review => review.id === 9)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 10,
@@ -200,6 +209,7 @@ export const products = [
     favorited: 78349,
     uploadDate: "2023-06-22",
     reviewCount: reviews.find(review => review.id === 10)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 11,
@@ -220,6 +230,7 @@ export const products = [
     favorited: 77124,
     uploadDate: "2022-11-22",
     reviewCount: reviews.find(review => review.id === 11)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 12,
@@ -240,6 +251,7 @@ export const products = [
     favorited: 48902,
     uploadDate: "2023-05-02",
     reviewCount: reviews.find(review => review.id === 12)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 13,
@@ -260,6 +272,7 @@ export const products = [
     favorited: 20023,
     uploadDate: "2022-11-23",
     reviewCount: reviews.find(review => review.id === 13)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 14,
@@ -280,6 +293,7 @@ export const products = [
     favorited: 23556,
     uploadDate: "2023-11-07",
     reviewCount: reviews.find(review => review.id === 14)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 15,
@@ -300,6 +314,7 @@ export const products = [
     favorited: 36212,
     uploadDate: "2022-09-08",
     reviewCount: reviews.find(review => review.id === 15)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 16,
@@ -320,6 +335,7 @@ export const products = [
     favorited: 72192,
     uploadDate: "2023-07-28",
     reviewCount: reviews.find(review => review.id === 16)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 17,
@@ -340,6 +356,7 @@ export const products = [
     favorited: 40155,
     uploadDate: "2023-09-02",
     reviewCount: reviews.find(review => review.id === 17)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 18,
@@ -360,6 +377,7 @@ export const products = [
     favorited: 30447,
     uploadDate: "2022-09-29",
     reviewCount: reviews.find(review => review.id === 18)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 19,
@@ -380,6 +398,7 @@ export const products = [
     favorited: 12372,
     uploadDate: "2023-11-19",
     reviewCount: reviews.find(review => review.id === 19)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 20,
@@ -400,6 +419,7 @@ export const products = [
     favorited: 93868,
     uploadDate: "2024-04-21",
     reviewCount: reviews.find(review => review.id === 20)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 21,
@@ -420,6 +440,7 @@ export const products = [
     favorited: 65770,
     uploadDate: "2024-02-28",
     reviewCount: reviews.find(review => review.id === 21)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 22,
@@ -440,6 +461,7 @@ export const products = [
     favorited: 73335,
     uploadDate: "2023-09-11",
     reviewCount: reviews.find(review => review.id === 22)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 23,
@@ -460,6 +482,7 @@ export const products = [
     favorited: 47856,
     uploadDate: "2023-10-15",
     reviewCount: reviews.find(review => review.id === 23)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 24,
@@ -480,6 +503,7 @@ export const products = [
     favorited: 99326,
     uploadDate: "2023-04-12",
     reviewCount: reviews.find(review => review.id === 24)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 25,
@@ -500,6 +524,7 @@ export const products = [
     favorited: 44864,
     uploadDate: "2023-12-07",
     reviewCount: reviews.find(review => review.id === 25)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 26,
@@ -520,6 +545,7 @@ export const products = [
     favorited: 88663,
     uploadDate: "2023-02-13",
     reviewCount: reviews.find(review => review.id === 26)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 27,
@@ -540,6 +566,7 @@ export const products = [
     favorited: 34400,
     uploadDate: "2023-02-25",
     reviewCount: reviews.find(review => review.id === 27)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 28,
@@ -560,6 +587,7 @@ export const products = [
     favorited: 52397,
     uploadDate: "2023-11-05",
     reviewCount: reviews.find(review => review.id === 28)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 29,
@@ -580,6 +608,7 @@ export const products = [
     favorited: 78493,
     uploadDate: "2024-03-27",
     reviewCount: reviews.find(review => review.id === 29)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 30,
@@ -600,6 +629,7 @@ export const products = [
     favorited: 86887,
     uploadDate: "2023-04-09",
     reviewCount: reviews.find(review => review.id === 30)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 31,
@@ -620,6 +650,7 @@ export const products = [
     favorited: 69200,
     uploadDate: "2024-03-31",
     reviewCount: reviews.find(review => review.id === 31)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 32,
@@ -640,6 +671,7 @@ export const products = [
     favorited: 63481,
     uploadDate: "2022-12-31",
     reviewCount: reviews.find(review => review.id === 32)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 33,
@@ -660,6 +692,7 @@ export const products = [
     favorited: 95302,
     uploadDate: "2023-01-04",
     reviewCount: reviews.find(review => review.id === 33)?.customers.length || 0,
+    todayShipment: true ,
   },
   {
     id: 34,
@@ -680,6 +713,7 @@ export const products = [
     favorited: 61294,
     uploadDate: "2023-07-03",
     reviewCount: reviews.find(review => review.id === 34)?.customers.length || 0,
+    todayShipment: false ,
   },
   {
     id: 35,
@@ -700,6 +734,7 @@ export const products = [
     favorited: 29288,
     uploadDate: "2023-01-08",
     reviewCount: reviews.find(review => review.id === 35)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 36,
@@ -720,6 +755,7 @@ export const products = [
     favorited: 46749,
     uploadDate: "2023-01-30",
     reviewCount: reviews.find(review => review.id === 36)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 37,
@@ -740,6 +776,7 @@ export const products = [
     favorited: 43845,
     uploadDate: "2023-11-11",
     reviewCount: reviews.find(review => review.id === 37)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 38,
@@ -760,6 +797,7 @@ export const products = [
     favorited: 12523,
     uploadDate: "2023-05-11",
     reviewCount: reviews.find(review => review.id === 38)?.customers.length || 0,
+    todayShipment: false,
   },
   {
     id: 39,
@@ -780,6 +818,7 @@ export const products = [
     favorited: 97334,
     uploadDate: "2023-03-29",
     reviewCount: reviews.find(review => review.id === 39)?.customers.length || 0,
+    todayShipment: true,
   },
   {
     id: 40,
@@ -800,5 +839,6 @@ export const products = [
     favorited: 65245,
     uploadDate: "2023-08-16",
     reviewCount: reviews.find(review => review.id === 40)?.customers.length || 0,
+    todayShipment: false,
   }
 ];

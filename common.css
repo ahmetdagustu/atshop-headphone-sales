@@ -1470,3 +1470,34 @@ a {
   color: #000; /* Siyah yazı rengi */
   border-color: #bbb; /* Hover durumunda kenarlık rengi */
 }
+
+.product-image-container {
+  position: relative;
+}
+
+.shipment-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color:rgba(46, 139, 87, 0.8); /* Kutu kırmızı renkte */
+  color: white;
+  padding: 2px 6px; /* Küçük bir kutu boyutu için padding */
+  border-radius: 3px;
+  font-size: 11px; /* Yazıları küçük yap */
+  font-weight: bold;
+  z-index: 10; /* Diğer öğelerin üstünde görünmesi için */
+  display: block;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* PC Ekranı için Hover Durumu */
+@media (min-width: 768px) {
+  .shipment-badge {
+      display: none; /* PC'de başlangıçta gizle */
+  }
+  
+  .product-image-container:hover .shipment-badge {
+      display: block; /* Hover olduğunda göster */
+  }
+}
