@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </ul>
 
     
-            <a href="#">BLOG</a>
+            <a href="blog.html">BLOG</a>
             <a href="#">CONTACT</a>
         </div>
       </div>
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function() {
                   </div>
               </div>
           </div>
-          <a href="#">BLOG</a>
+          <a href="blog.html">BLOG</a>
           <a href="#">CONTACT</a>
       </div>  
     </header>
