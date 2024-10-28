@@ -1,31 +1,34 @@
-// Function to dynamically load dashboard data
-function loadPage(page, element) {
-    // Aktif durumu gösterme
-    document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
-    if (element) {
-        element.classList.add('active');
-    }
+import { products } from './products.js'; // products.js dosyasından ürünleri içe aktarıyoruz
 
-    // Define content for each section
-    if (page === 'dashboard') {
-        loadDashboard();
+// admin.js
+
+// Sidebar'ı daraltıp genişletme fonksiyonu
+function toggleSidebar() {
+    const sidebar = document.getElementById("sidebarMenu");
+    sidebar.classList.toggle("collapsed");
+
+    // Genişliğe göre içerik alanını ayarla
+    const content = document.querySelector(".content");
+    if (sidebar.classList.contains("collapsed")) {
+        content.style.marginLeft = "80px";
     } else {
-        loadDefaultPage(page);
+        content.style.marginLeft = "240px";
     }
 }
 
-// Function to load the dashboard content
+// Fonksiyonu global alana atama
+window.toggleSidebar = toggleSidebar;
+
+// Dashboard sayfası içeriğini yükleme fonksiyonu
 function loadDashboard() {
     const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4>Dashboard</h4>
-            <a href="index.html" class="go-to-store btn btn-primary">Go to Store</a>
         </div>
         <div class="row">
             <div class="col-md-4">
                 <div class="dashboard-card total-revenue">
-                    <h5>Total Revenue</h5>
+                    <h5>Monthly Total Revenue</h5>
                     <div class="value" id="total-revenue">$0</div>
                 </div>
             </div>
@@ -37,7 +40,7 @@ function loadDashboard() {
             </div>
             <div class="col-md-4">
                 <div class="dashboard-card total-orders">
-                    <h5>Total Orders</h5>
+                    <h5>Monthly Total Orders</h5>
                     <div class="value" id="total-orders">0</div>
                 </div>
             </div>
@@ -112,18 +115,143 @@ function loadDashboard() {
     }, 1000);
 }
 
-// Default page loader
+
+// Ürünler sayfasını yükleme fonksiyonu
+function loadProducts() {
+    const mainContent = document.getElementById("main-content");
+    mainContent.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <button class="btn btn-primary">Add New Product</button>
+                <button class="btn btn-danger">Delete Selected</button>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>ID</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Original Price</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Color</th>
+                    <th>Rating</th>
+                    <th>Description</th>
+                    <th>Units Sold</th>
+                    <th>Favorited</th>
+                    <th>Upload Date</th>
+                    <th>Review Count</th>
+                    <th>Today Shipment</th>
+                    <th>Active</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="product-table">
+                <!-- Products will be loaded here -->
+            </tbody>
+        </table>
+
+        <!-- Modal for Description -->
+        <div id="descriptionModal" class="adminModal" style="display: none;">
+            <div class="modal-content-read">
+                <span class="close-read">&times;</span>
+                <h4>Description</h4>
+                <p id="modal-description"></p>
+            </div>
+        </div>
+    `;
+
+    // Ürün verilerini tabloya yükleme
+    const productTable = document.getElementById("product-table");
+
+    products.forEach(product => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td><input type="checkbox" /></td>
+            <td>${product.id}</td>
+            <td><img src="${product.image}" alt="${product.name}" width="50" /></td>
+            <td>${product.name}</td>
+            <td>$${product.price}</td>
+            <td>$${product.originalPrice}</td>
+            <td>${product.brand}</td>
+            <td>${product.category}</td>
+            <td>${product.color}</td>
+            <td>${product.rating.toFixed(1)}</td>
+            <td><button class="btn btn-info read-btn" data-description="${product.description}">Read</button></td>
+            <td>${product.unitsSold}</td>
+            <td>${product.favorited}</td>
+            <td>${product.uploadDate}</td>
+            <td>${product.reviewCount}</td>
+            <td>${product.todayShipment ? "Yes" : "No"}</td>
+            <td>
+                <input type="checkbox" ${product.onSale ? "checked" : ""} id="active-${product.id}" />
+                <label for="active-${product.id}" class="switch"></label>
+            </td>
+            <td><button class="btn btn-outline-secondary"><i class="fas fa-edit"></i></button></td>
+            <td><button class="btn btn-outline-danger"><i class="fas fa-trash"></i></button></td>
+        `;
+        productTable.appendChild(row);
+
+        // "Read" butonuna olay dinleyici ekleyin
+        const readButton = row.querySelector(".read-btn");
+        readButton.addEventListener("click", () => {
+            document.getElementById("modal-description").textContent = product.description;
+            document.getElementById("descriptionModal").style.display = "flex";
+        });
+    });
+
+    // Modal kapatma işlevselliği
+    const closeModal = document.querySelector(".close-read");
+    closeModal.addEventListener("click", () => {
+        document.getElementById("descriptionModal").style.display = "none";
+    });
+
+    // Modal dışında bir yere tıklayınca kapatma
+    window.addEventListener("click", (event) => {
+        if (event.target === document.getElementById("descriptionModal")) {
+            document.getElementById("descriptionModal").style.display = "none";
+        }
+    });
+}
+
+
+// Varsayılan sayfa yükleme fonksiyonu
 function loadDefaultPage(page) {
     const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = `<p>Content for ${page} will be shown here.</p>`;
 }
 
-// Automatically load Dashboard on page load
+// Sayfa yüklendiğinde otomatik olarak Dashboard'u yükle
 document.addEventListener("DOMContentLoaded", () => {
     const defaultButton = document.querySelector('.nav-link');
     loadPage('dashboard', defaultButton);
     defaultButton.classList.add('active');
 });
 
+// Sayfayı dinamik olarak yükleme fonksiyonu
+function loadPage(page, element) {
+    document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+    if (element) {
+        element.classList.add('active');
+    }
+
+    if (page === 'dashboard') {
+        loadDashboard();
+    } else if (page === 'products') {
+        loadProducts();
+    } else {
+        loadDefaultPage(page);
+    }
+}
+
+// Fonksiyonları global hale getirme
+window.loadPage = loadPage;
+window.loadDashboard = loadDashboard;
+window.loadProducts = loadProducts;
+window.loadDefaultPage = loadDefaultPage;
 
 
