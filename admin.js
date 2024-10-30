@@ -1,6 +1,6 @@
 import { products } from './products.js'; // products.js dosyasından ürünleri içe aktarıyoruz
-
-// admin.js
+import orders from './orders.js';
+import { reviews } from './reviews.js';
 
 // Sidebar'ı daraltıp genişletme fonksiyonu
 function toggleSidebar() {
@@ -82,37 +82,59 @@ function loadDashboard() {
         </div>
     `;
 
-    // Simulate loading data
-    setTimeout(() => {
-        document.getElementById("total-revenue").textContent = "$1500";
-        document.getElementById("total-products").textContent = "150";
-        document.getElementById("total-orders").textContent = "220";
-        document.getElementById("preparing-orders").textContent = "17";
-        document.getElementById("completed-orders").textContent = "120";
-        document.getElementById("returned-orders").textContent = "5";
-        document.getElementById("low-stock").textContent = "6";
-        document.getElementById("reviews").textContent = "15";
+    // Calculate monthly total revenue and order count
+    const currentMonth = new Date().getMonth() + 1; // JS months are 0-indexed
+    const currentYear = new Date().getFullYear();
 
-        // Example order data
-        const orders = [
-            { orderNo: "1001", customer: "John Doe", status: "Preparing", date: "2024-10-27", total: "$150.00" },
-            { orderNo: "1002", customer: "Jane Smith", status: "Completed", date: "2024-10-26", total: "$200.00" },
-            { orderNo: "1003", customer: "Will Brown", status: "Cancelled", date: "2024-10-25", total: "$300.00" },
-        ];
+    let totalRevenue = 0;
+    let totalOrders = 0;
+    let preparingOrders = 0;
+    let completedOrders = 0;
+    let returnedOrders = 0;
 
-        const orderTable = document.getElementById("order-table");
-        orders.forEach(order => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${order.orderNo}</td>
-                <td>${order.customer}</td>
-                <td>${order.status}</td>
-                <td>${order.date}</td>
-                <td>${order.total}</td>
-            `;
-            orderTable.appendChild(row);
-        });
-    }, 1000);
+    // Filter and calculate for current month orders
+    const monthlyOrders = orders.filter(order => {
+        const orderDate = new Date(order.orderDate);
+        return (
+            orderDate.getMonth() + 1 === currentMonth && orderDate.getFullYear() === currentYear
+        );
+    });
+
+    monthlyOrders.forEach(order => {
+        totalRevenue += order.totalPrice;
+        totalOrders += 1;
+        if (order.status === "Processing") preparingOrders++;
+        if (order.status === "Completed") completedOrders++;
+        if (order.status === "Cancelled") returnedOrders++;
+    });
+
+    // Calculate low stock count and total reviews
+    const lowStockCount = products.filter(product => product.quantity < 5).length;
+    const totalReviewCount = reviews.reduce((acc, review) => acc + review.customers.length, 0);
+
+    // Update dashboard values
+    document.getElementById("total-revenue").textContent = `$${totalRevenue}`;
+    document.getElementById("total-orders").textContent = totalOrders;
+    document.getElementById("preparing-orders").textContent = preparingOrders;
+    document.getElementById("completed-orders").textContent = completedOrders;
+    document.getElementById("returned-orders").textContent = returnedOrders;
+    document.getElementById("total-products").textContent = products.length;
+    document.getElementById("low-stock").textContent = lowStockCount;
+    document.getElementById("reviews").textContent = totalReviewCount;
+
+    // Load orders into table
+    const orderTable = document.getElementById("order-table");
+    monthlyOrders.forEach(order => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${order.orderId}</td>
+            <td>${order.customerName}</td>
+            <td>${order.status}</td>
+            <td>${order.orderDate}</td>
+            <td>$${order.totalPrice}</td>
+        `;
+        orderTable.appendChild(row);
+    });
 }
 
 
@@ -219,6 +241,207 @@ function loadProducts() {
 }
 
 
+
+
+function addDays(date, days) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result.toISOString().split('T')[0];
+}
+
+
+function createOrdersSection() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) {
+        console.error("Ana kapsayıcı bulunamadı. 'main-content' ID'sine sahip bir div ekleyin.");
+        return;
+    }
+
+    mainContent.innerHTML = ''; // Clear existing content
+
+    // Create table
+    const table = document.createElement('table');
+    table.classList.add('orders-table');
+
+    // Table headers
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+        <tr>
+            <th>Sipariş Bilgileri</th>
+            <th>Paket No</th>
+            <th>Alıcı</th>
+            <th>Adet</th>
+            <th>Bilgiler</th>
+            <th>Birim Fiyat</th>
+            <th>Kargo</th>
+            <th>Fatura</th>
+            <th>Durum</th>
+        </tr>
+    `;
+    table.appendChild(thead);
+
+    // Table body
+    const tbody = document.createElement('tbody');
+
+    // Create table rows for each order
+    orders.forEach(order => {
+        order.items.forEach((item, index) => {
+            const product = products.find(p => p.id === item.productId);
+            if (product) {
+                const row = document.createElement('tr');
+
+                // Sipariş Bilgileri
+                const orderInfo = document.createElement('td');
+                if (index === 0) { // Show for the first product
+                    orderInfo.rowSpan = order.items.length;
+
+                    // Determine the appropriate status message
+                    let statusMessage = '';
+                    if (order.status === 'Delivered') {
+                        // Display delivery date directly for Delivered status
+                        statusMessage = `<p class="text-success">Teslim Edildi: ${order.deliveryDate}</p>`;
+                    } else if (order.status === 'Processing') {
+                        // Determine if any product in the order has todayShipment
+                        const hasTodayShipment = order.items.some(item => {
+                            const product = products.find(p => p.id === item.productId);
+                            return product && product.todayShipment;
+                        });
+
+                        // Set estimated shipping date based on todayShipment
+                        const estimatedShippingDate = addDays(order.orderDate, hasTodayShipment ? 1 : 2);
+                        statusMessage = `<p class="text-warning">Tahmini Kargoya Verilme Tarihi: ${estimatedShippingDate}</p>`;
+                    } else if (order.status === 'Shipped') {
+                        // Set estimated delivery date 4 days after orderDate
+                        const estimatedDeliveryDate = addDays(order.orderDate, 4);
+                        statusMessage = `<p class="text-warning">Tahmini Teslim Tarihi: ${estimatedDeliveryDate}</p>`;
+                    } else {
+                        statusMessage = `<p class="text-warning">Kargo Bekleniyor</p>`;
+                    }
+
+                    orderInfo.innerHTML = `
+                        <p><strong>#${order.orderId}</strong></p>
+                        <p>Sipariş Tarihi: ${order.orderDate}</p>
+                        ${statusMessage}
+                    `;
+                }
+
+                // Paket No
+                const packageNo = document.createElement('td');
+                if (index === 0) { 
+                    packageNo.rowSpan = order.items.length;
+                    packageNo.textContent = order.orderId;
+                }
+
+                // Alıcı Bilgisi
+                const recipient = document.createElement('td');
+                if (index === 0) { 
+                    recipient.rowSpan = order.items.length;
+                    recipient.textContent = order.customerName;
+                }
+
+                // Adet
+                const quantity = document.createElement('td');
+                quantity.textContent = item.quantity;
+
+                // Ürün Bilgileri
+                const productInfo = document.createElement('td');
+                productInfo.innerHTML = `
+                    <a href="http://127.0.0.1:5508/shop-page.html?id=${product.id}" class="product-name">${product.name}</a><br>
+                    <img src="${product.image}" alt="${product.name}" width="50"><br>
+                    <p>Renk: ${product.color}</p>
+                `;
+
+                // Birim Fiyat
+                const unitPrice = document.createElement('td');
+                unitPrice.textContent = `${product.price} ₺`;
+
+                // Kargo Bilgisi
+                const shippingInfo = document.createElement('td');
+                if (index === 0) { 
+                    shippingInfo.rowSpan = order.items.length;
+                    shippingInfo.innerHTML = `
+                        <p>${order.shippingCompany || 'Kargo Bilgisi Yok'}</p>
+                        <p>Kargo Takip</p>
+                    `;
+                }
+
+                // Fatura Bilgisi
+                const invoice = document.createElement('td');
+                if (index === 0) { 
+                    invoice.rowSpan = order.items.length;
+                    invoice.innerHTML = `
+                        <p><strong>Toplam: ${order.totalPrice} ₺</strong></p>
+                        ${order.invoiceUploaded 
+                            ? '<span class="text-success">Faturayı Gör</span>' 
+                            : '<span class="text-danger">Fatura Bekleniyor</span>'}
+                        <button class="btn btn-outline-secondary">Fatura İşlemleri</button>
+                    `;
+                }
+
+                // Durum Bilgisi
+                const status = document.createElement('td');
+                if (index === 0) { 
+                    status.rowSpan = order.items.length;
+                    status.innerHTML = `
+                        ${order.status === 'Delivered' 
+                            ? '<span class="badge bg-success">Teslim Edildi</span>' 
+                            : '<span class="badge bg-warning">Beklemede</span>'}
+                    `;
+                }
+
+                // Append cells to the row
+                if (index === 0) {
+                    row.appendChild(orderInfo);
+                    row.appendChild(packageNo);
+                    row.appendChild(recipient);
+                }
+                row.appendChild(quantity);
+                row.appendChild(productInfo);
+                row.appendChild(unitPrice);
+                if (index === 0) {
+                    row.appendChild(shippingInfo);
+                    row.appendChild(invoice);
+                    row.appendChild(status);
+                }
+                
+                tbody.appendChild(row);
+            }
+        });
+    });
+
+    table.appendChild(tbody);
+    mainContent.appendChild(table);
+}
+
+// Call `createOrdersSection` when the DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    createOrdersSection();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Varsayılan sayfa yükleme fonksiyonu
 function loadDefaultPage(page) {
     const mainContent = document.getElementById("main-content");
@@ -243,6 +466,8 @@ function loadPage(page, element) {
         loadDashboard();
     } else if (page === 'products') {
         loadProducts();
+    } else if (page === 'orders') {
+        createOrdersSection(); // Orders sayfasını yüklemek için
     } else {
         loadDefaultPage(page);
     }
