@@ -62,23 +62,6 @@ function loadDashboard() {
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Order No</th>
-                            <th>Customer</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="order-table">
-                        <!-- Orders will be injected here -->
-                    </tbody>
-                </table>
-            </div>
         </div>
     `;
 
@@ -122,19 +105,6 @@ function loadDashboard() {
     document.getElementById("low-stock").textContent = lowStockCount;
     document.getElementById("reviews").textContent = totalReviewCount;
 
-    // Load orders into table
-    const orderTable = document.getElementById("order-table");
-    monthlyOrders.forEach(order => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${order.orderId}</td>
-            <td>${order.customerName}</td>
-            <td>${order.status}</td>
-            <td>${order.orderDate}</td>
-            <td>$${order.totalPrice}</td>
-        `;
-        orderTable.appendChild(row);
-    });
 }
 
 
@@ -242,14 +212,6 @@ function loadProducts() {
 
 
 
-
-function addDays(date, days) {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result.toISOString().split('T')[0];
-}
-
-
 function createOrdersSection() {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) {
@@ -284,130 +246,200 @@ function createOrdersSection() {
     const tbody = document.createElement('tbody');
 
     // Create table rows for each order
-    orders.forEach(order => {
-        order.items.forEach((item, index) => {
-            const product = products.find(p => p.id === item.productId);
-            if (product) {
-                const row = document.createElement('tr');
+    // Para birimini simgeye göre döndüren yardımcı fonksiyon
+        function formatCurrency(amount, currency) {
+            let symbol;
+            switch (currency) {
+                case "USD":
+                    symbol = "$";
+                    break;
+                case "EUR":
+                    symbol = "€";
+                    break;
+                case "TRY":
+                    symbol = "₺";
+                    break;
+                default:
+                    symbol = currency;
+            }
+            return `${symbol}${amount}`;
+        }
 
-                // Sipariş Bilgileri
-                const orderInfo = document.createElement('td');
-                if (index === 0) { // Show for the first product
-                    orderInfo.rowSpan = order.items.length;
-
-                    // Determine the appropriate status message
-                    let statusMessage = '';
-                    if (order.status === 'Delivered') {
-                        // Display delivery date directly for Delivered status
-                        statusMessage = `<p class="text-success">Teslim Edildi: ${order.deliveryDate}</p>`;
-                    } else if (order.status === 'Processing') {
-                        // Determine if any product in the order has todayShipment
-                        const hasTodayShipment = order.items.some(item => {
-                            const product = products.find(p => p.id === item.productId);
-                            return product && product.todayShipment;
-                        });
-
-                        // Set estimated shipping date based on todayShipment
-                        const estimatedShippingDate = addDays(order.orderDate, hasTodayShipment ? 1 : 2);
-                        statusMessage = `<p class="text-warning">Tahmini Kargoya Verilme Tarihi: ${estimatedShippingDate}</p>`;
-                    } else if (order.status === 'Shipped') {
-                        // Set estimated delivery date 4 days after orderDate
-                        const estimatedDeliveryDate = addDays(order.orderDate, 4);
-                        statusMessage = `<p class="text-warning">Tahmini Teslim Tarihi: ${estimatedDeliveryDate}</p>`;
-                    } else {
-                        statusMessage = `<p class="text-warning">Kargo Bekleniyor</p>`;
+        // Orders üzerinde dolaşarak işlemleri gerçekleştiren kodun içine ekleme
+        orders.forEach(order => {
+            order.items.forEach((item, index) => {
+                const product = products.find(p => p.id === item.productId);
+                if (product) {
+                    const row = document.createElement('tr');
+        
+                    // Sipariş Bilgileri
+                    const orderInfo = document.createElement('td');
+                    if (index === 0) {
+                        orderInfo.rowSpan = order.items.length;
+        
+                        let statusMessage = '';
+                        switch (order.status) {
+                            case 'Delivered':
+                                if (order.shipping && order.shipping.deliveryDate) {
+                                    statusMessage = `<p class="text-success">Teslim Edildi: ${order.shipping.deliveryDate}</p>`;
+                                } else {
+                                    statusMessage = `<p class="text-warning">Teslim Tarihi Bilgisi Yok</p>`;
+                                }
+                                break;
+                            case 'Processing':
+                                if (order.shipping && order.shipping.estimatedShippingDate) {
+                                    statusMessage = `<p class="text-warning">Tahmini Kargoya Verilme Tarihi: ${order.shipping.estimatedShippingDate}</p>`;
+                                } else {
+                                    statusMessage = `<p class="text-warning">Tahmini Kargoya Verilme Tarihi Bilgisi Yok</p>`;
+                                }
+                                break;
+                            case 'Shipped':
+                                if (order.shipping && order.shipping.estimatedDeliveryDate) {
+                                    statusMessage = `<p class="text-warning">Tahmini Teslim Tarihi: ${order.shipping.estimatedDeliveryDate}</p>`;
+                                } else {
+                                    statusMessage = `<p class="text-warning">Tahmini Teslim Tarihi Bilgisi Yok</p>`;
+                                }
+                                break;
+                            case 'Cancelled':
+                                statusMessage = `<p class="text-danger">İptal Edildi: ${order.cancellation.date}</p>`;
+                                break;
+                            default:
+                                statusMessage = `<p class="text-warning">Kargo Bekleniyor</p>`;
+                        }
+        
+                        orderInfo.innerHTML = `
+                            <p><strong>#${order.orderId}</strong></p>
+                            <p>Sipariş Tarihi: ${order.orderDate}</p>
+                            ${statusMessage}
+                        `;
+                    }
+        
+                    // Paket No
+                    const packageNo = document.createElement('td');
+                    if (index === 0) {
+                        packageNo.rowSpan = order.items.length;
+                        packageNo.textContent = order.orderId;
+                    }
+        
+                    // Alıcı Bilgisi
+                    const recipient = document.createElement('td');
+                    if (index === 0) {
+                        recipient.rowSpan = order.items.length;
+                        recipient.textContent = order.customer?.name
                     }
 
-                    orderInfo.innerHTML = `
-                        <p><strong>#${order.orderId}</strong></p>
-                        <p>Sipariş Tarihi: ${order.orderDate}</p>
-                        ${statusMessage}
+        
+                    // Adet
+                    const quantity = document.createElement('td');
+                    quantity.textContent = item.quantity;
+        
+                    // Ürün Bilgileri
+                    const productInfo = document.createElement('td');
+                    productInfo.innerHTML = `
+                        <a href="http://127.0.0.1:5508/shop-page.html?id=${product.id}" class="product-name">${product.name}</a><br>
+                        <img src="${product.image}" alt="${product.name}" width="50"><br>
+                        <p>Renk: ${product.color}</p>
                     `;
+        
+                    // Birim Fiyat (Para birimi sembolüyle)
+                    const unitPrice = document.createElement('td');
+                    unitPrice.textContent = formatCurrency(product.price, order.currency);
+        
+                    // Kargo Bilgisi (Boş Bırakılıyor)
+                    const shippingInfo = document.createElement('td');
+                    if (index === 0) {
+                        shippingInfo.rowSpan = order.items.length;
+
+                        if (order.status === 'Cancelled') {
+                            // Sipariş iptal edildiyse kargo bilgisini boş bırak
+                            shippingInfo.innerHTML = '';
+                        } else {
+                            // Eğer takip numarası varsa butonu ekle, yoksa "KARGONUN VERİLMESİ BEKLENİYOR" mesajını göster
+                            if (order.shipping.trackingNumber) {
+                                const trackingButton = document.createElement('button');
+                                trackingButton.textContent = 'Kargo Takip';
+                                trackingButton.classList.add('btn', 'btn-primary');
+
+                                // Kargo şirketine göre URL oluştur
+                                let trackingUrl = '';
+                                if (order.shipping.company === 'DHL') {
+                                    trackingUrl = `https://www.dhl.com/tr-tr/home/tracking.html?tracking-id=${order.shipping.trackingNumber}`;
+                                } else if (order.shipping.company === 'FedEx') {
+                                    trackingUrl = `https://www.fedex.com/wtrk/track/?trknbr=${order.shipping.trackingNumber}`;
+                                } else if (order.shipping.company === 'UPS') {
+                                    trackingUrl = `https://www.ups.com/track?loc=tr_TR&tracknum=${order.shipping.trackingNumber}`;
+                                }
+
+                                // URL varsa butona tıklayınca yeni sekmede aç
+                                if (trackingUrl) {
+                                    trackingButton.onclick = () => window.open(trackingUrl, '_blank');
+                                }
+
+                                // Butonu shippingInfo hücresine ekle
+                                shippingInfo.appendChild(trackingButton);
+                            } else {
+                                // Takip numarası yoksa sadece "KARGONUN VERİLMESİ BEKLENİYOR" mesajını göster
+                                const waitingMessage = document.createElement('p');
+                                waitingMessage.textContent = "KARGOYA VERİLMESİ BEKLENİYOR";
+                                waitingMessage.classList.add('text-muted', 'fw-bold'); // Hafif gri renkte ve kalın gösterim
+                                shippingInfo.appendChild(waitingMessage);
+                            }
+                        }
+                    }
+
+
+                    // Fatura Bilgisi veya İptal Sebebi
+                    const invoice = document.createElement('td');
+                    if (index === 0) {
+                        invoice.rowSpan = order.items.length;
+                        if (order.status === 'Cancelled') {
+                            invoice.innerHTML = `<p><strong>İptal Edilme Sebebi:</strong> ${order.cancellation.reason}</p>`;
+                        } else {
+                            invoice.innerHTML = `
+                                <p><strong>Toplam: ${formatCurrency(order.totalPrice, order.currency)}</strong></p>
+                                ${order.invoice?.uploaded
+                                    ? '<span class="text-success">Faturayı Gör</span>'
+                                    : '<span class="text-danger">Fatura Bekleniyor</span>'}
+                                <button class="btn btn-outline-secondary">Fatura İşlemleri</button>
+                            `;
+                        }
+                    }
+        
+                    // Durum Bilgisi
+                    const status = document.createElement('td');
+                    if (index === 0) {
+                        status.rowSpan = order.items.length;
+                        status.innerHTML = `
+                            ${order.status === 'Delivered'
+                                ? '<span class="badge bg-success">Teslim Edildi</span>'
+                                : order.status === 'Cancelled'
+                                    ? `<span class="badge bg-danger">İptal Edildi</span>`
+                                    : '<span class="badge bg-warning">Beklemede</span>'}
+                        `;
+                    }
+        
+                    // Satıra hücreleri ekle
+                    if (index === 0) {
+                        row.appendChild(orderInfo);
+                        row.appendChild(packageNo);
+                        row.appendChild(recipient);
+                    }
+                    row.appendChild(quantity);
+                    row.appendChild(productInfo);
+                    row.appendChild(unitPrice);
+                    if (index === 0) {
+                        row.appendChild(shippingInfo);
+                        row.appendChild(invoice);
+                        row.appendChild(status);
+                    }
+        
+                    tbody.appendChild(row);
                 }
-
-                // Paket No
-                const packageNo = document.createElement('td');
-                if (index === 0) { 
-                    packageNo.rowSpan = order.items.length;
-                    packageNo.textContent = order.orderId;
-                }
-
-                // Alıcı Bilgisi
-                const recipient = document.createElement('td');
-                if (index === 0) { 
-                    recipient.rowSpan = order.items.length;
-                    recipient.textContent = order.customerName;
-                }
-
-                // Adet
-                const quantity = document.createElement('td');
-                quantity.textContent = item.quantity;
-
-                // Ürün Bilgileri
-                const productInfo = document.createElement('td');
-                productInfo.innerHTML = `
-                    <a href="http://127.0.0.1:5508/shop-page.html?id=${product.id}" class="product-name">${product.name}</a><br>
-                    <img src="${product.image}" alt="${product.name}" width="50"><br>
-                    <p>Renk: ${product.color}</p>
-                `;
-
-                // Birim Fiyat
-                const unitPrice = document.createElement('td');
-                unitPrice.textContent = `${product.price} ₺`;
-
-                // Kargo Bilgisi
-                const shippingInfo = document.createElement('td');
-                if (index === 0) { 
-                    shippingInfo.rowSpan = order.items.length;
-                    shippingInfo.innerHTML = `
-                        <p>${order.shippingCompany || 'Kargo Bilgisi Yok'}</p>
-                        <p>Kargo Takip</p>
-                    `;
-                }
-
-                // Fatura Bilgisi
-                const invoice = document.createElement('td');
-                if (index === 0) { 
-                    invoice.rowSpan = order.items.length;
-                    invoice.innerHTML = `
-                        <p><strong>Toplam: ${order.totalPrice} ₺</strong></p>
-                        ${order.invoiceUploaded 
-                            ? '<span class="text-success">Faturayı Gör</span>' 
-                            : '<span class="text-danger">Fatura Bekleniyor</span>'}
-                        <button class="btn btn-outline-secondary">Fatura İşlemleri</button>
-                    `;
-                }
-
-                // Durum Bilgisi
-                const status = document.createElement('td');
-                if (index === 0) { 
-                    status.rowSpan = order.items.length;
-                    status.innerHTML = `
-                        ${order.status === 'Delivered' 
-                            ? '<span class="badge bg-success">Teslim Edildi</span>' 
-                            : '<span class="badge bg-warning">Beklemede</span>'}
-                    `;
-                }
-
-                // Append cells to the row
-                if (index === 0) {
-                    row.appendChild(orderInfo);
-                    row.appendChild(packageNo);
-                    row.appendChild(recipient);
-                }
-                row.appendChild(quantity);
-                row.appendChild(productInfo);
-                row.appendChild(unitPrice);
-                if (index === 0) {
-                    row.appendChild(shippingInfo);
-                    row.appendChild(invoice);
-                    row.appendChild(status);
-                }
-                
-                tbody.appendChild(row);
-            }
+            });
         });
-    });
+        
+        
+        
 
     table.appendChild(tbody);
     mainContent.appendChild(table);
