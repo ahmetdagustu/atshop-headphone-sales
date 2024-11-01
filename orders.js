@@ -41,7 +41,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 12, quantity: 1, discount: 10 },
+            { productId: 12, productCategory: "Wireless", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -90,7 +90,7 @@ const orders = [
             amount: 0
         },
         items: [
-            { productId: 22, quantity: 1, discount: 5 }
+            { productId: 22, productCategory: "Wireless", quantity: 1, discount: 5 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -99,7 +99,6 @@ const orders = [
             }, 0);
         }
     },
-    
     {
         orderId: "ORD-20241026-003",
         orderDate: "2024-10-26",
@@ -137,7 +136,7 @@ const orders = [
             amount: 0
         },
         items: [
-            { productId:24, quantity: 1, discount: 0 }
+            { productId:24, productCategory: "Wireless", quantity: 1, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -183,7 +182,7 @@ const orders = [
             amount: 0
         },
         items: [
-            { productId: 20, quantity: 1, discount: 0 },
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -229,7 +228,7 @@ const orders = [
             amount: 0
         },
         items: [
-            { productId: 7, quantity: 1, discount: 0 }
+            { productId: 7, productCategory: "Sport headphone", quantity: 1, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -271,7 +270,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 29, quantity: 1, discount: 10 }
+            { productId: 29, productCategory: "Wireless", quantity: 1, discount: 10 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -313,7 +312,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 1, quantity: 2 }
+            { productId: 1, productCategory: "Wireless", quantity: 2, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -355,7 +354,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 23, quantity: 2, discount: 0 }
+            { productId: 23, productCategory: "In-ear headphone", quantity: 2, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -397,7 +396,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId:4, quantity: 1, discount: 0 }
+            { productId:4, productCategory: "Wireless", quantity: 1, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -439,7 +438,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 16, quantity: 3, discount: 20 }
+            { productId: 16, productCategory: "Sport headphone", quantity: 3, discount: 20 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -481,7 +480,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 40, quantity: 1, discount: 5 }
+            { productId: 40, productCategory: "In-ear headphone", quantity: 1, discount: 5 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -523,7 +522,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 10, quantity: 1, discount: 0 }
+            { productId: 10, productCategory: "Wireless", quantity: 1, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -565,7 +564,7 @@ const orders = [
             reason: "Changed Mind"
         },
         items: [
-            { productId: 18, quantity: 1, discount: 0 }
+            { productId: 18, productCategory: "Over-ear headphone", quantity: 1, discount: 0 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -607,8 +606,8 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 34, quantity: 1, discount: 0 },
-            { productId: 34, quantity: 3, discount: 0 },
+            { productId: 37, productCategory: "Sport headphone", quantity: 1, discount: 10 },
+            { productId: 34, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -650,7 +649,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 40, quantity: 1, discount: 10 },
+            { productId: 40, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -692,7 +691,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 12, quantity: 3, discount: 0 },
+            { productId: 12, productCategory: "Wireless", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -734,7 +733,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 4, quantity: 3, discount: 5 },
+            { productId: 4, productCategory: "Wireless", quantity: 3, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -776,8 +775,8 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 10, quantity: 3, discount: 0 },
-            { productId: 6, quantity: 2, discount: 0 },
+            { productId: 10, productCategory: "Wireless", quantity: 3, discount: 0 },
+            { productId: 6, productCategory: "Sport headphone", quantity: 2, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -819,7 +818,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 2, quantity: 3, discount: 0 },
+            { productId: 2, productCategory: "Wireless", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -861,7 +860,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 5, quantity: 1, discount: 10 },
+            { productId: 5, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -903,9 +902,9 @@ const orders = [
             reason: "Product Defect"
         },
         items: [
-            { productId: 31, quantity: 2, discount: 5 },
-            { productId: 11, quantity: 3, discount: 0 },
-            { productId: 37, quantity: 3, discount: 10 },
+            { productId: 31, productCategory: "In-ear headphone", quantity: 2, discount: 5 },
+            { productId: 11, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
+            { productId: 37, productCategory: "Sport headphone", quantity: 3, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -947,7 +946,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 9, quantity: 3, discount: 10 },
+            { productId: 9, productCategory: "Wireless", quantity: 3, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -989,7 +988,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 35, quantity: 3, discount: 0 },
+            { productId: 35, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1031,7 +1030,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 3, quantity: 3, discount: 0 },
+            { productId: 3, productCategory: "Over-ear headphone", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1073,8 +1072,8 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 11, quantity: 2, discount: 0 },
-            { productId: 22, quantity: 2, discount: 10 },
+            { productId: 11, productCategory: "In-ear headphone", quantity: 2, discount: 0 },
+            { productId: 22, productCategory: "Wireless", quantity: 2, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1116,7 +1115,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 17, quantity: 1, discount: 5 },
+            { productId: 17, productCategory: "Sport headphone", quantity: 1, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1158,7 +1157,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 2, quantity: 1, discount: 10 },
+            { productId: 2, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1200,7 +1199,7 @@ const orders = [
             reason: "Customer Request"
         },
         items: [
-            { productId: 24, quantity: 2, discount: 10 },
+            { productId: 24, productCategory: "Wireless", quantity: 2, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1242,8 +1241,8 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 20, quantity: 1, discount: 0 },
-            { productId: 18, quantity: 1, discount: 5 },
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 0 },
+            { productId: 18, productCategory: "Over-ear headphone", quantity: 1, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1285,7 +1284,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 4, quantity: 2, discount: 5 },
+            { productId: 4, productCategory: "Wireless", quantity: 2, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1327,7 +1326,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 39, quantity: 2, discount: 5 },
+            { productId: 39, productCategory: "In-ear headphone", quantity: 2, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1369,7 +1368,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 37, quantity: 1, discount: 10 },
+            { productId: 37, productCategory: "Sport headphone", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1411,7 +1410,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 9, quantity: 2, discount: 5 },
+            { productId: 9, productCategory: "Wireless", quantity: 2, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1453,7 +1452,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 21, quantity: 1, discount: 0 },
+            { productId: 21, productCategory: "Wireless", quantity: 1, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1495,7 +1494,7 @@ const orders = [
             reason: "Customer Request"
         },
         items: [
-            { productId: 30, quantity: 1, discount: 10 },
+            { productId: 30, productCategory: "Wireless", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1503,7 +1502,8 @@ const orders = [
                 return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
             }, 0);
         }
-    },{
+    },
+    {
         orderId: "ORD-20240923-036",
         orderDate: "2024-09-23",
         currency: "USD",
@@ -1536,7 +1536,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 10, quantity: 2, discount: 5 },
+            { productId: 10, productCategory: "Wireless", quantity: 2, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1578,7 +1578,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 13, quantity: 3, discount: 10 },
+            { productId: 13, productCategory: "Over-ear headphone", quantity: 3, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1620,7 +1620,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 24, quantity: 1, discount: 10 },
+            { productId: 24, productCategory: "Wireless", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1662,7 +1662,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 20, quantity: 1, discount: 10 },
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1704,7 +1704,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 25, quantity: 3, discount: 10 },
+            { productId: 25, productCategory: "In-ear headphone", quantity: 3, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1746,7 +1746,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 25, quantity: 2, discount: 10 },
+            { productId: 25, productCategory: "In-ear headphone", quantity: 2, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1788,7 +1788,7 @@ const orders = [
             reason: "Customer Changed Mind"
         },
         items: [
-            { productId: 29, quantity: 1, discount: 5 },
+            { productId: 29, productCategory: "Wireless", quantity: 1, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1830,7 +1830,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 23, quantity: 3, discount: 5 },
+            { productId: 23, productCategory: "In-ear headphone", quantity: 3, discount: 5 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1838,7 +1838,8 @@ const orders = [
                 return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
             }, 0);
         }
-    }, {
+    },
+    {
         orderId: "ORD-20240915-044",
         orderDate: "2024-09-15",
         currency: "USD",
@@ -1871,7 +1872,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 29, quantity: 1, discount: 0 },
+            { productId: 29, productCategory: "Wireless", quantity: 1, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1913,7 +1914,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 35, quantity: 3, discount: 0 },
+            { productId: 35, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1955,7 +1956,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 33, quantity: 1, discount: 0 },
+            { productId: 33, productCategory: "Over-ear headphone", quantity: 1, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -1997,7 +1998,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 40, quantity: 3, discount: 10 }
+            { productId: 40, productCategory: "Over-ear headphone", quantity: 3, discount: 10 }
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -2039,7 +2040,7 @@ const orders = [
             reason: "Customer Cancellation"
         },
         items: [
-            { productId: 20, quantity: 1, discount: 10 },
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -2081,7 +2082,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 25, quantity: 2, discount: 10 },
+            { productId: 25, productCategory: "In-ear headphone", quantity: 2, discount: 10 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {
@@ -2123,7 +2124,7 @@ const orders = [
             reason: null
         },
         items: [
-            { productId: 35, quantity: 3, discount: 0 },
+            { productId: 35, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
         get totalPrice() {
             return this.items.reduce((total, item) => {

@@ -279,3 +279,159 @@ input[type="checkbox"] {
     padding: 5px 10px;
     border-radius: 5px;
 }
+
+
+.finance-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.finance-card.light-background {
+    background-color: #f5f5f5; /* Light gray background */
+}
+
+#netResultBox.green-background {
+    background-color: rgba(76, 175, 80, 0.2); /* Light green */
+}
+
+#netResultBox.red-background {
+    background-color: rgba(244, 67, 54, 0.2); /* Light red */
+}
+
+.finance-card .value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+
+
+.customer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-user-btn {
+    padding: 8px 12px;
+    background-color: #ffd700;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+.customer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.customer-table th, .customer-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.customer-table th {
+    background-color: #f4f4f4;
+}
+
+.customer-table ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.customer-table li {
+    margin-bottom: 5px;
+}
+
+
+.qa-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.qa-table th, .qa-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.qa-table th {
+    background-color: #f4f4f4;
+}
+
+.qa-table td {
+    vertical-align: top;
+}
+
+.qa-table td div {
+    display: flex;
+    align-items: center;
+}
+
+.qa-table hr {
+    margin: 5px 0;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+.view-btn, .edit-btn, .delete-btn {
+    display: block;
+    width: 100%;
+    padding: 5px 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.qa-table td:first-child input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.qa-table td:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.qa-table td:first-child, .qa-table th:first-child {
+    text-align: center;
+    width: 40px;
+}
+.qa-table input[type="checkbox"] {
+    cursor: pointer;
+}
+
+
+
+.star-rating {
+    color: gold;
+}

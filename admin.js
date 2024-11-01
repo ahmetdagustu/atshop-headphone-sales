@@ -1,6 +1,11 @@
 import { products } from './products.js'; // products.js dosyasından ürünleri içe aktarıyoruz
 import orders from './orders.js';
 import { reviews } from './reviews.js';
+import { income, expenses } from './income.js';
+import { customers } from './customers.js';
+import { headphoneQandA } from './productQuestions.js';
+
+
 
 // Sidebar'ı daraltıp genişletme fonksiyonu
 function toggleSidebar() {
@@ -450,6 +455,264 @@ document.addEventListener('DOMContentLoaded', () => {
     createOrdersSection();
 });
 
+function loadFinance() {
+    const mainContent = document.getElementById("main-content");
+
+    // Clear existing content and add Finance layout
+    mainContent.innerHTML = `
+        <div class="row">
+            <!-- Top boxes for Revenue, Expenses, and Net Result -->
+            <div class="col-md-4">
+                <div class="finance-card" id="incomeBox">
+                    <h5>Income</h5>
+                    <div class="value" id="total-income">$0</div>
+                    <p class="subtext">This Month's Revenue</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="finance-card" id="expenseBox">
+                    <h5>Expenses</h5>
+                    <div class="value" id="total-expenses">$0</div>
+                    <p class="subtext">This Month's Expenses</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="finance-card" id="netResultBox">
+                    <h5>Net Result</h5>
+                    <div class="value" id="net-result">$0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <!-- Three charts: Income by Category, Expense by Type, Monthly Line Chart -->
+            <div class="col-md-4">
+                <canvas id="incomeCategoryDonutChart" width="300" height="300"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="expenseTypeDonutChart" width="300" height="300"></canvas>
+            </div>
+            <div class="col-md-4">
+                <canvas id="monthlyIncomeExpenseChart" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Bottom tables for Income and Expenses -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h5>Income Details</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incomeTableBody"></tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5>Expense Details</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenseTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    `;
+
+    // Call functions to populate the data and charts
+    populateFinanceData();
+    generateIncomeCategoryDonutChart();
+    generateExpenseTypeDonutChart();
+    //generateMonthlyIncomeExpenseChart();
+}
+
+function populateFinanceData() {
+    const incomeBox = document.getElementById("total-income");
+    const expenseBox = document.getElementById("total-expenses");
+    const netResultBox = document.getElementById("net-result");
+    const incomeTableBody = document.getElementById("incomeTableBody");
+    const expenseTableBody = document.getElementById("expenseTableBody");
+
+    // Calculate total income and expenses
+    const totalIncome = income.reduce((total, amount) => total + amount, 0);
+    const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
+    const netResult = totalIncome - totalExpenses;
+
+    // Update boxes
+    incomeBox.innerText = `$${totalIncome.toFixed(2)}`;
+    expenseBox.innerText = `$${totalExpenses.toFixed(2)}`;
+    netResultBox.innerText = `$${netResult.toFixed(2)}`;
+    netResultBox.style.backgroundColor = netResult >= 0 ? "rgba(76, 175, 80, 0.2)" : "rgba(244, 67, 54, 0.2)";
+
+    // Populate Income Table
+    incomeTableBody.innerHTML = ''; // Clear any previous content
+    income.forEach((amount, index) => {
+        const order = orders[index];
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${order.orderId}</td>
+            <td>$${amount.toFixed(2)}</td>
+        `;
+        incomeTableBody.appendChild(row);
+    });
+
+    // Populate Expense Table
+    expenseTableBody.innerHTML = ''; // Clear any previous content
+    expenses.forEach((expense, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${expense.type}</td>
+            <td>$${expense.amount.toFixed(2)}</td>
+        `;
+        expenseTableBody.appendChild(row);
+    });
+}
+
+function generateIncomeCategoryDonutChart() {
+    const ctx = document.getElementById("incomeCategoryDonutChart").getContext("2d");
+    const categoryTotals = {};
+
+    // Calculate total income by category
+    orders.forEach(order => {
+        order.items.forEach(item => {
+            const category = item.productCategory;
+            const amount = item.unitPrice * item.quantity * ((100 - item.discount) / 100);
+            categoryTotals[category] = (categoryTotals[category] || 0) + amount;
+        });
+    });
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(categoryTotals),
+            datasets: [{
+                data: Object.values(categoryTotals),
+                backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#9C27B0', '#F44336'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: $${context.raw.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function generateExpenseTypeDonutChart() {
+    const ctx = document.getElementById("expenseTypeDonutChart").getContext("2d");
+    const expenseTotals = {
+        "Shipping Cost": 0,
+        "Electricity Bill": 0,
+        "Internet Bill": 0,
+        "Office Rent": 0,
+        "Tax": 0
+    };
+
+    // Calculate total expenses by type
+    expenses.forEach(expense => {
+        if (expenseTotals.hasOwnProperty(expense.type)) {
+            expenseTotals[expense.type] += expense.amount;
+        }
+    });
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(expenseTotals),
+            datasets: [{
+                data: Object.values(expenseTotals),
+                backgroundColor: ['#FFA726', '#42A5F5', '#AB47BC', '#66BB6A', '#EF5350'],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.label}: $${context.raw.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+function generateMonthlyIncomeExpenseChart() {
+    const ctx = document.getElementById("monthlyIncomeExpenseChart").getContext("2d");
+    const monthlyIncome = new Array(12).fill(0);
+    const monthlyExpenses = new Array(12).fill(0);
+
+    // Aggregate monthly income and expenses
+    orders.forEach(order => {
+        const month = new Date(order.orderDate).getMonth();
+        monthlyIncome[month] += order.totalPrice;
+    });
+
+    expenses.forEach(expense => {
+        const month = new Date(expense.date).getMonth();
+        monthlyExpenses[month] += expense.amount;
+    });
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            datasets: [
+                {
+                    label: 'Income',
+                    data: monthlyIncome,
+                    borderColor: '#4CAF50',
+                    fill: false
+                },
+                {
+                    label: 'Expenses',
+                    data: monthlyExpenses,
+                    borderColor: '#F44336',
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+}
 
 
 
@@ -458,15 +721,306 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// Run loadFinance on page load
+document.addEventListener("DOMContentLoaded", loadFinance);
+
+
+function loadCustomers() {
+    // Get the main content container
+    const mainContent = document.getElementById("main-content");
+    mainContent.innerHTML = ''; // Clear previous content
+
+    // Create the customer table structure
+    const table = document.createElement("table");
+    table.classList.add("table", "table-bordered", "customer-table"); // Bootstrap classes for basic styling
+    table.innerHTML = `
+        <thead style="background-color: #f8f9fa; color: #333;">
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>User Role</th>
+                <th>Address</th>
+                <th>Purchase History</th>
+                <th>Reviews</th>
+                <th>Questions</th>
+            </tr>
+        </thead>
+        <tbody id="customerTableBody"></tbody>
+    `;
+    mainContent.appendChild(table);
+
+    // Populate the table with customer data
+    const customerTableBody = document.getElementById("customerTableBody");
+
+    customers.forEach(customer => {
+        // Create table row
+        const row = document.createElement("tr");
+
+        // Address formatting
+        const address = `<div>${customer.address.street}</div>
+                         <div>${customer.address.city}, ${customer.address.state}</div>
+                         <div>${customer.address.postalCode}, ${customer.address.country}</div>`;
+
+        // Purchase history formatting
+        const purchaseHistory = customer.purchaseHistory.map(purchase => 
+            `<li style="margin-bottom: 5px; color: #555;">Order ID: <strong>${purchase.orderId}</strong> - ${purchase.orderDate}<br> 
+             Items: ${purchase.items.map(item => 
+                `<span style="color: #777;">- ${item.productCategory} (Qty: ${item.quantity})</span>`
+            ).join('')}</li>`
+        ).join('');
+
+        // Reviews formatting (assuming review text is available in customer.reviews array)
+        const reviews = customer.reviews.length ? 
+            customer.reviews.map(review => `<li style="color: #444;">${review}</li>`).join('') : 
+            `<span style="color: #999;">No reviews</span>`;
+
+        // Questions formatting (assuming questions are available in customer.questions array)
+        const questions = customer.questions.length ? 
+            customer.questions.map(question => `<li style="color: #444;">${question}</li>`).join('') : 
+            `<span style="color: #999;">No questions</span>`;
+
+        // Populate row with data
+        row.innerHTML = `
+            <td>${customer.name}</td>
+            <td>${customer.username}</td>
+            <td>${customer.role || 'Customer'}</td>
+            <td>${address}</td>
+            <td><ul style="padding-left: 15px; list-style-type: circle;">${purchaseHistory}</ul></td>
+            <td><ul style="padding-left: 15px; list-style-type: circle;">${reviews}</ul></td>
+            <td><ul style="padding-left: 15px; list-style-type: circle;">${questions}</ul></td>
+        `;
+
+        customerTableBody.appendChild(row);
+    });
+}
 
 
 
 
+function loadQandA() {
+    // Get main content area
+    const mainContent = document.getElementById("main-content");
+    mainContent.innerHTML = ''; // Clear previous content
+
+    // Create the Q&A table structure
+    const table = document.createElement("table");
+    table.classList.add("qa-table");
+    table.innerHTML = `
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="selectAll"></th>
+                <th>Product ID</th>
+                <th>Username</th>
+                <th>Question</th>
+                <th>Answer</th>
+                <th>Time</th>
+                <th>Likes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="qaTableBody"></tbody>
+    `;
+    mainContent.appendChild(table);
+
+    // Populate the table with Q&A data
+    const qaTableBody = document.getElementById("qaTableBody");
+
+    headphoneQandA.forEach(item => {
+        const row = document.createElement("tr");
+
+        // Create individual checkbox for the row
+        const checkboxCell = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("select-row");
+        checkboxCell.appendChild(checkbox);
+
+        // Format the timestamps
+        const questionTime = new Date(item.questionTime).toLocaleString();
+        const answerTime = item.answerTime ? new Date(item.answerTime).toLocaleString() : "Not answered yet";
+
+        // Populate row with data
+        row.innerHTML = `
+            <td>${item.productId}</td>
+            <td>${item.userName}</td>
+            <td>${item.question}</td>
+            <td>${item.answer || "No answer yet"}</td>
+            <td>
+                <div>Q: ${questionTime}</div>
+                <hr>
+                <div>A: ${answerTime}</div>
+            </td>
+            <td>${item.questionLike || 0}</td>
+            <td>
+                <button class="view-btn">View</button>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        `;
+
+        // Insert the checkbox cell at the beginning of the row
+        row.insertBefore(checkboxCell, row.firstChild);
+
+        qaTableBody.appendChild(row);
+    });
+
+    // Event listener for 'select all' checkbox
+    document.getElementById("selectAll").addEventListener("change", function() {
+        const checkboxes = document.querySelectorAll(".select-row");
+        checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    });
+}
 
 
 
+function loadReviews() {
+    const mainContent = document.getElementById("main-content");
+    
+    // Create the Reviews page structure
+    mainContent.innerHTML = `
+        <div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-primary">Create Review</button>
+            <button class="btn btn-secondary">Import</button>
+            <button class="btn btn-secondary">Export</button>
+        </div>
+        <input type="text" class="form-control mb-3" placeholder="Search review...">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Content</th>
+                    <th>Rating</th>
+                    <th>Likes</th>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="reviews-table-body"></tbody>
+        </table>
+    `;
+    
+    const tableBody = document.getElementById('reviews-table-body');
+
+    // Loop through each product in the reviews array
+    reviews.forEach(productReview => {
+        const productId = productReview.id;
+
+        // Loop through each customer review for the current product
+        productReview.customers.forEach(customer => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>
+                    <img src="${customer.profilerpic}" alt="${customer.idname}" class="rounded-circle me-2" style="width: 30px; height: 30px;">
+                    ${customer.idname}
+                </td>
+                <td>${customer.review}</td>
+                <td style="color: gold;">${'★'.repeat(customer.rated)}${'☆'.repeat(5 - customer.rated)}</td>
+                <td>${customer.reviewLİke || 0}</td>
+                <td>${productId}</td> <!-- Use the product ID here -->
+                <td><span class="badge bg-success">Approved</span></td>
+                <td>${new Date(customer.reviewDate).toLocaleDateString()} ${new Date(customer.reviewDate).toLocaleTimeString()}</td>
+                <td>
+                    <a href="#" class="text-primary me-2">Edit</a>
+                    <a href="#" class="text-danger">Delete</a>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    });
+}
 
 
+function loadMarketing() {
+    const mainContent = document.getElementById("main-content");
+    
+    mainContent.innerHTML = `
+        <div class="d-flex justify-content-between mb-3">
+            <h2>Marketing Management</h2>
+            <button class="btn btn-primary">Create New Campaign</button>
+        </div>
+
+        <!-- Campaign Management Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Campaigns</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped table-bordered">
+                    <thead style="background-color: #343a40; color: white;">
+                        <tr>
+                            <th>Campaign Name</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>New Year Sale</td>
+                            <td><span class="badge bg-success">Active</span></td>
+                            <td>2024-12-01</td>
+                            <td>2025-01-01</td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                            </td>
+                        </tr>
+                        <!-- Additional campaigns can be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Email Marketing Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Email Marketing</h5>
+            </div>
+            <div class="card-body">
+                <p>Send special offers and announcements to customers.</p>
+                <button class="btn btn-secondary">Send New Email</button>
+            </div>
+        </div>
+
+        <!-- Campaign Performance Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Campaign Performance</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="campaignPerformanceChart"></canvas>
+            </div>
+        </div>
+    `;
+
+    // Call the function to render the campaign performance chart
+    renderCampaignPerformanceChart();
+}
+
+function renderCampaignPerformanceChart() {
+    const ctx = document.getElementById('campaignPerformanceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Campaign 1', 'Campaign 2', 'Campaign 3', 'Campaign 4'],
+            datasets: [{
+                label: 'Engagement',
+                data: [120, 150, 100, 200],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
 
 
 
@@ -487,23 +1041,61 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultButton.classList.add('active');
 });
 
+
 // Sayfayı dinamik olarak yükleme fonksiyonu
 function loadPage(page, element) {
+    // Remove 'active' class from all navigation links
     document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+    
+    // Add 'active' class to the clicked element, if provided
     if (element) {
         element.classList.add('active');
     }
 
-    if (page === 'dashboard') {
-        loadDashboard();
-    } else if (page === 'products') {
-        loadProducts();
-    } else if (page === 'orders') {
-        createOrdersSection(); // Orders sayfasını yüklemek için
-    } else {
-        loadDefaultPage(page);
+    // Clear previous content
+    const mainContent = document.getElementById("main-content");
+    mainContent.innerHTML = ''; // Clear the current content
+
+    // Switch between pages based on the 'page' parameter
+    switch (page) {
+        case 'dashboard':
+            loadDashboard();
+            break;
+        case 'products':
+            loadProducts();
+            break;
+        case 'orders':
+            createOrdersSection(); // Load the Orders section
+            break;
+        case 'finance':
+            mainContent.innerHTML = `
+                <div id="incomeBox"></div>
+                <div id="expenseBox"></div>
+                <div id="netResultBox"></div>
+                <table id="incomeTableBody"><tbody></tbody></table>
+                <table id="expenseTableBody"><tbody></tbody></table>
+                <canvas id="financeChart"></canvas>
+            `;
+            loadFinance(); // Load the Finance section
+            break;
+        case 'customers':
+            loadCustomers(); // Load the Customers section
+            break;
+        case 'qa':
+            loadQandA(); // Load the Q&A section
+            break;
+        case 'reviews':
+            loadReviews(); // Load the Reviews section
+            break;
+        case 'marketing':
+            loadMarketing(); // Load the Marketing section
+            break;
+        default:
+            loadDefaultPage(page); // Load other default pages if needed
     }
 }
+
+
 
 // Fonksiyonları global hale getirme
 window.loadPage = loadPage;

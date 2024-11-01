@@ -9,6 +9,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/male/male20161086574653808.jpg",
         review: "Excellent product! I am extremely satisfied with this purchase.",
         reviewDate: "2024-08-20",
+        reviewLİke: 2
       },
       {
         idname: "Jane Smith",
@@ -17,6 +18,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female20151024334209870.jpg",
         review: "Excellent product! Highly recommended for everyone.",
         reviewDate: "2024-08-21",
+        reviewLİke: 2
       },
       {
         idname: "Michael Johnson",
@@ -25,6 +27,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/male/male1084833536530.jpg",
         review: "Perfect! Exactly what I was looking for.",
         reviewDate: "2024-08-22",
+        reviewLİke: 6,
       },
       {
         idname: "Alice Brown",
@@ -33,6 +36,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female1023196939788.jpg",
         review: "Fantastic! It exceeded my expectations.",
         reviewDate: "2024-08-23",
+        reviewLİke: 1,
       },
       {
         idname: "Bob White",
@@ -41,6 +45,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/male/male20171086075647705.jpg",
         review: "Very high quality. I'm very happy with this product.",
         reviewDate: "2024-08-24",
+        reviewLİke: 2,
       },
       {
         idname: "Mark Walker",
@@ -49,6 +54,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/male/male20161083922678528.jpg",
         review: "Not great. The product did not meet my expectations.",
         reviewDate: "2024-08-25",
+        reviewLİke: 4,
       },
       {
         idname: "Chris Johnson",
@@ -57,6 +63,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/male/male1085067226898.jpg",
         review: "Top-notch! Very satisfied with my purchase.",
         reviewDate: "2024-08-26",
+        reviewLİke: 0
       },
       {
         idname: "Emily Moore",
@@ -65,6 +72,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female1022247712280.jpg",
         review: "Superb quality! I will definitely buy again.",
         reviewDate: "2024-08-27",
+        reviewLİke: 0
       },
       {
         idname: "Nancy Scott",
@@ -73,6 +81,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female1021582152069.jpg",
         review: "Great product overall, just minor issues.",
         reviewDate: "2024-08-28",
+        reviewLİke: 4
       },
       {
         idname: "Sarah Davis",
@@ -81,6 +90,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female20141023962568115.jpg",
         review: "Amazing product! Worth every penny.",
         reviewDate: "2024-08-29",
+        reviewLİke:  1
       },
       {
         idname: "Linda Martin",
@@ -89,6 +99,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female20151023998153717.jpg",
         review: "Incredible product! Exceeded my expectations.",
         reviewDate: "2024-08-30",
+        reviewLİke: 5
       },
       {
         idname: "Kevin Lee",
@@ -97,6 +108,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/male/male1084548318848.jpg",
         review: "Very good product. Just what I needed.",
         reviewDate: "2024-08-31",
+        reviewLİke: 1
       },
       {
         idname: "Paul Young",
@@ -105,6 +117,7 @@ export const reviews = [
           "https://fakepersongenerator.com/Face/male/male1085333525177.jpg",
         review: "Good product, but could be improved.",
         reviewDate: "2024-09-01",
+        reviewLİke: 3
       },
       {
         idname: "Laura Hernandez",
@@ -113,6 +126,7 @@ export const reviews = [
           "https://www.fakepersongenerator.com/Face/female/female20161025525766968.jpg",
         review: "Not satisfied. The product does not meet expectations.",
         reviewDate: "2024-09-02",
+        reviewLİke: 2
       },
     ],
   },
@@ -605,7 +619,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1022069265076.jpg",
       review: "Excellent quality! Worth every cent.",
-      date: "2023-11-15",
+      reviewDate: "2023-11-15",
     },
     {
       idname: "Robert Baker",
@@ -613,7 +627,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161086502287842.jpg",
       review: "Perfect product! Exactly what I was looking for.",
-      date: "2022-06-22",
+      reviewDate: "2022-06-22",
     },
     {
       idname: "Linda Nelson",
@@ -621,7 +635,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1084202825988.jpg",
       review: "Superb! I would recommend it to everyone.",
-      date: "2024-03-30",
+      reviewDate: "2024-03-30",
     },
     {
       idname: "Donald Carter",
@@ -629,7 +643,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1085076593750.jpg",
       review: "Very good, but has some minor flaws.",
-      date: "2021-08-10",
+      reviewDate: "2021-08-10",
     },
     {
       idname: "Betty Mitchell",
@@ -637,7 +651,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female20161025294289948.jpg",
       review: "It's okay. Could be better.",
-      date: "2022-11-04",
+      reviewDate: "2022-11-04",
     },
     {
       idname: "Robert Baker",
@@ -645,7 +659,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161086502287842.jpg",
       review: "Perfect product! Exactly what I was looking for.",
-      date: "2023-05-19",
+      reviewDate: "2023-05-19",
     },
     {
       idname: "Bob White",
@@ -653,7 +667,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20171086075647705.jpg",
       review: "Very high quality. I'm very happy with this product.",
-      date: "2021-12-13",
+      reviewDate: "2021-12-13",
     },
     {
       idname: "Mark Walker",
@@ -661,7 +675,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161083922678528.jpg",
       review: "Not great. The product did not meet my expectations.",
-      date: "2024-01-28",
+      reviewDate: "2024-01-28",
     },
     {
       idname: "Chris Johnson",
@@ -669,7 +683,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1085067226898.jpg",
       review: "Top-notch! Very satisfied with my purchase.",
-      date: "2023-07-23",
+      reviewDate: "2023-07-23",
     },
     {
       idname: "Kevin Lee",
@@ -677,7 +691,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1084548318848.jpg",
       review: "Very good product. Just what I needed.",
-      date: "2022-02-17",
+      reviewDate: "2022-02-17",
     },
     {
       idname: "Jessica Hernandez",
@@ -685,7 +699,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female20171026103990081.jpg",
       review: "Average. It works but has some issues.",
-      date: "2021-09-30",
+      reviewDate: "2021-09-30",
     },
     {
       idname: "David Roberts",
@@ -693,7 +707,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male2012108610060059.jpg",
       review: "Exceeds all expectations. Highly recommended.",
-      date: "2024-04-05",
+      reviewDate: "2024-04-05",
     },
     {
       idname: "Lisa Turner",
@@ -701,7 +715,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1021821920105.jpg",
       review: "Very good product. Minor improvements needed.",
-      date: "2023-10-08",
+      reviewDate: "2023-10-08",
     },
     {
       idname: "John Lee",
@@ -709,7 +723,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161083974552429.jpg",
       review: "Very poor quality. Not satisfied with the purchase.",
-      date: "2022-04-14",
+      reviewDate: "2022-04-14",
     },
   ],
 },
@@ -723,7 +737,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1085086276062.jpg",
       review: "Outstanding quality. I am extremely satisfied.",
-      date: "2023-12-01",
+      reviewDate: "2023-12-01",
     },
     {
       idname: "Karen Perez",
@@ -731,7 +745,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female20161025192877288.jpg",
       review: "This is a fantastic product. Very happy with it.",
-      date: "2022-09-15",
+      reviewDate: "2022-09-15",
     },
     {
       idname: "David Roberts",
@@ -739,7 +753,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male2012108610060059.jpg",
       review: "Exceeds all expectations. Highly recommended.",
-      date: "2024-04-20",
+      reviewDate: "2024-04-20",
     },
     {
       idname: "Emily Moore",
@@ -747,7 +761,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1022247712280.jpg",
       review: "Superb quality! I will definitely buy again.",
-      date: "2023-03-25",
+      reviewDate: "2023-03-25",
     },
     {
       idname: "Daniel Taylor",
@@ -755,7 +769,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1084914690002.jpg",
       review: "Outstanding! This product is everything I hoped for.",
-      date: "2022-07-10",
+      reviewDate: "2022-07-10",
     },
     {
       idname: "Sophia Anderson",
@@ -763,7 +777,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female20151024490156281.jpg",
       review: "Fantastic! The quality is unmatched.",
-      date: "2024-01-08",
+      reviewDate: "2024-01-08",
     },
     {
       idname: "David Roberts",
@@ -771,7 +785,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male2012108610060059.jpg",
       review: "Exceeds all expectations. Highly recommended.",
-      date: "2023-06-12",
+      reviewDate: "2023-06-12",
     },
     {
       idname: "Lisa Turner",
@@ -779,7 +793,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1021821920105.jpg",
       review: "Very good product. Minor improvements needed.",
-      date: "2023-11-25",
+      reviewDate: "2023-11-25",
     },
     {
       idname: "John Lee",
@@ -787,7 +801,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161083974552429.jpg",
       review: "Very poor quality. Not satisfied with the purchase.",
-      date: "2022-02-19",
+      reviewDate: "2022-02-19",
     },
     {
       idname: "George Harris",
@@ -795,7 +809,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161086316987365.jpg",
       review: "This product is amazing! It has everything I needed.",
-      date: "2023-08-30",
+      reviewDate: "2023-08-30",
     },
     {
       idname: "Barbara Clark",
@@ -803,7 +817,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1085857755279.jpg",
       review: "I love this product! It works perfectly.",
-      date: "2022-10-05",
+      reviewDate: "2022-10-05",
     },
     {
       idname: "Brian Lewis",
@@ -811,7 +825,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20171084082172455.jpg",
       review: "Very good product, but it could be improved in some areas.",
-      date: "2023-04-22",
+      reviewDate: "2023-04-22",
     },
     {
       idname: "Lisa Turner",
@@ -819,7 +833,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1021821920105.jpg",
       review: "Very good product. Minor improvements needed.",
-      date: "2022-05-15",
+      reviewDate: "2022-05-15",
     },
     {
       idname: "John Lee",
@@ -827,7 +841,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161083974552429.jpg",
       review: "Very poor quality. Not satisfied with the purchase.",
-      date: "2023-01-11",
+      reviewDate: "2023-01-11",
     },
     {
       idname: "Jessica Sanchez",
@@ -835,7 +849,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1022406283173.jpg",
       review: "Fantastic! The product is as described and works great.",
-      date: "2024-06-18",
+      reviewDate: "2024-06-18",
     },
     {
       idname: "Mark Green",
@@ -843,7 +857,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male20161085979769745.jpg",
       review: "Amazing product! Very happy with my purchase.",
-      date: "2023-09-07",
+      reviewDate: "2023-09-07",
     },
     {
       idname: "Sandra Lewis",
@@ -851,7 +865,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/female/female1021568108307.jpg",
       review: "Excellent quality. I will definitely recommend it.",
-      date: "2024-02-12",
+      reviewDate: "2024-02-12",
     },
     {
       idname: "Paul Young",
@@ -859,7 +873,7 @@ export const reviews = [
       profilerpic:
         "https://www.fakepersongenerator.com/Face/male/male1085333525177.jpg",
       review: "Good product, but could be improved.",
-      date: "2021-11-20",
+      reviewDate: "2021-11-20",
     },
   ],
 },
