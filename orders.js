@@ -2053,7 +2053,7 @@ const orders = [
         orderId: "ORD-20240910-049",
         orderDate: "2024-09-10",
         currency: "USD",
-        status: "Delivered",
+        status: "New",
         paymentMethod: "Credit Card",
         customer: {
             isLoggedIn: true,
@@ -2067,11 +2067,11 @@ const orders = [
             }
         },
         shipping: {
-            company: "DHL",
-            trackingNumber: "DHL45678",
-            estimatedShippingDate: "2024-09-20",
-            estimatedDeliveryDate: "2024-09-22",
-            deliveryDate: "2024-09-22"
+            company: null,
+            trackingNumber: null,
+            estimatedShippingDate: null,
+            estimatedDeliveryDate: null,
+            deliveryDate: null
         },
         invoice: {
             uploaded: true,
@@ -2095,7 +2095,7 @@ const orders = [
         orderId: "ORD-20240909-050",
         orderDate: "2024-09-09",
         currency: "USD",
-        status: "Delivered",
+        status: "New",
         paymentMethod: "Credit Card",
         customer: {
             isLoggedIn: true,
@@ -2109,11 +2109,11 @@ const orders = [
             }
         },
         shipping: {
-            company: "DHL",
-            trackingNumber: "DHL12345",
+            company: null,
+            trackingNumber: null,
             estimatedShippingDate: null,
-            estimatedDeliveryDate: "2024-09-19",
-            deliveryDate: "2024-09-19"
+            estimatedDeliveryDate: null,
+            deliveryDate: null
         },
         invoice: {
             uploaded: true,

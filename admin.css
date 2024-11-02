@@ -74,7 +74,7 @@ body, html {
     white-space: nowrap;
 }
 /* Dashboard Kart Stilleri */
-.dashboard-card {
+/* .dashboard-card {
     color: white;
     border-radius: 8px;
     padding: 20px;
@@ -93,10 +93,10 @@ body, html {
 .dashboard-card .value {
     font-size: 24px;
     font-weight: bold;
-}
+} */
 
 /* Kart Renkleri */
-.total-revenue {
+/* .total-revenue {
     background: linear-gradient(to right, #20c997, #17a2b8);
 }
 
@@ -106,10 +106,10 @@ body, html {
 
 .total-orders {
     background: linear-gradient(to right, #6610f2, #6f42c1);
-}
+} */
 
 /* Sipariş Durum Kartı */
-.orders-info {
+/* .orders-info {
     background: linear-gradient(to right, #004085, #0056b3);
     color: white;
     border-radius: 8px;
@@ -122,7 +122,7 @@ body, html {
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 20px;
-}
+} */
 
 /* Son Siparişler Tablosu */
 .table {
@@ -434,4 +434,111 @@ input[type="checkbox"] {
 
 .star-rating {
     color: gold;
+}
+
+
+
+/* General Card Styling */
+.dashboard-card {
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 20px;
+    text-align: left;
+    color: #333333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Orders Box */
+.orders-box {
+    height: 200px;
+    background: linear-gradient(to right, #20c997, #17a2b8);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+}
+
+/* Products Box (Button Container) */
+.products-box {
+    background: none;
+    color: #333333;
+}
+
+/* Blinking Button */
+.blinking-button {
+    width: 100%;
+    padding: 15px 0;
+    color: #ffffff;
+    background-color: #e83e8c;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    animation: blinker 1.5s linear infinite;
+    cursor: pointer;
+    margin-top: 10px;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Secondary Button for New Question */
+.secondary-button {
+    background-color: #17a2b8;
+    animation: blinker 2s linear infinite;
+}
+
+/* Blinking Animation */
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Static Message */
+.static-message {
+    margin: 10px 0;
+    padding: 10px 0;
+    text-align: center;
+    font-weight: bold;
+    color: #555555;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Revenue Box */
+.revenue-box {
+    background: linear-gradient(to right, #28a745, #218838);
+    color: #ffffff;
+}
+
+/* Customers Box */
+.customers-box {
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: #ffffff;
+}
+
+/* Additional Boxes */
+.sales-box {
+    background: linear-gradient(to right, #dc3545, #bd2130);
+    color: #ffffff;
+}
+
+.feedback-box {
+    background: linear-gradient(to right, #6f42c1, #5a2e9c);
+    color: #ffffff;
+}
+
+.inventory-box {
+    background: linear-gradient(to right, #fd7e14, #e8590c);
+    color: #ffffff;
+}
+
+.analytics-box {
+    background: linear-gradient(to right, #17a2b8, #117a8b);
+    color: #ffffff;
+}
+
+.settings-box {
+    background: linear-gradient(to right, #6c757d, #495057);
+    color: #ffffff;
 }

@@ -1,9 +1,10 @@
 import { products } from './products.js'; // products.js dosyasından ürünleri içe aktarıyoruz
 import orders from './orders.js';
 import { reviews } from './reviews.js';
-import { income, expenses } from './income.js';
+import { income, expenses, netIncomes, calculateMonthlyNetIncome } from './income.js';
 import { customers } from './customers.js';
 import { headphoneQandA } from './productQuestions.js';
+
 
 
 
@@ -24,93 +25,147 @@ function toggleSidebar() {
 // Fonksiyonu global alana atama
 window.toggleSidebar = toggleSidebar;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Dashboard sayfası içeriğini yükleme fonksiyonu
+
+
 function loadDashboard() {
     const mainContent = document.getElementById("main-content");
+
+    if (!mainContent) {
+        console.error("Element with ID 'main-content' not found.");
+        return;
+    }
+
+    // Calculate order statuses
+    let newOrderCount = 0;
+    let preparingCount = 0;
+    let completedCount = 0;
+    let returnedCount = 0;
+    let hasNewOrder = false;
+
+    orders.forEach(order => {
+        switch (order.status) {
+            case "New":
+                newOrderCount++;
+                hasNewOrder = true;
+                break;
+            case "Processing":
+                preparingCount++;
+                break;
+            case "Delivered":
+                completedCount++;
+                break;
+            case "Cancelled":
+                returnedCount++;
+                break;
+        }
+    });
+
+    // Check for unanswered questions
+    const hasUnansweredQuestion = headphoneQandA.some(question => question.answered === false);
+
+    // Get the monthly and yearly net income
+    const monthlyNetIncome = calculateMonthlyNetIncome();
+    const yearlyNetIncome = netIncomes.find(income => income.type === "This Year")?.netIncome || 0;
+
+    // Render the dashboard layout
     mainContent.innerHTML = `
-        <div class="d-flex justify-content-between align-items-center mb-4">
-        </div>
         <div class="row">
-            <div class="col-md-4">
-                <div class="dashboard-card total-revenue">
-                    <h5>Monthly Total Revenue</h5>
-                    <div class="value" id="total-revenue">$0</div>
+            <!-- Orders Section with Counts -->
+            <div class="col-md-3">
+                <div class="dashboard-card orders-box">
+                    <h5>Orders</h5>
+                    <p>New Order: <span id="new-orders">${newOrderCount}</span></p>
+                    <p>Preparing: <span id="preparing-orders">${preparingCount}</span></p>
+                    <p>Completed: <span id="completed-orders">${completedCount}</span></p>
+                    <p>Returned: <span id="returned-orders">${returnedCount}</span></p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="dashboard-card total-products">
-                    <h5>Total Products</h5>
-                    <div class="value" id="total-products">0</div>
+            
+            <!-- Products Box with Conditional Buttons for New Sales and Questions -->
+            <div class="col-md-3">
+                <div class="dashboard-card products-box">
+                    <div id="new-sale-button"></div>
+                    <div id="new-question-button"></div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="dashboard-card total-orders">
-                    <h5>Monthly Total Orders</h5>
-                    <div class="value" id="total-orders">0</div>
+            
+            <!-- Revenue Box showing Monthly Net Income -->
+            <div class="col-md-3">
+                <div class="dashboard-card revenue-box" onclick="loadFinance()">
+                    <h5>This Month's Revenue</h5>
+                    <div class="value">$${monthlyNetIncome.toFixed(2)}</div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="orders-info">
-                    <h6>Orders</h6>
-                    <p>Preparing: <span id="preparing-orders">0</span></p>
-                    <p>Completed: <span id="completed-orders">0</span></p>
-                    <p>Returned: <span id="returned-orders">0</span></p>
+
+            <!-- Customers Box showing Yearly Net Income -->
+            <div class="col-md-3">
+                <div class="dashboard-card customers-box" onclick="loadFinance()">
+                    <h5>This Year's Net Income</h5>
+                    <div class="value">$${yearlyNetIncome.toFixed(2)}</div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="orders-info">
-                    <h6>Products</h6>
-                    <p>Low Stock: <span id="low-stock">0</span></p>
-                    <p>Reviews: <span id="reviews">0</span></p>
-                </div>
-            </div>
-        </div>
         </div>
     `;
 
-    // Calculate monthly total revenue and order count
-    const currentMonth = new Date().getMonth() + 1; // JS months are 0-indexed
-    const currentYear = new Date().getFullYear();
+    // Set up the New Sale button
+    const newSaleButtonContainer = document.getElementById("new-sale-button");
+    if (hasNewOrder) {
+        const newSaleButton = document.createElement("button");
+        newSaleButton.className = "blinking-button bordered-box";
+        newSaleButton.textContent = "New Sale Available!";
+        newSaleButton.onclick = () => loadPage('orders', document.querySelector('.nav-link[data-page="orders"]'));
+        newSaleButtonContainer.appendChild(newSaleButton);
+    } else {
+        newSaleButtonContainer.innerHTML = `<p class="static-message bordered-box">No new sales at the moment</p>`;
+    }
 
-    let totalRevenue = 0;
-    let totalOrders = 0;
-    let preparingOrders = 0;
-    let completedOrders = 0;
-    let returnedOrders = 0;
-
-    // Filter and calculate for current month orders
-    const monthlyOrders = orders.filter(order => {
-        const orderDate = new Date(order.orderDate);
-        return (
-            orderDate.getMonth() + 1 === currentMonth && orderDate.getFullYear() === currentYear
-        );
-    });
-
-    monthlyOrders.forEach(order => {
-        totalRevenue += order.totalPrice;
-        totalOrders += 1;
-        if (order.status === "Processing") preparingOrders++;
-        if (order.status === "Completed") completedOrders++;
-        if (order.status === "Cancelled") returnedOrders++;
-    });
-
-    // Calculate low stock count and total reviews
-    const lowStockCount = products.filter(product => product.quantity < 5).length;
-    const totalReviewCount = reviews.reduce((acc, review) => acc + review.customers.length, 0);
-
-    // Update dashboard values
-    document.getElementById("total-revenue").textContent = `$${totalRevenue}`;
-    document.getElementById("total-orders").textContent = totalOrders;
-    document.getElementById("preparing-orders").textContent = preparingOrders;
-    document.getElementById("completed-orders").textContent = completedOrders;
-    document.getElementById("returned-orders").textContent = returnedOrders;
-    document.getElementById("total-products").textContent = products.length;
-    document.getElementById("low-stock").textContent = lowStockCount;
-    document.getElementById("reviews").textContent = totalReviewCount;
-
+    // Set up the New Question button
+    const newQuestionButtonContainer = document.getElementById("new-question-button");
+    if (hasUnansweredQuestion) {
+        const newQuestionButton = document.createElement("button");
+        newQuestionButton.className = "blinking-button secondary-button bordered-box";
+        newQuestionButton.textContent = "New Question Available!";
+        newQuestionButton.onclick = () => loadPage('qa', document.querySelector('.nav-link[data-page="qa"]'));
+        newQuestionButtonContainer.appendChild(newQuestionButton);
+    } else {
+        newQuestionButtonContainer.innerHTML = `<p class="static-message bordered-box">No questions pending for response</p>`;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Ürünler sayfasını yükleme fonksiyonu
@@ -215,7 +270,7 @@ function loadProducts() {
     });
 }
 
-
+window.createOrdersSection = createOrdersSection;
 
 function createOrdersSection() {
     const mainContent = document.getElementById('main-content');
@@ -455,7 +510,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createOrdersSection();
 });
 
-function loadFinance() {
+export function loadFinance() {
     const mainContent = document.getElementById("main-content");
 
     // Clear existing content and add Finance layout
@@ -1042,6 +1097,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+
+
 // Sayfayı dinamik olarak yükleme fonksiyonu
 function loadPage(page, element) {
     // Remove 'active' class from all navigation links
@@ -1068,14 +1125,6 @@ function loadPage(page, element) {
             createOrdersSection(); // Load the Orders section
             break;
         case 'finance':
-            mainContent.innerHTML = `
-                <div id="incomeBox"></div>
-                <div id="expenseBox"></div>
-                <div id="netResultBox"></div>
-                <table id="incomeTableBody"><tbody></tbody></table>
-                <table id="expenseTableBody"><tbody></tbody></table>
-                <canvas id="financeChart"></canvas>
-            `;
             loadFinance(); // Load the Finance section
             break;
         case 'customers':
