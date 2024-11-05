@@ -84,3 +84,27 @@ function loadDashboard() {
     document.getElementById("reviews").textContent = totalReviewCount;
 
 }
+
+
+
+
+
+
+
+
+
+import { products } from './products.js';
+
+
+// Ürün fiyatını ID'ye göre getirir
+function getProductPriceById(productId) {
+    const product = products.find(p => p.id === productId); // productId'yi id ile eşleştir
+    return product ? product.price : 0; // Ürün yoksa 0 döner
+}
+
+get totalPrice() {
+    return this.items.reduce((total, item) => {
+        const unitPrice = getProductPriceById(item.productId);
+        return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
+    }, 0);
+}

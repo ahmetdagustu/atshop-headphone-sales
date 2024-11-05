@@ -1,17 +1,9 @@
-import { products } from './products.js';
-
-// Ürün fiyatını ID'ye göre getirir
-function getProductPriceById(productId) {
-    const product = products.find(p => p.id === productId); // productId'yi id ile eşleştir
-    return product ? product.price : 0; // Ürün yoksa 0 döner
-}
-
-
 const orders = [
     {
         orderId: "ORD-20241028-001",
         orderDate: "2024-10-28",
         currency: "USD",
+        totalPrice: 490,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -43,20 +35,12 @@ const orders = [
         items: [
             { productId: 12, productCategory: "Wireless", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                if (unitPrice === 0) console.warn(`Product ID ${item.productId} için fiyat bulunamadı.`);
-                item.unitPrice = unitPrice;
-                const discountMultiplier = (100 - item.discount) / 100;
-                return total + (unitPrice * item.quantity * discountMultiplier);
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241027-002",
         orderDate: "2024-10-27",
         currency: "USD",
+        totalPrice: 484.5,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -92,17 +76,12 @@ const orders = [
         items: [
             { productId: 22, productCategory: "Wireless", quantity: 1, discount: 5 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241026-003",
         orderDate: "2024-10-26",
         currency: "USD",
+        totalPrice: 470,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -138,17 +117,12 @@ const orders = [
         items: [
             { productId:24, productCategory: "Wireless", quantity: 1, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241025-004",
         orderDate: "2024-10-25",
         currency: "USD",
+        totalPrice: 950,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -184,17 +158,13 @@ const orders = [
         items: [
             { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
+       
     },
     {
         orderId: "ORD-20241024-005",
         orderDate: "2024-10-24",
         currency: "USD",
+        totalPrice: 380,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -230,17 +200,12 @@ const orders = [
         items: [
             { productId: 7, productCategory: "Sport headphone", quantity: 1, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241023-006",
         orderDate: "2024-10-23",
         currency: "USD",
+        totalPrice: 711,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -272,17 +237,12 @@ const orders = [
         items: [
             { productId: 29, productCategory: "Wireless", quantity: 1, discount: 10 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241022-007",
         orderDate: "2024-10-22",
         currency: "USD",
+        totalPrice: 772,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -314,17 +274,12 @@ const orders = [
         items: [
             { productId: 1, productCategory: "Wireless", quantity: 2, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241021-008",
         orderDate: "2024-10-21",
         currency: "USD",
+        totalPrice: 2600,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -356,17 +311,12 @@ const orders = [
         items: [
             { productId: 23, productCategory: "In-ear headphone", quantity: 2, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241020-009",
         orderDate: "2024-10-20",
         currency: "USD",
+        totalPrice: 380,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -398,17 +348,12 @@ const orders = [
         items: [
             { productId:4, productCategory: "Wireless", quantity: 1, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241019-010",
         orderDate: "2024-10-19",
         currency: "USD",
+        totalPrice: 3720,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -440,17 +385,12 @@ const orders = [
         items: [
             { productId: 16, productCategory: "Sport headphone", quantity: 3, discount: 20 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241018-011",
         orderDate: "2024-10-18",
         currency: "USD",
+        totalPrice: 997.5,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -482,17 +422,12 @@ const orders = [
         items: [
             { productId: 40, productCategory: "In-ear headphone", quantity: 1, discount: 5 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241017-012",
         orderDate: "2024-10-17",
         currency: "USD",
+        totalPrice: 950,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -524,17 +459,12 @@ const orders = [
         items: [
             { productId: 10, productCategory: "Wireless", quantity: 1, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241016-013",
         orderDate: "2024-10-16",
         currency: "USD",
+        totalPrice: 1900,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -566,17 +496,12 @@ const orders = [
         items: [
             { productId: 18, productCategory: "Over-ear headphone", quantity: 1, discount: 0 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241015-014",
         orderDate: "2024-10-15",
         currency: "USD",
+        totalPrice: 1728,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -607,19 +532,14 @@ const orders = [
         },
         items: [
             { productId: 37, productCategory: "Sport headphone", quantity: 1, discount: 10 },
-            { productId: 34, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
+            { productId: 34, productCategory: "In-ear headphone", quantity: 3, discount: 10},
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241014-015",
         orderDate: "2024-10-14",
         currency: "USD",
+        totalPrice: 945,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -651,17 +571,12 @@ const orders = [
         items: [
             { productId: 40, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241013-016",
         orderDate: "2024-10-13",
         currency: "USD",
+        totalPrice: 1470,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -693,17 +608,12 @@ const orders = [
         items: [
             { productId: 12, productCategory: "Wireless", quantity: 3, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241012-017",
         orderDate: "2024-10-12",
         currency: "USD",
+        totalPrice: 1083,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -735,17 +645,12 @@ const orders = [
         items: [
             { productId: 4, productCategory: "Wireless", quantity: 3, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241011-018",
         orderDate: "2024-10-11",
         currency: "USD",
+        totalPrice: 5850,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -778,17 +683,12 @@ const orders = [
             { productId: 10, productCategory: "Wireless", quantity: 3, discount: 0 },
             { productId: 6, productCategory: "Sport headphone", quantity: 2, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241010-019",
         orderDate: "2024-10-10",
         currency: "USD",
+        totalPrice: 1596,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -820,17 +720,12 @@ const orders = [
         items: [
             { productId: 2, productCategory: "Wireless", quantity: 3, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241009-020",
         orderDate: "2024-10-09",
         currency: "USD",
+        totalPrice: 558,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -862,17 +757,12 @@ const orders = [
         items: [
             { productId: 5, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241008-021",
         orderDate: "2024-10-08",
         currency: "USD",
+        totalPrice: 1200,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -906,17 +796,12 @@ const orders = [
             { productId: 11, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
             { productId: 37, productCategory: "Sport headphone", quantity: 3, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241007-022",
         orderDate: "2024-10-07",
         currency: "USD",
+        totalPrice: 2052,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -948,17 +833,12 @@ const orders = [
         items: [
             { productId: 9, productCategory: "Wireless", quantity: 3, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241006-023",
         orderDate: "2024-10-06",
         currency: "USD",
+        totalPrice: 2250,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -990,17 +870,12 @@ const orders = [
         items: [
             { productId: 35, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241005-024",
         orderDate: "2024-10-05",
         currency: "USD",
+        totalPrice: 3384,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -1032,17 +907,12 @@ const orders = [
         items: [
             { productId: 3, productCategory: "Over-ear headphone", quantity: 3, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241004-025",
         orderDate: "2024-10-04",
         currency: "USD",
+        totalPrice: 1678,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1075,17 +945,12 @@ const orders = [
             { productId: 11, productCategory: "In-ear headphone", quantity: 2, discount: 0 },
             { productId: 22, productCategory: "Wireless", quantity: 2, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241003-026",
         orderDate: "2024-10-03",
         currency: "USD",
+        totalPrice: 361,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1117,17 +982,12 @@ const orders = [
         items: [
             { productId: 17, productCategory: "Sport headphone", quantity: 1, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241002-027",
         orderDate: "2024-10-02",
         currency: "USD",
+        totalPrice: 478.8,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -1159,17 +1019,12 @@ const orders = [
         items: [
             { productId: 2, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20241001-028",
         orderDate: "2024-10-01",
         currency: "USD",
+        totalPrice: 470,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -1201,17 +1056,12 @@ const orders = [
         items: [
             { productId: 24, productCategory: "Wireless", quantity: 2, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240930-029",
         orderDate: "2024-09-30",
         currency: "USD",
+        totalPrice: 470,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -1244,17 +1094,12 @@ const orders = [
             { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 0 },
             { productId: 18, productCategory: "Over-ear headphone", quantity: 1, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240929-030",
         orderDate: "2024-09-29",
         currency: "USD",
+        totalPrice: 722,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1286,17 +1131,12 @@ const orders = [
         items: [
             { productId: 4, productCategory: "Wireless", quantity: 2, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240928-031",
         orderDate: "2024-09-28",
         currency: "USD",
+        totalPrice: 1558,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1328,17 +1168,12 @@ const orders = [
         items: [
             { productId: 39, productCategory: "In-ear headphone", quantity: 2, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240927-032",
         orderDate: "2024-09-27",
         currency: "USD",
+        totalPrice: 378,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1370,17 +1205,12 @@ const orders = [
         items: [
             { productId: 37, productCategory: "Sport headphone", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240926-033",
         orderDate: "2024-09-26",
         currency: "USD",
+        totalPrice: 1444,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -1412,17 +1242,12 @@ const orders = [
         items: [
             { productId: 9, productCategory: "Wireless", quantity: 2, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240925-034",
         orderDate: "2024-09-25",
         currency: "USD",
+        totalPrice: 390,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -1454,17 +1279,12 @@ const orders = [
         items: [
             { productId: 21, productCategory: "Wireless", quantity: 1, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240924-035",
         orderDate: "2024-09-24",
         currency: "USD",
+        totalPrice: 1000,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -1496,17 +1316,12 @@ const orders = [
         items: [
             { productId: 30, productCategory: "Wireless", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240923-036",
         orderDate: "2024-09-23",
         currency: "USD",
+        totalPrice: 1805,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1538,17 +1353,12 @@ const orders = [
         items: [
             { productId: 10, productCategory: "Wireless", quantity: 2, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240922-037",
         orderDate: "2024-09-22",
         currency: "USD",
+        totalPrice: 3456,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1580,17 +1390,12 @@ const orders = [
         items: [
             { productId: 13, productCategory: "Over-ear headphone", quantity: 3, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240921-038",
         orderDate: "2024-09-21",
         currency: "USD",
+        totalPrice: 423,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -1622,17 +1427,12 @@ const orders = [
         items: [
             { productId: 24, productCategory: "Wireless", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240920-039",
         orderDate: "2024-09-20",
         currency: "USD",
+        totalPrice: 855,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1664,17 +1464,12 @@ const orders = [
         items: [
             { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240919-040",
         orderDate: "2024-09-19",
         currency: "USD",
+        totalPrice: 1971,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1706,17 +1501,12 @@ const orders = [
         items: [
             { productId: 25, productCategory: "In-ear headphone", quantity: 3, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240918-041",
         orderDate: "2024-09-18",
         currency: "USD",
+        totalPrice: 1314,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -1748,17 +1538,12 @@ const orders = [
         items: [
             { productId: 25, productCategory: "In-ear headphone", quantity: 2, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240917-042",
         orderDate: "2024-09-17",
         currency: "USD",
+        totalPrice: 790,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -1790,17 +1575,12 @@ const orders = [
         items: [
             { productId: 29, productCategory: "Wireless", quantity: 1, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240916-043",
         orderDate: "2024-09-16",
         currency: "USD",
+        totalPrice: 3705,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1832,17 +1612,12 @@ const orders = [
         items: [
             { productId: 23, productCategory: "In-ear headphone", quantity: 3, discount: 5 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240915-044",
         orderDate: "2024-09-15",
         currency: "USD",
+        totalPrice: 790,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1874,17 +1649,12 @@ const orders = [
         items: [
             { productId: 29, productCategory: "Wireless", quantity: 1, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240914-045",
         orderDate: "2024-09-14",
         currency: "USD",
+        totalPrice: 2250,
         status: "Processing",
         paymentMethod: "Credit Card",
         customer: {
@@ -1916,17 +1686,12 @@ const orders = [
         items: [
             { productId: 35, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240913-046",
         orderDate: "2024-09-13",
         currency: "USD",
+        totalPrice: 1250,
         status: "Delivered",
         paymentMethod: "Credit Card",
         customer: {
@@ -1958,17 +1723,12 @@ const orders = [
         items: [
             { productId: 33, productCategory: "Over-ear headphone", quantity: 1, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240912-047",
         orderDate: "2024-09-12",
         currency: "USD",
+        totalPrice: 2835,
         status: "Shipped",
         paymentMethod: "Credit Card",
         customer: {
@@ -2000,17 +1760,12 @@ const orders = [
         items: [
             { productId: 40, productCategory: "Over-ear headphone", quantity: 3, discount: 10 }
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240911-048",
         orderDate: "2024-09-11",
         currency: "USD",
+        totalPrice: 950,
         status: "Cancelled",
         paymentMethod: "Credit Card",
         customer: {
@@ -2042,17 +1797,12 @@ const orders = [
         items: [
             { productId: 20, productCategory: "In-ear headphone", quantity: 1, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240910-049",
         orderDate: "2024-09-10",
         currency: "USD",
+        totalPrice: 1314,
         status: "New",
         paymentMethod: "Credit Card",
         customer: {
@@ -2084,17 +1834,12 @@ const orders = [
         items: [
             { productId: 25, productCategory: "In-ear headphone", quantity: 2, discount: 10 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     },
     {
         orderId: "ORD-20240909-050",
         orderDate: "2024-09-09",
         currency: "USD",
+        totalPrice: 750,
         status: "New",
         paymentMethod: "Credit Card",
         customer: {
@@ -2126,12 +1871,6 @@ const orders = [
         items: [
             { productId: 35, productCategory: "In-ear headphone", quantity: 3, discount: 0 },
         ],
-        get totalPrice() {
-            return this.items.reduce((total, item) => {
-                const unitPrice = getProductPriceById(item.productId);
-                return total + (unitPrice * item.quantity * (1 - (item.discount || 0) / 100));
-            }, 0);
-        }
     }
   ];
   

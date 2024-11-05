@@ -1,4 +1,4 @@
-import { products } from './products.js'; // products.js dosyasından ürünleri içe aktarıyoruz
+import { products } from './products.js'; 
 import orders from './orders.js';
 import { reviews } from './reviews.js';
 import { income, expenses, netIncomes, calculateMonthlyNetIncome } from './income.js';
@@ -21,17 +21,6 @@ function toggleSidebar() {
         content.style.marginLeft = "240px";
     }
 }
-
-// Fonksiyonu global alana atama
-window.toggleSidebar = toggleSidebar;
-
-
-
-
-
-
-
-
 
 
 
@@ -270,7 +259,6 @@ function loadProducts() {
     });
 }
 
-window.createOrdersSection = createOrdersSection;
 
 function createOrdersSection() {
     const mainContent = document.getElementById('main-content');
@@ -505,12 +493,8 @@ function createOrdersSection() {
     mainContent.appendChild(table);
 }
 
-// Call `createOrdersSection` when the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    createOrdersSection();
-});
 
-export function loadFinance() {
+function loadFinance() {
     const mainContent = document.getElementById("main-content");
 
     // Clear existing content and add Finance layout
@@ -719,65 +703,6 @@ function generateExpenseTypeDonutChart() {
         }
     });
 }
-function generateMonthlyIncomeExpenseChart() {
-    const ctx = document.getElementById("monthlyIncomeExpenseChart").getContext("2d");
-    const monthlyIncome = new Array(12).fill(0);
-    const monthlyExpenses = new Array(12).fill(0);
-
-    // Aggregate monthly income and expenses
-    orders.forEach(order => {
-        const month = new Date(order.orderDate).getMonth();
-        monthlyIncome[month] += order.totalPrice;
-    });
-
-    expenses.forEach(expense => {
-        const month = new Date(expense.date).getMonth();
-        monthlyExpenses[month] += expense.amount;
-    });
-
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [
-                {
-                    label: 'Income',
-                    data: monthlyIncome,
-                    borderColor: '#4CAF50',
-                    fill: false
-                },
-                {
-                    label: 'Expenses',
-                    data: monthlyExpenses,
-                    borderColor: '#F44336',
-                    fill: false
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true }
-            },
-            plugins: {
-                legend: {
-                    position: 'top'
-                }
-            }
-        }
-    });
-}
-
-
-
-
-
-
-
-
-// Run loadFinance on page load
-document.addEventListener("DOMContentLoaded", loadFinance);
 
 
 function loadCustomers() {
@@ -848,8 +773,6 @@ function loadCustomers() {
         customerTableBody.appendChild(row);
     });
 }
-
-
 
 
 function loadQandA() {
@@ -925,7 +848,6 @@ function loadQandA() {
         checkboxes.forEach(checkbox => checkbox.checked = this.checked);
     });
 }
-
 
 
 function loadReviews() {
@@ -1083,11 +1005,6 @@ function renderCampaignPerformanceChart() {
 
 
 
-// Varsayılan sayfa yükleme fonksiyonu
-function loadDefaultPage(page) {
-    const mainContent = document.getElementById("main-content");
-    mainContent.innerHTML = `<p>Content for ${page} will be shown here.</p>`;
-}
 
 // Sayfa yüklendiğinde otomatik olarak Dashboard'u yükle
 document.addEventListener("DOMContentLoaded", () => {
@@ -1097,16 +1014,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-
 // Sayfayı dinamik olarak yükleme fonksiyonu
 function loadPage(page, element) {
     // Remove 'active' class from all navigation links
     document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
     
-    // Add 'active' class to the clicked element, if provided
-    if (element) {
-        element.classList.add('active');
+    // Automatically set 'active' class based on the 'page' parameter
+    const navItem = document.querySelector(`.nav-link[data-page="${page}"]`);
+    if (navItem) {
+        navItem.classList.add('active');
     }
 
     // Clear previous content
@@ -1151,5 +1067,5 @@ window.loadPage = loadPage;
 window.loadDashboard = loadDashboard;
 window.loadProducts = loadProducts;
 window.loadDefaultPage = loadDefaultPage;
-
-
+window.createOrdersSection = createOrdersSection;
+window.toggleSidebar = toggleSidebar;
