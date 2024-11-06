@@ -1,53 +1,114 @@
-import { products } from './products.js';
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
 import { handleCurrencySelection } from './common.js';
 
+// Zaman aşımı fonksiyonu
+function fetchWithTimeout(url, options, timeout = 5000) {
+    return Promise.race([
+        fetch(url, options),
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Request timed out')), timeout)
+        )
+    ]);
+}
+
+// Global products değişkenini tanımlıyoruz
+let products = [];
+
+// API'den veriyi çekiyoruz ve ardından işlemleri başlatıyoruz
+console.log("API isteği başlatılıyor...");
+fetchWithTimeout('http://localhost:3000/products')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        console.log("API isteği başarılı, veri alındı.");
+        return response.json();
+    })
+    .then(data => {
+        console.log("Veri işleniyor...");
+        products = data; // Global products değişkenine veriyi atıyoruz
+
+        // Ürün verisi geldikten sonra aşağıdaki fonksiyonları çalıştırıyoruz
+        renderLatestProducts(products, productRow);
+        renderBestSellingProducts(products, bestSellingProductRow);
+        createCarouselItems(products);
+        createShopCollections(products);
+        displayRandomProduct(); // Son olarak rastgele bir ürün gösteriyoruz
+    })
+    .catch(error => console.error('Veri çekilirken hata oluştu:', error));
 
 // Para birimi değiştiğinde fiyatları güncelleme
 document.addEventListener('DOMContentLoaded', function () {
     const currencySelect = document.getElementById('flag');
     if (currencySelect) {
-        // Sayfa yüklendiğinde, localStorage'dan seçilen para birimini al
-        const savedCurrency = localStorage.getItem('selectedCurrency');
-        if (savedCurrency) {
-            currencySelect.value = savedCurrency;
-            convertPrices(savedCurrency, products);
-        }
-
         currencySelect.addEventListener('change', async function () {
             const selectedCurrency = this.value;
-
-            // Seçilen para birimini Local Storage'a kaydet
-            localStorage.setItem('selectedCurrency', selectedCurrency);
-
-            // URL'den ürün ID'sini al
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = parseInt(urlParams.get('id'), 10);
-
-            // Seçili ürünü bul
-            const selectedProduct = products.find((p) => p.id === productId);
-
-            // Fiyatları güncelle
-            await convertPrices(selectedCurrency, products, selectedProduct);
+            localStorage.setItem('selectedCurrency', selectedCurrency); // Seçilen para birimini kaydet
+            await convertPrices(selectedCurrency, products);
         });
     }
 });
 
-document.addEventListener('DOMContentLoaded', async function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'), 10);
-    const selectedProduct = products.find((p) => p.id === productId);
+// Event listener'lar ve diğer işlemler
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('viewAllBestSellingButton').addEventListener('click', function () {
+        window.location.href = 'filter.html';
+    });
 
-    // Para birimi seçimini yönet
-    await handleCurrencySelection(products, selectedProduct);
+    document.getElementById('viewAllButton').addEventListener('click', function () {
+        window.location.href = 'filter.html';
+    });
+
+    document.querySelectorAll('.shop-now').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const productId = this.getAttribute('data-product-id');
+            window.location.href = `shop-page.html?id=${productId}`;
+        });
+    });
+
+    document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
 });
 
+// Fonksiyonlar
+function displayRandomProduct() {
+    if (!products || products.length === 0) {
+        console.error('Ürün listesi boş veya tanımlı değil.');
+        return;
+    }
+    const randomIndex = Math.floor(Math.random() * products.length);
+    const product = products[randomIndex];
+    const productContainer = document.getElementById('dynamic-product');
 
-const productRow = document.getElementById('productRow');
-const bestSellingProductRow = document.getElementById('bestSellingProductRow');
+    function getDescriptionText() {
+        if (window.innerWidth <= 768) {
+            return product.description.split(".")[0] + "...";
+        } else {
+            return product.description;
+        }
+    }
 
+    productContainer.innerHTML = `
+        <div class="row align-content-center">
+            <div class="col-4">
+                <img class="img-fluid" src="${product.image}" alt="${product.name}"/>
+            </div>
+            <div class="col-8">
+                <h2>${product.name}</h2>
+                <p>${getDescriptionText()}</p>
+                <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
+            </div>
+        </div>
+    `;
 
+    const shopNowButton = productContainer.querySelector('.shop-now');
+    shopNowButton.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        window.location.href = `shop-page.html?id=${productId}`;
+    });
+}
 
+// Ürünleri sıralama ve filtreleme fonksiyonları
 function sortProductsByDate(products) {
     return products.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
 }
@@ -58,6 +119,7 @@ function filterAndSortBestSellingProducts(products) {
         .sort((a, b) => b.unitsSold - a.unitsSold);
 }
 
+// Ürünleri render etme fonksiyonları
 function renderProducts(products, targetRow) {
     const screenWidth = window.innerWidth;
     let displayedProducts = products;
@@ -105,25 +167,10 @@ function renderBestSellingProducts(products, targetRow) {
     renderProducts(bestSellingProducts.slice(0, 8), targetRow);
 }
 
-
-window.goToProduct = function (productId) {
-    window.location.href = `shop-page.html?id=${productId}`;
-};
-
-const carouselContainer = document.querySelector('.carousel-inner');
-const shopCollectionContainer = document.querySelector('.shop-collection .row');
-
-function getRandomIndexes(arrayLength, numberOfItems) {
-    const indexes = new Set();
-    while (indexes.size < numberOfItems) {
-        const randomIndex = Math.floor(Math.random() * arrayLength);
-        indexes.add(randomIndex);
-    }
-    return Array.from(indexes);
-}
-
+// Carousel ve koleksiyon öğelerini oluşturma fonksiyonları
 function createCarouselItems(products) {
     const randomIndexes = getRandomIndexes(products.length, 3);
+    const carouselContainer = document.querySelector('.carousel-inner');
 
     randomIndexes.forEach((index, i) => {
         const product = products[index];
@@ -153,25 +200,18 @@ function createCarouselItems(products) {
         `;
         carouselContainer.appendChild(carouselItem);
     });
-
-    document.querySelectorAll('.shop-now').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.stopPropagation();
-            const productId = this.getAttribute('data-product-id');
-            window.location.href = `shop-page.html?id=${productId}`;
-        });
-    });
 }
+
 function createShopCollections(products) {
     const categories = [
         { name: 'Sport Headphones', className: 'shop-clcsport' },
         { name: 'Over-ear Headphone', className: 'shop-clcoverear' },
         { name: 'In-ear Headphone', className: 'shop-clcinear' },
     ];
+    const shopCollectionContainer = document.querySelector('.shop-collection .row');
 
     categories.forEach((category, index) => {
         const product = products[index];
-
         const collectionItem = document.createElement('div');
         collectionItem.className = 'col-sm-4 mb-3 mb-sm-0';
 
@@ -187,119 +227,26 @@ function createShopCollections(products) {
             <div class="col-4 d-flex align-items-center justify-content-center" id="hide-on-small">
                 <img src="${product.image}" class="img-fluid" alt="${product.name}" />
             </div>
-
           </div>
         </div>
       `;
       
       shopCollectionContainer.appendChild(collectionItem);
-      
-        document.querySelectorAll('.shop-clc').forEach(button => {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                const categoryName = this.getAttribute('data-category').trim().toLowerCase();
-                window.location.href = `filter.html?category=${encodeURIComponent(categoryName)}`;
-            });
-        });
     });
 }
 
-document.getElementById('viewAllBestSellingButton').addEventListener('click', function () {
-    window.location.href = 'filter.html';
-});
-
-document.getElementById('viewAllButton').addEventListener('click', function () {
-    window.location.href = 'filter.html';
-});
-
-
-function displayRandomProduct() {
-    const randomIndex = Math.floor(Math.random() * products.length);
-    const product = products[randomIndex];
-
-    const productContainer = document.getElementById('dynamic-product');
-
-    // Ekran genişliğine göre açıklamayı ayarlayan fonksiyon
-    function getDescriptionText() {
-        if (window.innerWidth <= 768) {
-            // Mobilde sadece ilk cümleyi göster
-            return product.description.split(".")[0] + "...";
-        } else {
-            // PC'de tam açıklamayı göster
-            return product.description;
-        }
+// Yardımcı Fonksiyon
+function getRandomIndexes(arrayLength, numberOfItems) {
+    const indexes = new Set();
+    while (indexes.size < numberOfItems) {
+        const randomIndex = Math.floor(Math.random() * arrayLength);
+        indexes.add(randomIndex);
     }
-
-    productContainer.innerHTML = `
-        <div class="row align-content-center">
-            <div class="col-4">
-                <img class="img-fluid" src="${product.image}" alt="${product.name}"/>
-            </div>
-            <div class="col-8">
-                <h2>${product.name}</h2>
-                <p>${getDescriptionText()}</p>
-                <button class="btn btn-dark shop-now btn-lg" data-product-id="${product.id}">SHOP NOW</button>
-            </div>
-        </div>
-    `;
-
-    const shopNowButton = productContainer.querySelector('.shop-now');
-    shopNowButton.addEventListener('click', function () {
-        const productId = this.getAttribute('data-product-id');
-        window.location.href = `shop-page.html?id=${productId}`;
-    });
+    return Array.from(indexes);
 }
 
-// Sayfa yüklendiğinde ve pencere boyutu değiştiğinde açıklamayı güncelle
+window.goToProduct = function (productId) {
+    window.location.href = `shop-page.html?id=${productId}`;
+};
+
 window.addEventListener('resize', displayRandomProduct);
-displayRandomProduct();
-
-
-
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    const currencySelect = document.getElementById('flag');
-    if (currencySelect) {
-        currencySelect.addEventListener('change', async function () {
-            const selectedCurrency = this.value;
-            await convertPrices(selectedCurrency);
-        });
-    }
-
-    renderLatestProducts(products, productRow);
-    renderBestSellingProducts(products, bestSellingProductRow);
-
-    const sportBtn = document.querySelector('.shop-clcsport');
-    if (sportBtn) {
-        sportBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'filter.html?category=sport';
-        });
-    }
-
-    const overEarBtn = document.querySelector('.shop-clcoverear');
-    if (overEarBtn) {
-        overEarBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'filter.html?category=over-ear';
-        });
-    }
-
-    const inEarBtn = document.querySelector('.shop-clcinear');
-    if (inEarBtn) {
-        inEarBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = 'filter.html?category=in-ear';
-        });
-    }
-
-    createCarouselItems(products);
-    createShopCollections(products);
-
-    displayRandomProduct();
-});
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
-});

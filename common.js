@@ -642,7 +642,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Ürün HTML'sini oluşturma fonksiyonu
 export function createProductHTML(product) {
-    // Eğer todayShipment true ise kargo etiketi ekliyoruz
     const shipmentBadgeHTML = product.todayShipment ? `
         <div class="shipment-badge">
             <i class="fa-solid fa-truck"></i> Today Shipping
@@ -651,55 +650,31 @@ export function createProductHTML(product) {
 
     const productHTML = `
     <div class="product-image-container position-relative">
-        <!-- Mobilde kaydırma için swiper, PC'de sadece resim -->
-        <div class="swiper-container product-slider d-md-none">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img class="img-fluid first-image" src="${product.image}" alt="${product.name}"/>
-                </div>
-                <div class="swiper-slide">
-                    <img class="img-fluid second-image" src="${product.image2}" alt="${product.name}"/>
-                </div>
-            </div>
-            <!-- Pagination (kaydırma noktaları) -->
-            <div class="swiper-pagination"></div>
-        </div>
-
-        <!-- PC'de hover efekti için -->
-        <img class="img-fluid first-image d-none d-md-block" src="${product.image}" alt="${product.name}"/>
-        <img class="img-fluid second-image d-none d-md-block" src="${product.image2}" alt="${product.name}"/>
-
-        <!-- Kargo Durumu -->
+        <img class="img-fluid first-image" src="${product.image}" alt="${product.name}"/>
+        <img class="img-fluid second-image" src="${product.image2}" alt="${product.name}"/>
         ${shipmentBadgeHTML}
     </div>
-
     <div class="detaly d-inline">
         <span class="head z-3">
             <button class="btn btn-dark shop-now" data-product-id="${product.id}">SHOP NOW</button>
-            
-            <!-- Sepet Butonuna Ürün Bilgilerini Ekleyelim -->
             <button class="btn btn-dark btn-dark-1 cart-btn-1" data-product-id="${product.id}" data-product-name="${product.name}" data-product-price="${product.price}" data-product-image="${product.image}">
                 <i class="fa-solid fa-cart-shopping"></i>
             </button>
-            
-             <!-- Favori Butonu -->
             <button class="btn btn-dark like-btn-1" data-product-id="${product.id}" data-product-name="${product.name}" data-product-image="${product.image}">
                 <i class="fa-solid fa-heart"></i>
             </button>
         </span>
     </div>
-
     <div class="text-center">
         <p class="card-title-1">${product.name}</p>
         <p>
-            <del id="originalPrice-${product.id}" class="">$${product.originalPrice}</del>
+            <del id="originalPrice-${product.id}">$${product.originalPrice}</del>
             <span id="price-${product.id}" class="px-2 fw-bold price" style="color: red">$${product.price}</span>
         </p>
     </div>`;
 
     return productHTML;
 }
-
 
 // Döviz kuru alma fonksiyonu
 export async function getExchangeRate(toCurrency) {
@@ -1239,25 +1214,27 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 //aside kısmını mobilde tek cümle al.
-document.addEventListener("DOMContentLoaded", function () {
-    // Metin içeriği
+const observer = new MutationObserver(() => {
     const descriptionElement = document.querySelector(".product-description");
-    const fullText = descriptionElement.textContent;
-    const firstSentence = fullText.split(".")[0] + "."; // İlk cümleyi alır
+    if (descriptionElement) {
+        // Element bulundu, observer'ı durdur
+        observer.disconnect();
 
-    // Ekran genişliğine göre değişim
-    function updateDescription() {
-        if (window.innerWidth <= 768) {
-            // Mobilde sadece ilk cümleyi göster
-            descriptionElement.textContent = firstSentence;
-        } else {
-            // PC'de tam metni göster
-            descriptionElement.textContent = fullText;
+        const fullText = descriptionElement.textContent;
+        const firstSentence = fullText.split(".")[0] + ".";
+
+        function updateDescription() {
+            if (window.innerWidth <= 768) {
+                descriptionElement.textContent = firstSentence;
+            } else {
+                descriptionElement.textContent = fullText;
+            }
         }
-    }
 
-    // Sayfa yüklendiğinde ve ekran boyutu değiştiğinde çalıştır
-    updateDescription();
-    window.addEventListener("resize", updateDescription);
+        updateDescription();
+        window.addEventListener("resize", updateDescription);
+    }
 });
+
+observer.observe(document.body, { childList: true, subtree: true });
 

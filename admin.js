@@ -1,9 +1,34 @@
-import { products } from './products.js'; 
+
 import orders from './orders.js';
 import { reviews } from './reviews.js';
 import { income, expenses, netIncomes, calculateMonthlyNetIncome } from './income.js';
 import { customers } from './customers.js';
 import { headphoneQandA } from './productQuestions.js';
+
+
+
+// API'den veriyi çek ve işle
+fetch('http://localhost:3000/products') // Tam URL kullanarak API'den veri çekiyoruz
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(products => {
+        products.forEach(product => {
+            // Ürün verisi üzerinde yapılacak işlemler burada
+            console.log(product); // Örneğin: Ürün verilerini konsola yazdırarak kontrol edebilirsiniz
+
+            // Burada ürün HTML yapısını oluşturup sayfaya ekleyebilirsiniz.
+            // Örneğin:
+            const productHTML = createProductHTML(product);
+            const productElement = document.createElement('div');
+            productElement.innerHTML = productHTML;
+            productContainer.appendChild(productElement);
+        });
+    })
+    .catch(error => console.error('Veri çekilirken hata oluştu:', error));
 
 
 

@@ -1,12 +1,15 @@
+// src/index.ts
 import express from 'express';
+import cors from 'cors';
 import productRoutes from './routes/productRoutes';
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json()); // JSON veri alma özelliğini etkinleştirir
+app.use(cors());
+app.use(express.json());
 
-// Ürün rotalarını kullan
+// Ürün rotalarını /products yoluna bağlayın
 app.use('/products', productRoutes);
 
 app.listen(PORT, () => {

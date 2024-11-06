@@ -1,7 +1,8 @@
 import { Review } from '../types/Review'; 
 import { reviews } from '../data/reviews'; 
+import { Product } from '../types/Product';
 
-export const products = [
+export const products: Product[] = [
   {
     id: 1,
     name: "JBL E55BT KEY BLACK",
