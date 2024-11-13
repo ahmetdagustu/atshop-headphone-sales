@@ -1,11 +1,11 @@
-import { Order } from '../types/order';
+import { Order } from '../types/Order';
 import { Expense } from '../types/Expense';
 import { orders } from './orders';
 
-// Gelir array - Orders'dan gelen gelirleri toplarız
+
 const income: number[] = orders.map((order: Order) => order.totalPrice);
 
-// Gider array - Bu aya ait giderler ve kargo maliyetleri
+
 const expenses: Expense[] = [];
 
 // Bu aya ait faturalar
@@ -74,7 +74,7 @@ function calculateYearlyNetIncome(): number {
     return yearlyIncome - yearlyExpenses;
 }
 
-// Bu ayın gelir ve gider toplamlarını hesaplayan fonksiyon
+
 function calculateMonthlyNetIncome(): number {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
@@ -97,5 +97,5 @@ function calculateMonthlyNetIncome(): number {
     return monthlyIncome - monthlyExpenses;
 }
 
-// Dışa aktarım, admin.js içinde kullanıma uygun
+
 export { income, expenses, netIncomes, calculateMonthlyNetIncome };

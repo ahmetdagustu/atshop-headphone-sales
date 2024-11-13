@@ -1,4 +1,3 @@
-// src/types/Order.ts
 import { Discount } from './Discount'; 
 
 export interface Address {

@@ -6,6 +6,6 @@ export interface Review {
         profilerpic: string;
         review: string;
         reviewDate: string;
-        reviewLİke?: number; // İsteğe bağlı hale getirdik
+        reviewLİke?: number; 
     }>;
 }

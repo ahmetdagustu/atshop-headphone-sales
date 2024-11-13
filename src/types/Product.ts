@@ -1,5 +1,3 @@
-import { Review } from './Review';
-
 export interface Product {
     id: number;
     name: string;

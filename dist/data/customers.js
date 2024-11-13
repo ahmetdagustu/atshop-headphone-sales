@@ -1,4 +1,7 @@
-export const customers = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.customers = void 0;
+exports.customers = [
     {
         name: "John Doe",
         address: {
@@ -21,7 +24,7 @@ export const customers = [
                 items: [
                     { productId: 12, productCategory: "Wireless", quantity: 1, discount: 10 }
                 ],
-                totalPrice: 0  // totalPrice hesaplanacak
+                totalPrice: 0
             }
         ],
         reviews: [],
@@ -1405,5 +1408,4 @@ export const customers = [
         reviews: [],
         questions: []
     }
-
 ];

@@ -1,4 +1,4 @@
-import { Review } from '../types/Review'; // Review arayüzünü doğru yerden içe aktarıyoruz
+import { Review } from '../types/Review';
 
 export const reviews: Review[] = [
     {

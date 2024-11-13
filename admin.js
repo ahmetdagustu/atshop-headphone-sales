@@ -1,38 +1,3 @@
-
-import orders from './orders.js';
-import { reviews } from './reviews.js';
-import { income, expenses, netIncomes, calculateMonthlyNetIncome } from './income.js';
-import { customers } from './customers.js';
-import { headphoneQandA } from './productQuestions.js';
-
-
-
-// API'den veriyi çek ve işle
-fetch('http://localhost:3000/products') // Tam URL kullanarak API'den veri çekiyoruz
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(products => {
-        products.forEach(product => {
-            // Ürün verisi üzerinde yapılacak işlemler burada
-            console.log(product); // Örneğin: Ürün verilerini konsola yazdırarak kontrol edebilirsiniz
-
-            // Burada ürün HTML yapısını oluşturup sayfaya ekleyebilirsiniz.
-            // Örneğin:
-            const productHTML = createProductHTML(product);
-            const productElement = document.createElement('div');
-            productElement.innerHTML = productHTML;
-            productContainer.appendChild(productElement);
-        });
-    })
-    .catch(error => console.error('Veri çekilirken hata oluştu:', error));
-
-
-
-
 // Sidebar'ı daraltıp genişletme fonksiyonu
 function toggleSidebar() {
     const sidebar = document.getElementById("sidebarMenu");
@@ -51,14 +16,7 @@ function toggleSidebar() {
 
 
 
-
-
-
-
-// Dashboard sayfası içeriğini yükleme fonksiyonu
-
-
-function loadDashboard() {
+async function loadDashboard() {
     const mainContent = document.getElementById("main-content");
 
     if (!mainContent) {
@@ -66,124 +24,128 @@ function loadDashboard() {
         return;
     }
 
-    // Calculate order statuses
-    let newOrderCount = 0;
-    let preparingCount = 0;
-    let completedCount = 0;
-    let returnedCount = 0;
-    let hasNewOrder = false;
+    try {
+        // API çağrıları
+        const ordersResponse = await fetch('http://localhost:3000/api/orders');
+        if (!ordersResponse.ok) throw new Error(`Error fetching orders: ${ordersResponse.status}`);
+        const orders = await ordersResponse.json();
+    
+        const response = await fetch('http://localhost:3000/api/productQuestions');
+        if (!response.ok) throw new Error(`Error fetching product questions: ${response.status}`);
+        const productQandA = await response.json();
+    
+        const financeResponse = await fetch('http://localhost:3000/api/finance');
+        if (!financeResponse.ok) throw new Error(`Error fetching finance data: ${financeResponse.status}`);
+        const financeData = await financeResponse.json();
+        const { monthlyNetIncome, netIncomes = [] } = financeData; // `netIncomes` tanımlı değilse boş bir dizi olarak ayarla
+    
+        // Order status count
+        let newOrderCount = 0;
+        let preparingCount = 0;
+        let completedCount = 0;
+        let returnedCount = 0;
+        let hasNewOrder = false;
+    
+        orders.forEach(order => {
+            switch (order.status) {
+                case "New":
+                    newOrderCount++;
+                    hasNewOrder = true;
+                    break;
+                case "Processing":
+                    preparingCount++;
+                    break;
+                case "Delivered":
+                    completedCount++;
+                    break;
+                case "Cancelled":
+                    returnedCount++;
+                    break;
+            }
+        });
+    
+        // Unanswered questions check
+        const hasUnansweredQuestion = productQandA.some(question => question.answered === false);
+    
+        // Get yearly net income
+        const yearlyNetIncome = netIncomes.find(income => income.type === "This Year")?.netIncome || 0;
+    
+        // Render the dashboard layout
+        const monthlyNetIncomeValue = (monthlyNetIncome !== undefined && monthlyNetIncome !== null) ? monthlyNetIncome : 0;
+        const yearlyNetIncomeValue = (yearlyNetIncome !== undefined && yearlyNetIncome !== null) ? yearlyNetIncome : 0;
 
-    orders.forEach(order => {
-        switch (order.status) {
-            case "New":
-                newOrderCount++;
-                hasNewOrder = true;
-                break;
-            case "Processing":
-                preparingCount++;
-                break;
-            case "Delivered":
-                completedCount++;
-                break;
-            case "Cancelled":
-                returnedCount++;
-                break;
+        mainContent.innerHTML = `
+            <div class="row">
+                <!-- Orders Section with Counts -->
+                <div class="col-md-3">
+                    <div class="dashboard-card orders-box">
+                        <h5>Orders</h5>
+                        <p>New Order: <span id="new-orders">${newOrderCount}</span></p>
+                        <p>Preparing: <span id="preparing-orders">${preparingCount}</span></p>
+                        <p>Completed: <span id="completed-orders">${completedCount}</span></p>
+                        <p>Returned: <span id="returned-orders">${returnedCount}</span></p>
+                    </div>
+                </div>
+                
+                <!-- Products Box with Conditional Buttons for New Sales and Questions -->
+                <div class="col-md-3">
+                    <div class="dashboard-card products-box">
+                        <div id="new-sale-button"></div>
+                        <div id="new-question-button"></div>
+                    </div>
+                </div>
+                
+                <!-- Revenue Box showing Monthly Net Income -->
+                <div class="col-md-3">
+                    <div class="dashboard-card revenue-box" onclick="loadFinance()">
+                        <h5>This Month's Revenue</h5>
+                        <div class="value">$${monthlyNetIncomeValue.toFixed(2)}</div>
+                    </div>
+                </div>
+
+                <!-- Customers Box showing Yearly Net Income -->
+                <div class="col-md-3">
+                    <div class="dashboard-card customers-box" onclick="loadFinance()">
+                        <h5>This Year's Net Income</h5>
+                        <div class="value">$${yearlyNetIncomeValue.toFixed(2)}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+    
+        // Set up the New Sale button
+        const newSaleButtonContainer = document.getElementById("new-sale-button");
+        if (hasNewOrder) {
+            const newSaleButton = document.createElement("button");
+            newSaleButton.className = "blinking-button bordered-box";
+            newSaleButton.textContent = "New Sale Available!";
+            newSaleButton.onclick = () => loadPage('orders', document.querySelector('.nav-link[data-page="orders"]'));
+            newSaleButtonContainer.appendChild(newSaleButton);
+        } else {
+            newSaleButtonContainer.innerHTML = `<p class="static-message bordered-box">No new sales at the moment</p>`;
         }
-    });
-
-    // Check for unanswered questions
-    const hasUnansweredQuestion = headphoneQandA.some(question => question.answered === false);
-
-    // Get the monthly and yearly net income
-    const monthlyNetIncome = calculateMonthlyNetIncome();
-    const yearlyNetIncome = netIncomes.find(income => income.type === "This Year")?.netIncome || 0;
-
-    // Render the dashboard layout
-    mainContent.innerHTML = `
-        <div class="row">
-            <!-- Orders Section with Counts -->
-            <div class="col-md-3">
-                <div class="dashboard-card orders-box">
-                    <h5>Orders</h5>
-                    <p>New Order: <span id="new-orders">${newOrderCount}</span></p>
-                    <p>Preparing: <span id="preparing-orders">${preparingCount}</span></p>
-                    <p>Completed: <span id="completed-orders">${completedCount}</span></p>
-                    <p>Returned: <span id="returned-orders">${returnedCount}</span></p>
-                </div>
-            </div>
-            
-            <!-- Products Box with Conditional Buttons for New Sales and Questions -->
-            <div class="col-md-3">
-                <div class="dashboard-card products-box">
-                    <div id="new-sale-button"></div>
-                    <div id="new-question-button"></div>
-                </div>
-            </div>
-            
-            <!-- Revenue Box showing Monthly Net Income -->
-            <div class="col-md-3">
-                <div class="dashboard-card revenue-box" onclick="loadFinance()">
-                    <h5>This Month's Revenue</h5>
-                    <div class="value">$${monthlyNetIncome.toFixed(2)}</div>
-                </div>
-            </div>
-
-            <!-- Customers Box showing Yearly Net Income -->
-            <div class="col-md-3">
-                <div class="dashboard-card customers-box" onclick="loadFinance()">
-                    <h5>This Year's Net Income</h5>
-                    <div class="value">$${yearlyNetIncome.toFixed(2)}</div>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Set up the New Sale button
-    const newSaleButtonContainer = document.getElementById("new-sale-button");
-    if (hasNewOrder) {
-        const newSaleButton = document.createElement("button");
-        newSaleButton.className = "blinking-button bordered-box";
-        newSaleButton.textContent = "New Sale Available!";
-        newSaleButton.onclick = () => loadPage('orders', document.querySelector('.nav-link[data-page="orders"]'));
-        newSaleButtonContainer.appendChild(newSaleButton);
-    } else {
-        newSaleButtonContainer.innerHTML = `<p class="static-message bordered-box">No new sales at the moment</p>`;
-    }
-
-    // Set up the New Question button
-    const newQuestionButtonContainer = document.getElementById("new-question-button");
-    if (hasUnansweredQuestion) {
-        const newQuestionButton = document.createElement("button");
-        newQuestionButton.className = "blinking-button secondary-button bordered-box";
-        newQuestionButton.textContent = "New Question Available!";
-        newQuestionButton.onclick = () => loadPage('qa', document.querySelector('.nav-link[data-page="qa"]'));
-        newQuestionButtonContainer.appendChild(newQuestionButton);
-    } else {
-        newQuestionButtonContainer.innerHTML = `<p class="static-message bordered-box">No questions pending for response</p>`;
-    }
+    
+        // Set up the New Question button
+        const newQuestionButtonContainer = document.getElementById("new-question-button");
+        if (hasUnansweredQuestion) {
+            const newQuestionButton = document.createElement("button");
+            newQuestionButton.className = "blinking-button secondary-button bordered-box";
+            newQuestionButton.textContent = "New Question Available!";
+            newQuestionButton.onclick = () => loadPage('qa', document.querySelector('.nav-link[data-page="qa"]'));
+            newQuestionButtonContainer.appendChild(newQuestionButton);
+        } else {
+            newQuestionButtonContainer.innerHTML = `<p class="static-message bordered-box">No questions pending for response</p>`;
+        }
+    
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+    }    
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Ürünler sayfasını yükleme fonksiyonu
-function loadProducts() {
+async function loadProducts() {
     const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -230,6 +192,10 @@ function loadProducts() {
             </div>
         </div>
     `;
+
+    // API'den ürün verilerini çekme
+    const response = await fetch('http://localhost:3000/products');
+    const products = await response.json();
 
     // Ürün verilerini tabloya yükleme
     const productTable = document.getElementById("product-table");
@@ -285,7 +251,8 @@ function loadProducts() {
 }
 
 
-function createOrdersSection() {
+
+async function createOrdersSection() {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) {
         console.error("Ana kapsayıcı bulunamadı. 'main-content' ID'sine sahip bir div ekleyin.");
@@ -293,6 +260,32 @@ function createOrdersSection() {
     }
 
     mainContent.innerHTML = ''; // Clear existing content
+
+    // Siparişler ve ürünler verisini API'den çekme
+    const ordersResponse = await fetch('http://localhost:3000/api/orders');
+    const orders = await ordersResponse.json();
+
+    const productsResponse = await fetch('http://localhost:3000/api/products');
+    const products = await productsResponse.json();
+
+    // Para birimini simgeye göre döndüren yardımcı fonksiyon
+    function formatCurrency(amount, currency) {
+        let symbol;
+        switch (currency) {
+            case "USD":
+                symbol = "$";
+                break;
+            case "EUR":
+                symbol = "€";
+                break;
+            case "TRY":
+                symbol = "₺";
+                break;
+            default:
+                symbol = currency;
+        }
+        return `${symbol}${amount}`;
+    }
 
     // Create table
     const table = document.createElement('table');
@@ -319,207 +312,152 @@ function createOrdersSection() {
     const tbody = document.createElement('tbody');
 
     // Create table rows for each order
-    // Para birimini simgeye göre döndüren yardımcı fonksiyon
-        function formatCurrency(amount, currency) {
-            let symbol;
-            switch (currency) {
-                case "USD":
-                    symbol = "$";
-                    break;
-                case "EUR":
-                    symbol = "€";
-                    break;
-                case "TRY":
-                    symbol = "₺";
-                    break;
-                default:
-                    symbol = currency;
-            }
-            return `${symbol}${amount}`;
-        }
+    orders.forEach(order => {
+        order.items.forEach((item, index) => {
+            const product = products.find(p => p.id === item.productId);
+            if (product) {
+                const row = document.createElement('tr');
 
-        // Orders üzerinde dolaşarak işlemleri gerçekleştiren kodun içine ekleme
-        orders.forEach(order => {
-            order.items.forEach((item, index) => {
-                const product = products.find(p => p.id === item.productId);
-                if (product) {
-                    const row = document.createElement('tr');
-        
-                    // Sipariş Bilgileri
-                    const orderInfo = document.createElement('td');
-                    if (index === 0) {
-                        orderInfo.rowSpan = order.items.length;
-        
-                        let statusMessage = '';
-                        switch (order.status) {
-                            case 'Delivered':
-                                if (order.shipping && order.shipping.deliveryDate) {
-                                    statusMessage = `<p class="text-success">Teslim Edildi: ${order.shipping.deliveryDate}</p>`;
-                                } else {
-                                    statusMessage = `<p class="text-warning">Teslim Tarihi Bilgisi Yok</p>`;
-                                }
-                                break;
-                            case 'Processing':
-                                if (order.shipping && order.shipping.estimatedShippingDate) {
-                                    statusMessage = `<p class="text-warning">Tahmini Kargoya Verilme Tarihi: ${order.shipping.estimatedShippingDate}</p>`;
-                                } else {
-                                    statusMessage = `<p class="text-warning">Tahmini Kargoya Verilme Tarihi Bilgisi Yok</p>`;
-                                }
-                                break;
-                            case 'Shipped':
-                                if (order.shipping && order.shipping.estimatedDeliveryDate) {
-                                    statusMessage = `<p class="text-warning">Tahmini Teslim Tarihi: ${order.shipping.estimatedDeliveryDate}</p>`;
-                                } else {
-                                    statusMessage = `<p class="text-warning">Tahmini Teslim Tarihi Bilgisi Yok</p>`;
-                                }
-                                break;
-                            case 'Cancelled':
-                                statusMessage = `<p class="text-danger">İptal Edildi: ${order.cancellation.date}</p>`;
-                                break;
-                            default:
-                                statusMessage = `<p class="text-warning">Kargo Bekleniyor</p>`;
-                        }
-        
-                        orderInfo.innerHTML = `
-                            <p><strong>#${order.orderId}</strong></p>
-                            <p>Sipariş Tarihi: ${order.orderDate}</p>
-                            ${statusMessage}
-                        `;
-                    }
-        
-                    // Paket No
-                    const packageNo = document.createElement('td');
-                    if (index === 0) {
-                        packageNo.rowSpan = order.items.length;
-                        packageNo.textContent = order.orderId;
-                    }
-        
-                    // Alıcı Bilgisi
-                    const recipient = document.createElement('td');
-                    if (index === 0) {
-                        recipient.rowSpan = order.items.length;
-                        recipient.textContent = order.customer?.name
+                // Sipariş Bilgileri
+                const orderInfo = document.createElement('td');
+                if (index === 0) {
+                    orderInfo.rowSpan = order.items.length;
+
+                    let statusMessage = '';
+                    switch (order.status) {
+                        case 'Delivered':
+                            statusMessage = order.shipping?.deliveryDate 
+                                ? `<p class="text-success">Teslim Edildi: ${order.shipping.deliveryDate}</p>` 
+                                : `<p class="text-warning">Teslim Tarihi Bilgisi Yok</p>`;
+                            break;
+                        case 'Processing':
+                            statusMessage = order.shipping?.estimatedShippingDate 
+                                ? `<p class="text-warning">Tahmini Kargoya Verilme Tarihi: ${order.shipping.estimatedShippingDate}</p>` 
+                                : `<p class="text-warning">Tahmini Kargoya Verilme Tarihi Bilgisi Yok</p>`;
+                            break;
+                        case 'Shipped':
+                            statusMessage = order.shipping?.estimatedDeliveryDate 
+                                ? `<p class="text-warning">Tahmini Teslim Tarihi: ${order.shipping.estimatedDeliveryDate}</p>` 
+                                : `<p class="text-warning">Tahmini Teslim Tarihi Bilgisi Yok</p>`;
+                            break;
+                        case 'Cancelled':
+                            statusMessage = `<p class="text-danger">İptal Edildi: ${order.cancellation.date}</p>`;
+                            break;
+                        default:
+                            statusMessage = `<p class="text-warning">Kargo Bekleniyor</p>`;
                     }
 
-        
-                    // Adet
-                    const quantity = document.createElement('td');
-                    quantity.textContent = item.quantity;
-        
-                    // Ürün Bilgileri
-                    const productInfo = document.createElement('td');
-                    productInfo.innerHTML = `
-                        <a href="http://127.0.0.1:5508/shop-page.html?id=${product.id}" class="product-name">${product.name}</a><br>
-                        <img src="${product.image}" alt="${product.name}" width="50"><br>
-                        <p>Renk: ${product.color}</p>
+                    orderInfo.innerHTML = `
+                        <p><strong>#${order.orderId}</strong></p>
+                        <p>Sipariş Tarihi: ${order.orderDate}</p>
+                        ${statusMessage}
                     `;
-        
-                    // Birim Fiyat (Para birimi sembolüyle)
-                    const unitPrice = document.createElement('td');
-                    unitPrice.textContent = formatCurrency(product.price, order.currency);
-        
-                    // Kargo Bilgisi (Boş Bırakılıyor)
-                    const shippingInfo = document.createElement('td');
-                    if (index === 0) {
-                        shippingInfo.rowSpan = order.items.length;
-
-                        if (order.status === 'Cancelled') {
-                            // Sipariş iptal edildiyse kargo bilgisini boş bırak
-                            shippingInfo.innerHTML = '';
-                        } else {
-                            // Eğer takip numarası varsa butonu ekle, yoksa "KARGONUN VERİLMESİ BEKLENİYOR" mesajını göster
-                            if (order.shipping.trackingNumber) {
-                                const trackingButton = document.createElement('button');
-                                trackingButton.textContent = 'Kargo Takip';
-                                trackingButton.classList.add('btn', 'btn-primary');
-
-                                // Kargo şirketine göre URL oluştur
-                                let trackingUrl = '';
-                                if (order.shipping.company === 'DHL') {
-                                    trackingUrl = `https://www.dhl.com/tr-tr/home/tracking.html?tracking-id=${order.shipping.trackingNumber}`;
-                                } else if (order.shipping.company === 'FedEx') {
-                                    trackingUrl = `https://www.fedex.com/wtrk/track/?trknbr=${order.shipping.trackingNumber}`;
-                                } else if (order.shipping.company === 'UPS') {
-                                    trackingUrl = `https://www.ups.com/track?loc=tr_TR&tracknum=${order.shipping.trackingNumber}`;
-                                }
-
-                                // URL varsa butona tıklayınca yeni sekmede aç
-                                if (trackingUrl) {
-                                    trackingButton.onclick = () => window.open(trackingUrl, '_blank');
-                                }
-
-                                // Butonu shippingInfo hücresine ekle
-                                shippingInfo.appendChild(trackingButton);
-                            } else {
-                                // Takip numarası yoksa sadece "KARGONUN VERİLMESİ BEKLENİYOR" mesajını göster
-                                const waitingMessage = document.createElement('p');
-                                waitingMessage.textContent = "KARGOYA VERİLMESİ BEKLENİYOR";
-                                waitingMessage.classList.add('text-muted', 'fw-bold'); // Hafif gri renkte ve kalın gösterim
-                                shippingInfo.appendChild(waitingMessage);
-                            }
-                        }
-                    }
-
-
-                    // Fatura Bilgisi veya İptal Sebebi
-                    const invoice = document.createElement('td');
-                    if (index === 0) {
-                        invoice.rowSpan = order.items.length;
-                        if (order.status === 'Cancelled') {
-                            invoice.innerHTML = `<p><strong>İptal Edilme Sebebi:</strong> ${order.cancellation.reason}</p>`;
-                        } else {
-                            invoice.innerHTML = `
-                                <p><strong>Toplam: ${formatCurrency(order.totalPrice, order.currency)}</strong></p>
-                                ${order.invoice?.uploaded
-                                    ? '<span class="text-success">Faturayı Gör</span>'
-                                    : '<span class="text-danger">Fatura Bekleniyor</span>'}
-                                <button class="btn btn-outline-secondary">Fatura İşlemleri</button>
-                            `;
-                        }
-                    }
-        
-                    // Durum Bilgisi
-                    const status = document.createElement('td');
-                    if (index === 0) {
-                        status.rowSpan = order.items.length;
-                        status.innerHTML = `
-                            ${order.status === 'Delivered'
-                                ? '<span class="badge bg-success">Teslim Edildi</span>'
-                                : order.status === 'Cancelled'
-                                    ? `<span class="badge bg-danger">İptal Edildi</span>`
-                                    : '<span class="badge bg-warning">Beklemede</span>'}
-                        `;
-                    }
-        
-                    // Satıra hücreleri ekle
-                    if (index === 0) {
-                        row.appendChild(orderInfo);
-                        row.appendChild(packageNo);
-                        row.appendChild(recipient);
-                    }
-                    row.appendChild(quantity);
-                    row.appendChild(productInfo);
-                    row.appendChild(unitPrice);
-                    if (index === 0) {
-                        row.appendChild(shippingInfo);
-                        row.appendChild(invoice);
-                        row.appendChild(status);
-                    }
-        
-                    tbody.appendChild(row);
                 }
-            });
+
+                // Paket No
+                const packageNo = document.createElement('td');
+                if (index === 0) {
+                    packageNo.rowSpan = order.items.length;
+                    packageNo.textContent = order.orderId;
+                }
+
+                // Alıcı Bilgisi
+                const recipient = document.createElement('td');
+                if (index === 0) {
+                    recipient.rowSpan = order.items.length;
+                    recipient.textContent = order.customer?.name;
+                }
+
+                // Adet
+                const quantity = document.createElement('td');
+                quantity.textContent = item.quantity;
+
+                // Ürün Bilgileri
+                const productInfo = document.createElement('td');
+                productInfo.innerHTML = `
+                    <a href="http://127.0.0.1:5508/shop-page.html?id=${product.id}" class="product-name">${product.name}</a><br>
+                    <img src="${product.image}" alt="${product.name}" width="50"><br>
+                    <p>Renk: ${product.color}</p>
+                `;
+
+                // Birim Fiyat
+                const unitPrice = document.createElement('td');
+                unitPrice.textContent = formatCurrency(product.price, order.currency);
+
+                // Kargo Bilgisi
+                const shippingInfo = document.createElement('td');
+                if (index === 0) {
+                    shippingInfo.rowSpan = order.items.length;
+                    if (order.status !== 'Cancelled' && order.shipping?.trackingNumber) {
+                        const trackingButton = document.createElement('button');
+                        trackingButton.textContent = 'Kargo Takip';
+                        trackingButton.classList.add('btn', 'btn-primary');
+                        trackingButton.onclick = () => {
+                            let trackingUrl = '';
+                            if (order.shipping.company === 'DHL') {
+                                trackingUrl = `https://www.dhl.com/tr-tr/home/tracking.html?tracking-id=${order.shipping.trackingNumber}`;
+                            } else if (order.shipping.company === 'FedEx') {
+                                trackingUrl = `https://www.fedex.com/wtrk/track/?trknbr=${order.shipping.trackingNumber}`;
+                            } else if (order.shipping.company === 'UPS') {
+                                trackingUrl = `https://www.ups.com/track?loc=tr_TR&tracknum=${order.shipping.trackingNumber}`;
+                            }
+                            if (trackingUrl) window.open(trackingUrl, '_blank');
+                        };
+                        shippingInfo.appendChild(trackingButton);
+                    } else {
+                        shippingInfo.innerHTML = '<p class="text-muted fw-bold">KARGOYA VERİLMESİ BEKLENİYOR</p>';
+                    }
+                }
+
+                // Fatura Bilgisi veya İptal Sebebi
+                const invoice = document.createElement('td');
+                if (index === 0) {
+                    invoice.rowSpan = order.items.length;
+                    invoice.innerHTML = order.status === 'Cancelled'
+                        ? `<p><strong>İptal Edilme Sebebi:</strong> ${order.cancellation.reason}</p>`
+                        : `<p><strong>Toplam: ${formatCurrency(order.totalPrice, order.currency)}</strong></p>
+                           ${order.invoice?.uploaded ? '<span class="text-success">Faturayı Gör</span>' : '<span class="text-danger">Fatura Bekleniyor</span>'}
+                           <button class="btn btn-outline-secondary">Fatura İşlemleri</button>`;
+                }
+
+                // Durum Bilgisi
+                const status = document.createElement('td');
+                if (index === 0) {
+                    status.rowSpan = order.items.length;
+                    status.innerHTML = order.status === 'Delivered'
+                        ? '<span class="badge bg-success">Teslim Edildi</span>'
+                        : order.status === 'Cancelled'
+                            ? `<span class="badge bg-danger">İptal Edildi</span>`
+                            : '<span class="badge bg-warning">Beklemede</span>';
+                }
+
+                // Satıra hücreleri ekle
+                if (index === 0) {
+                    row.appendChild(orderInfo);
+                    row.appendChild(packageNo);
+                    row.appendChild(recipient);
+                }
+                row.appendChild(quantity);
+                row.appendChild(productInfo);
+                row.appendChild(unitPrice);
+                if (index === 0) {
+                    row.appendChild(shippingInfo);
+                    row.appendChild(invoice);
+                    row.appendChild(status);
+                }
+
+                tbody.appendChild(row);
+            }
         });
-        
-        
-        
+    });
 
     table.appendChild(tbody);
     mainContent.appendChild(table);
 }
 
 
-function loadFinance() {
+
+async function loadFinance() {
     const mainContent = document.getElementById("main-content");
 
     // Clear existing content and add Finance layout
@@ -592,46 +530,117 @@ function loadFinance() {
         </div>
     `;
 
-    // Call functions to populate the data and charts
-    populateFinanceData();
-    generateIncomeCategoryDonutChart();
-    generateExpenseTypeDonutChart();
+    // Finans verilerini API'den çekme
+    const financeResponse = await fetch('http://localhost:3000/api/finance');
+    const { income, expenses, netIncomes } = await financeResponse.json();
+
+    // Verileri güncelleme ve hesaplama
+    const totalIncome = income.reduce((sum, value) => sum + value, 0);
+    const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+    const netResult = totalIncome - totalExpenses;
+
+    document.getElementById("total-income").textContent = `$${totalIncome.toFixed(2)}`;
+    document.getElementById("total-expenses").textContent = `$${totalExpenses.toFixed(2)}`;
+    document.getElementById("net-result").textContent = `$${netResult.toFixed(2)}`;
+
+    // Gelir ve gider tablolarını doldurma
+    const incomeTableBody = document.getElementById("incomeTableBody");
+    income.forEach((amount, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>Order-${index + 1}</td>
+            <td>$${amount.toFixed(2)}</td>
+        `;
+        incomeTableBody.appendChild(row);
+    });
+
+    const expenseTableBody = document.getElementById("expenseTableBody");
+    expenses.forEach((expense, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${expense.type}</td>
+            <td>$${expense.amount.toFixed(2)}</td>
+        `;
+        expenseTableBody.appendChild(row);
+    });
+
+    // Grafik oluşturma fonksiyonlarını çağırma
+    generateIncomeCategoryDonutChart(income);
+    generateExpenseTypeDonutChart(expenses);
     //generateMonthlyIncomeExpenseChart();
 }
 
-function populateFinanceData() {
+function generateIncomeCategoryDonutChart(income) {
+    const ctx = document.getElementById('incomeCategoryDonutChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: income.map((_, i) => `Order ${i + 1}`),
+            datasets: [{
+                data: income,
+                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+            }],
+        },
+    });
+}
+
+function generateExpenseTypeDonutChart(expenses) {
+    const ctx = document.getElementById('expenseTypeDonutChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: expenses.map(expense => expense.type),
+            datasets: [{
+                data: expenses.map(expense => expense.amount),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+            }],
+        },
+    });
+}
+
+
+async function populateFinanceData() {
     const incomeBox = document.getElementById("total-income");
     const expenseBox = document.getElementById("total-expenses");
     const netResultBox = document.getElementById("net-result");
     const incomeTableBody = document.getElementById("incomeTableBody");
     const expenseTableBody = document.getElementById("expenseTableBody");
 
-    // Calculate total income and expenses
+    // API’den gelir, gider ve sipariş verilerini çekme
+    const financeResponse = await fetch('http://localhost:3000/api/finance');
+    const { income, expenses } = await financeResponse.json();
+
+    const ordersResponse = await fetch('http://localhost:3000/api/orders');
+    const orders = await ordersResponse.json();
+
+    // Gelir ve giderleri hesaplama
     const totalIncome = income.reduce((total, amount) => total + amount, 0);
     const totalExpenses = expenses.reduce((total, expense) => total + expense.amount, 0);
     const netResult = totalIncome - totalExpenses;
 
-    // Update boxes
+    // Box değerlerini güncelleme
     incomeBox.innerText = `$${totalIncome.toFixed(2)}`;
     expenseBox.innerText = `$${totalExpenses.toFixed(2)}`;
     netResultBox.innerText = `$${netResult.toFixed(2)}`;
     netResultBox.style.backgroundColor = netResult >= 0 ? "rgba(76, 175, 80, 0.2)" : "rgba(244, 67, 54, 0.2)";
 
-    // Populate Income Table
-    incomeTableBody.innerHTML = ''; // Clear any previous content
+    // Gelir tablosunu doldurma
+    incomeTableBody.innerHTML = ''; // Önceki içeriği temizleme
     income.forEach((amount, index) => {
         const order = orders[index];
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td>${order.orderId}</td>
+            <td>${order ? order.orderId : 'N/A'}</td>
             <td>$${amount.toFixed(2)}</td>
         `;
         incomeTableBody.appendChild(row);
     });
 
-    // Populate Expense Table
-    expenseTableBody.innerHTML = ''; // Clear any previous content
+    // Gider tablosunu doldurma
+    expenseTableBody.innerHTML = ''; // Önceki içeriği temizleme
     expenses.forEach((expense, index) => {
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -643,94 +652,8 @@ function populateFinanceData() {
     });
 }
 
-function generateIncomeCategoryDonutChart() {
-    const ctx = document.getElementById("incomeCategoryDonutChart").getContext("2d");
-    const categoryTotals = {};
 
-    // Calculate total income by category
-    orders.forEach(order => {
-        order.items.forEach(item => {
-            const category = item.productCategory;
-            const amount = item.unitPrice * item.quantity * ((100 - item.discount) / 100);
-            categoryTotals[category] = (categoryTotals[category] || 0) + amount;
-        });
-    });
-
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: Object.keys(categoryTotals),
-            datasets: [{
-                data: Object.values(categoryTotals),
-                backgroundColor: ['#4CAF50', '#FF9800', '#2196F3', '#9C27B0', '#F44336'],
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top'
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return `${context.label}: $${context.raw.toFixed(2)}`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-function generateExpenseTypeDonutChart() {
-    const ctx = document.getElementById("expenseTypeDonutChart").getContext("2d");
-    const expenseTotals = {
-        "Shipping Cost": 0,
-        "Electricity Bill": 0,
-        "Internet Bill": 0,
-        "Office Rent": 0,
-        "Tax": 0
-    };
-
-    // Calculate total expenses by type
-    expenses.forEach(expense => {
-        if (expenseTotals.hasOwnProperty(expense.type)) {
-            expenseTotals[expense.type] += expense.amount;
-        }
-    });
-
-    new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: Object.keys(expenseTotals),
-            datasets: [{
-                data: Object.values(expenseTotals),
-                backgroundColor: ['#FFA726', '#42A5F5', '#AB47BC', '#66BB6A', '#EF5350'],
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'top'
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return `${context.label}: $${context.raw.toFixed(2)}`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}
-
-
-function loadCustomers() {
+async function loadCustomers() {
     // Get the main content container
     const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = ''; // Clear previous content
@@ -753,6 +676,10 @@ function loadCustomers() {
         <tbody id="customerTableBody"></tbody>
     `;
     mainContent.appendChild(table);
+
+    // API’den müşteri verilerini çekme
+    const response = await fetch('http://localhost:3000/api/customers');
+    const customers = await response.json();
 
     // Populate the table with customer data
     const customerTableBody = document.getElementById("customerTableBody");
@@ -800,7 +727,7 @@ function loadCustomers() {
 }
 
 
-function loadQandA() {
+async function loadQandA() {
     // Get main content area
     const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = ''; // Clear previous content
@@ -825,10 +752,14 @@ function loadQandA() {
     `;
     mainContent.appendChild(table);
 
+    // API’den Q&A verilerini çekme
+    const response = await fetch('http://localhost:3000/api/questions');
+    const productQandA = await response.json();
+
     // Populate the table with Q&A data
     const qaTableBody = document.getElementById("qaTableBody");
 
-    headphoneQandA.forEach(item => {
+    productQandA.forEach(item => {
         const row = document.createElement("tr");
 
         // Create individual checkbox for the row
@@ -875,10 +806,9 @@ function loadQandA() {
 }
 
 
-function loadReviews() {
+async function loadReviews() {
     const mainContent = document.getElementById("main-content");
-    
-    // Create the Reviews page structure
+
     mainContent.innerHTML = `
         <div class="d-flex justify-content-between mb-3">
             <button class="btn btn-primary">Create Review</button>
@@ -902,14 +832,17 @@ function loadReviews() {
             <tbody id="reviews-table-body"></tbody>
         </table>
     `;
-    
+
     const tableBody = document.getElementById('reviews-table-body');
 
-    // Loop through each product in the reviews array
+    // API’den reviews verisini çekme
+    const response = await fetch('http://localhost:3000/api/reviews');
+    const reviews = await response.json();
+
+    // Veriyi tabloya ekleme
     reviews.forEach(productReview => {
         const productId = productReview.id;
 
-        // Loop through each customer review for the current product
         productReview.customers.forEach(customer => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -920,7 +853,7 @@ function loadReviews() {
                 <td>${customer.review}</td>
                 <td style="color: gold;">${'★'.repeat(customer.rated)}${'☆'.repeat(5 - customer.rated)}</td>
                 <td>${customer.reviewLİke || 0}</td>
-                <td>${productId}</td> <!-- Use the product ID here -->
+                <td>${productId}</td>
                 <td><span class="badge bg-success">Approved</span></td>
                 <td>${new Date(customer.reviewDate).toLocaleDateString()} ${new Date(customer.reviewDate).toLocaleTimeString()}</td>
                 <td>
@@ -934,9 +867,9 @@ function loadReviews() {
 }
 
 
-function loadMarketing() {
+async function loadMarketing() {
     const mainContent = document.getElementById("main-content");
-    
+
     mainContent.innerHTML = `
         <div class="d-flex justify-content-between mb-3">
             <h2>Marketing Management</h2>
@@ -959,19 +892,7 @@ function loadMarketing() {
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>New Year Sale</td>
-                            <td><span class="badge bg-success">Active</span></td>
-                            <td>2024-12-01</td>
-                            <td>2025-01-01</td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
-                                <button class="btn btn-sm btn-outline-danger">Delete</button>
-                            </td>
-                        </tr>
-                        <!-- Additional campaigns can be added here -->
-                    </tbody>
+                    <tbody id="campaignTableBody"></tbody>
                 </table>
             </div>
         </div>
@@ -998,19 +919,46 @@ function loadMarketing() {
         </div>
     `;
 
+    // Kampanyaları API’den çekme
+    const response = await fetch('http://localhost:3000/api/campaigns');
+    const campaigns = await response.json();
+
+    const campaignTableBody = document.getElementById("campaignTableBody");
+
+    campaigns.forEach(campaign => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${campaign.name}</td>
+            <td><span class="badge ${campaign.status === 'Active' ? 'bg-success' : 'bg-secondary'}">${campaign.status}</span></td>
+            <td>${campaign.startDate}</td>
+            <td>${campaign.endDate}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary me-1">Edit</button>
+                <button class="btn btn-sm btn-outline-danger">Delete</button>
+            </td>
+        `;
+        campaignTableBody.appendChild(row);
+    });
+
     // Call the function to render the campaign performance chart
     renderCampaignPerformanceChart();
 }
 
-function renderCampaignPerformanceChart() {
+
+async function renderCampaignPerformanceChart() {
     const ctx = document.getElementById('campaignPerformanceChart').getContext('2d');
+
+    // Kampanya performans verisini API’den çekme
+    const response = await fetch('http://localhost:3000/api/campaign-performance');
+    const performanceData = await response.json();
+
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Campaign 1', 'Campaign 2', 'Campaign 3', 'Campaign 4'],
+            labels: performanceData.labels,
             datasets: [{
                 label: 'Engagement',
-                data: [120, 150, 100, 200],
+                data: performanceData.engagement,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
@@ -1028,9 +976,6 @@ function renderCampaignPerformanceChart() {
 
 
 
-
-
-
 // Sayfa yüklendiğinde otomatik olarak Dashboard'u yükle
 document.addEventListener("DOMContentLoaded", () => {
     const defaultButton = document.querySelector('.nav-link');
@@ -1038,9 +983,8 @@ document.addEventListener("DOMContentLoaded", () => {
     defaultButton.classList.add('active');
 });
 
-
 // Sayfayı dinamik olarak yükleme fonksiyonu
-function loadPage(page, element) {
+async function loadPage(page, element) {
     // Remove 'active' class from all navigation links
     document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
     
@@ -1057,40 +1001,41 @@ function loadPage(page, element) {
     // Switch between pages based on the 'page' parameter
     switch (page) {
         case 'dashboard':
-            loadDashboard();
+            await loadDashboard();
             break;
         case 'products':
-            loadProducts();
+            await loadProducts();
             break;
         case 'orders':
-            createOrdersSection(); // Load the Orders section
+            await createOrdersSection(); // Load the Orders section
             break;
         case 'finance':
-            loadFinance(); // Load the Finance section
+            await loadFinance(); // Load the Finance section
             break;
         case 'customers':
-            loadCustomers(); // Load the Customers section
+            await loadCustomers(); // Load the Customers section
             break;
         case 'qa':
-            loadQandA(); // Load the Q&A section
+            await loadQandA(); // Load the Q&A section
             break;
         case 'reviews':
-            loadReviews(); // Load the Reviews section
+            await loadReviews(); // Load the Reviews section
             break;
         case 'marketing':
-            loadMarketing(); // Load the Marketing section
+            await loadMarketing(); // Load the Marketing section
             break;
         default:
-            loadDefaultPage(page); // Load other default pages if needed
+            await loadDefaultPage(page); // Load other default pages if needed
     }
 }
-
-
 
 // Fonksiyonları global hale getirme
 window.loadPage = loadPage;
 window.loadDashboard = loadDashboard;
 window.loadProducts = loadProducts;
-window.loadDefaultPage = loadDefaultPage;
+
 window.createOrdersSection = createOrdersSection;
 window.toggleSidebar = toggleSidebar;
+
+
+

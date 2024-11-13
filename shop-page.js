@@ -1,17 +1,43 @@
-import { products } from './products.js';
-import { reviews } from './reviews.js';
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
-import { handleCurrencySelection } from './common.js';
+
+
+// Ürün ve yorumları saklayacak global değişkenler
+let products = [];
+let reviews = [];
+
+// Backend’den ürün ve yorum verilerini çekme
+async function fetchProductsAndReviews() {
+    try {
+        // Ürün verisini çekme
+        const productsResponse = await fetch('http://localhost:3000/api/products');
+        if (!productsResponse.ok) {
+            throw new Error(`HTTP error! status: ${productsResponse.status}`);
+        }
+        products = await productsResponse.json();
+
+        // Yorum verisini çekme
+        const reviewsResponse = await fetch('http://localhost:3000/api/reviews');
+        if (!reviewsResponse.ok) {
+            throw new Error(`HTTP error! status: ${reviewsResponse.status}`);
+        }
+        reviews = await reviewsResponse.json();
+
+    } catch (error) {
+        console.error("Veri çekilirken hata oluştu:", error);
+    }
+}
 
 
 // DOM yüklendiğinde çalışacak fonksiyon
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+    await fetchProductsAndReviews();
+
     // Döviz kuru seçimi ve ürün fiyatlarını güncelleme
     const currencySelect = document.getElementById('flag');
     if (currencySelect) {
         currencySelect.addEventListener('change', async function () {
             const selectedCurrency = this.value;
-            await convertPrices(selectedCurrency);
+            await convertPrices(selectedCurrency, products);
         });
     }
 
@@ -19,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = parseInt(urlParams.get('id'), 10);
 
-    // Ürün ve inceleme verilerini alma
+    // Backend’den çekilen products ve reviews verisini kullanarak ürün ve incelemeleri bulun
     const product = products.find((p) => p.id === productId);
     const review = reviews.find((r) => r.id === productId);
 
@@ -66,14 +92,10 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        // Swiper'ı başlatma
-        var swiper = new Swiper('.swiper-container', {
+        const swiper = new Swiper('.swiper-container', {
             slidesPerView: 1,
             spaceBetween: 10,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
+            pagination: { el: '.swiper-pagination', clickable: true },
         });
         
         // Ürün yorumlarını gösterme
@@ -116,7 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 const paginationContainer = document.getElementById("pagination");
                 paginationContainer.innerHTML = '';
 
-                // Sayfa geçiş düğmeleri
                 const prevButton = document.createElement('li');
                 prevButton.classList.add('page-item');
                 if (page === 1) prevButton.classList.add('disabled');
@@ -172,7 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const relatedProductsContainer = document.getElementById("related-products");
-
         const scoredProducts = products
             .filter(p => p.id !== productId)
             .map(p => ({ ...p, score: calculateScore(p) }))
@@ -185,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
             slicedProducts = scoredProducts.slice(0, 5);
         }
 
-        // İlgili ürünlerin gösterimi
         slicedProducts.forEach((relatedProduct) => {
             const productDiv = document.createElement("div");
             if (window.innerWidth < 768) {
@@ -202,13 +221,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const descriptionElement = document.getElementById("product-description");
-    const fullDescription = descriptionElement.innerText; // Tüm açıklamayı al
-    const firstSentence = fullDescription.split('. ')[0] + '.'; // İlk cümleyi al
-    
-    // İlk cümleyi öğeye ayarla
+    const fullDescription = descriptionElement.innerText;
+    const firstSentence = fullDescription.split('. ')[0] + '.';
     descriptionElement.innerText = firstSentence;
 });
-
 
 window.goToProduct = function(productId) {
     window.location.href = `shop-page.html?id=${productId}`;
@@ -234,36 +250,24 @@ function getStarRating(rating) {
 function renderRating(rating, element) {
     element.innerHTML = getStarRating(rating);
 }
-document.addEventListener('DOMContentLoaded', (event) => {
+
+document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('subscribeButton').addEventListener('click', showSubscribeMessage);
 });
 
-document.addEventListener('DOMContentLoaded', async function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = parseInt(urlParams.get('id'), 10);
-    const selectedProduct = products.find((p) => p.id === productId);
-
-    // Para birimi seçimini yönet
-    await handleCurrencySelection(products, selectedProduct);
-});
-
-
-// Butonları ve rating değerini seçme
 const decreaseButton = document.getElementById("decrease-rating");
 const increaseButton = document.getElementById("increase-rating");
 const ratingValue = document.getElementById("rating-value");
 
-// Artırma ve azaltma fonksiyonu
 const updateRating = (change) => {
-    let currentValue = parseInt(ratingValue.textContent); // Şu anki değeri al
-    let newValue = currentValue + change; // Değeri güncelle
+    let currentValue = parseInt(ratingValue.textContent);
+    let newValue = currentValue + change;
 
-    // Değerin 1 ile 5 arasında kalmasını sağla
     if (newValue >= 1 && newValue <= 10) {
-        ratingValue.textContent = newValue; // Yeni değeri göster
+        ratingValue.textContent = newValue;
     }
 };
 
-// Artırma ve azaltma butonlarına tıklama olay dinleyicisi ekleme
-decreaseButton.addEventListener("click", () => updateRating(-1)); // Azalt
-increaseButton.addEventListener("click", () => updateRating(1));  // Artır
+decreaseButton.addEventListener("click", () => updateRating(-1));
+increaseButton.addEventListener("click", () => updateRating(1));
+

@@ -1,6 +1,7 @@
-import { Order } from '../types/Order';
-
-export const orders: Order[] = [
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.orders = void 0;
+exports.orders = [
     {
         orderId: "ORD-20241028-001",
         orderDate: "2024-10-28",
@@ -41,7 +42,7 @@ export const orders: Order[] = [
             amount: 10,
         },
         items: [
-            { productId: 12, productCategory: "Wireless", quantity: 1,},
+            { productId: 12, productCategory: "Wireless", quantity: 1, },
         ],
     },
     {
@@ -124,9 +125,8 @@ export const orders: Order[] = [
             code: null,
             amount: 0
         },
-       
         items: [
-            { productId:24, productCategory: "Wireless", quantity: 1}
+            { productId: 24, productCategory: "Wireless", quantity: 1 }
         ],
     },
     {
@@ -167,9 +167,8 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId: 20, productCategory: "In-ear headphone", quantity: 1},
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1 },
         ],
-       
     },
     {
         orderId: "ORD-20241024-005",
@@ -209,7 +208,7 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId: 7, productCategory: "Sport headphone", quantity: 1}
+            { productId: 7, productCategory: "Sport headphone", quantity: 1 }
         ],
     },
     {
@@ -375,7 +374,7 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId:4, productCategory: "Wireless", quantity: 1 }
+            { productId: 4, productCategory: "Wireless", quantity: 1 }
         ],
     },
     {
@@ -415,7 +414,7 @@ export const orders: Order[] = [
             id: 2,
             discountType: "Black Friday",
             code: "BF2024",
-            amount: 20 
+            amount: 20
         },
         items: [
             { productId: 16, productCategory: "Sport headphone", quantity: 3 }
@@ -458,7 +457,7 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
             { productId: 40, productCategory: "In-ear headphone", quantity: 1 }
@@ -543,7 +542,7 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId: 18, productCategory: "Over-ear headphone", quantity: 1}
+            { productId: 18, productCategory: "Over-ear headphone", quantity: 1 }
         ],
     },
     {
@@ -711,10 +710,10 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
-            { productId: 4, productCategory: "Wireless", quantity: 3},
+            { productId: 4, productCategory: "Wireless", quantity: 3 },
         ],
     },
     {
@@ -755,8 +754,8 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId: 10, productCategory: "Wireless", quantity: 3},
-            { productId: 6, productCategory: "Sport headphone", quantity: 2},
+            { productId: 10, productCategory: "Wireless", quantity: 3 },
+            { productId: 6, productCategory: "Sport headphone", quantity: 2 },
         ],
     },
     {
@@ -797,7 +796,7 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId: 2, productCategory: "Wireless", quantity: 3},
+            { productId: 2, productCategory: "Wireless", quantity: 3 },
         ],
     },
     {
@@ -837,7 +836,7 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
             { productId: 5, productCategory: "In-ear headphone", quantity: 1 },
@@ -883,9 +882,9 @@ export const orders: Order[] = [
             amount: 10
         },
         items: [
-            { productId: 31, productCategory: "In-ear headphone", quantity: 2},
-            { productId: 11, productCategory: "In-ear headphone", quantity: 3},
-            { productId: 37, productCategory: "Sport headphone", quantity: 3},
+            { productId: 31, productCategory: "In-ear headphone", quantity: 2 },
+            { productId: 11, productCategory: "In-ear headphone", quantity: 3 },
+            { productId: 37, productCategory: "Sport headphone", quantity: 3 },
         ],
     },
     {
@@ -1048,7 +1047,7 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
             { productId: 11, productCategory: "In-ear headphone", quantity: 2 },
@@ -1092,7 +1091,7 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
             { productId: 17, productCategory: "Sport headphone", quantity: 1 },
@@ -1135,7 +1134,7 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
             { productId: 2, productCategory: "In-ear headphone", quantity: 1 },
@@ -1178,7 +1177,7 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
             { productId: 24, productCategory: "Wireless", quantity: 2 },
@@ -1224,8 +1223,8 @@ export const orders: Order[] = [
             amount: 5
         },
         items: [
-            { productId: 20, productCategory: "In-ear headphone", quantity: 1},
-            { productId: 18, productCategory: "Over-ear headphone", quantity: 1},
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1 },
+            { productId: 18, productCategory: "Over-ear headphone", quantity: 1 },
         ],
     },
     {
@@ -1311,7 +1310,7 @@ export const orders: Order[] = [
             amount: 5
         },
         items: [
-            { productId: 39, productCategory: "In-ear headphone", quantity: 2},
+            { productId: 39, productCategory: "In-ear headphone", quantity: 2 },
         ],
     },
     {
@@ -1394,7 +1393,7 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
             { productId: 9, productCategory: "Wireless", quantity: 2 },
@@ -1438,7 +1437,7 @@ export const orders: Order[] = [
             amount: 0
         },
         items: [
-            { productId: 21, productCategory: "Wireless", quantity: 1},
+            { productId: 21, productCategory: "Wireless", quantity: 1 },
         ],
     },
     {
@@ -1478,7 +1477,7 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
             { productId: 30, productCategory: "Wireless", quantity: 1 },
@@ -1521,10 +1520,10 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
-            { productId: 10, productCategory: "Wireless", quantity: 2},
+            { productId: 10, productCategory: "Wireless", quantity: 2 },
         ],
     },
     {
@@ -1779,7 +1778,7 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
             { productId: 29, productCategory: "Wireless", quantity: 1 },
@@ -1822,7 +1821,7 @@ export const orders: Order[] = [
             id: 3,
             discountType: "Summer Sale",
             code: "SUMMER2024",
-            amount: 5 
+            amount: 5
         },
         items: [
             { productId: 23, productCategory: "In-ear headphone", quantity: 3 },
@@ -1988,7 +1987,7 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
             { productId: 40, productCategory: "Over-ear headphone", quantity: 3 }
@@ -2031,10 +2030,10 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
-            { productId: 20, productCategory: "In-ear headphone", quantity: 1},
+            { productId: 20, productCategory: "In-ear headphone", quantity: 1 },
         ],
     },
     {
@@ -2074,7 +2073,7 @@ export const orders: Order[] = [
             id: 1,
             discountType: "New Year",
             code: "NY2024",
-            amount: 10 
+            amount: 10
         },
         items: [
             { productId: 25, productCategory: "In-ear headphone", quantity: 2 },

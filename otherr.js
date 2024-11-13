@@ -1,5 +1,4 @@
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
-import { handleCurrencySelection } from './common.js';
 
 // Zaman aşımı fonksiyonu
 function fetchWithTimeout(url, options, timeout = 5000) {
@@ -11,12 +10,14 @@ function fetchWithTimeout(url, options, timeout = 5000) {
     ]);
 }
 
+
+
 // Global products değişkenini tanımlıyoruz
 let products = [];
 
 // API'den veriyi çekiyoruz ve ardından işlemleri başlatıyoruz
 console.log("API isteği başlatılıyor...");
-fetchWithTimeout('http://localhost:3000/products')
+fetchWithTimeout('http://localhost:3000/api/products') // URL güncellendi
     .then(response => {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

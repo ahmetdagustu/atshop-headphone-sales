@@ -1,6 +1,26 @@
-import { products } from './products.js';
+
 import { convertPrices, createProductHTML, showSubscribeMessage } from './common.js';
 import { handleCurrencySelection } from './common.js';
+
+// Ürün verilerini API'den çekme fonksiyonu
+async function fetchProducts() {
+    try {
+        const response = await fetch('http://localhost:3000/api/products'); // API URL'si doğru olmalı
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const products = await response.json();
+        console.log("Ürün verisi başarıyla alındı:", products);
+
+        // Ürün verilerini işleyin ve sayfada gösterin
+        renderProducts(products);
+    } catch (error) {
+        console.error("Ürün verisi çekilirken hata oluştu:", error);
+    }
+}
+
+// Sayfa yüklendiğinde ürün verisini çek
+document.addEventListener("DOMContentLoaded", fetchProducts);
 
 // Para birimi değiştiğinde fiyatları güncelleme
 document.addEventListener('DOMContentLoaded', function () {

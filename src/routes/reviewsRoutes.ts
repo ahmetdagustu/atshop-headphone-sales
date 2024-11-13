@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { customers } from '../data/customers'; 
+import { reviews } from '../data/reviews';
 
 const router = Router();
 
 
 router.get('/', (req, res) => {
-    res.json(customers);
+    res.json(reviews);
 });
 
 export default router;

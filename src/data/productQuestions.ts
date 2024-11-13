@@ -1,6 +1,7 @@
+// src/data/productQuestions.ts
 import { QandA } from '../types/QandA';
 
-export const headphoneQandA: QandA[] = [
+export const productQandA: QandA[] = [
     {
         questionId: 1,
         productId: "1",

@@ -1,4 +1,3 @@
-// src/data/customers.ts
 import { Customer } from '../types/Customer';
 
 export const customers: Customer[] = [
@@ -24,7 +23,7 @@ export const customers: Customer[] = [
                 items: [
                     { productId: 12, productCategory: "Wireless", quantity: 1, discount: 10 }
                 ],
-                totalPrice: 0  // totalPrice hesaplanacak
+                totalPrice: 0 
             }
         ],
         reviews: [],
